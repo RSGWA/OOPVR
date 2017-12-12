@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
+using System.ComponentModel;
 using UnityEngine;
 
 public class BlueprintController : MonoBehaviour {
@@ -8,14 +10,13 @@ public class BlueprintController : MonoBehaviour {
 	public GameObject instance;
 
 	private bool menuOpen;
+	private float waitTime = 0.05f;
 
 	// Use this for initialization
 	void Start () {
 		SetGazedAt (false);
 		gazeMenu.SetActive (false);
 		menuOpen = false;
-		instance.GetComponent<Renderer> ().enabled = false;
-		instance.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeAll;
 	}
 
 	public void SetGazedAt(bool gazedAt) {
@@ -24,7 +25,7 @@ public class BlueprintController : MonoBehaviour {
 			return;
 		}
 
-		if (gazedAt == true) {
+		if (gazedAt) {
 			transform.localScale += new Vector3 (0.01f, 1, 0.01f);
 		} else {
 			transform.localScale = new Vector3 (0.14f, 1, 0.1f);
@@ -37,7 +38,15 @@ public class BlueprintController : MonoBehaviour {
 	}
 
 	public void createInstance() {
-		instance.GetComponent<Renderer> ().enabled = true;
-		instance.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.None;
+		StartCoroutine (BuildInstance ());
+	}
+
+	IEnumerator BuildInstance() {
+		if (instance.transform.position.y >= 1.5f) {
+			yield break;
+		}
+		yield return new WaitForSeconds (waitTime);
+		instance.transform.localPosition += new Vector3 (0f, 0.1f, 0f);
+		StartCoroutine (BuildInstance ());
 	}
 }
