@@ -23,7 +23,7 @@ public class InstanceController : MonoBehaviour {
 	}
 
 	public void movePlayer() {
-		player.transform.position = new Vector3 (-2.0f, 1.2f, 6.71f);
+		player.transform.position = new Vector3 (transform.localPosition.x + (transform.localScale.x * 0.25f), player.transform.position.y, transform.localPosition.z);
 		GetComponent<BoxCollider> ().enabled = false;
 	}
 }
