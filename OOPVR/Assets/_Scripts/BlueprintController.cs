@@ -6,16 +6,14 @@ using UnityEngine;
 
 public class BlueprintController : MonoBehaviour {
 
-	public GameObject gazeMenu;
-	public GameObject instance;
+	public GameObject optionsMenu;
 
 	private bool menuOpen;
-	private float waitTime = 0.05f;
 
 	// Use this for initialization
 	void Start () {
 		SetGazedAt (false);
-		gazeMenu.SetActive (false);
+		optionsMenu.SetActive (false);
 		menuOpen = false;
 	}
 
@@ -33,20 +31,7 @@ public class BlueprintController : MonoBehaviour {
 	}
 
 	public void OpenMenu() {
-		gazeMenu.SetActive (true);
+		optionsMenu.SetActive (true);
 		menuOpen = true;
-	}
-
-	public void createInstance() {
-		StartCoroutine (BuildInstance ());
-	}
-
-	IEnumerator BuildInstance() {
-		if (instance.transform.position.y >= 1.5f) {
-			yield break;
-		}
-		yield return new WaitForSeconds (waitTime);
-		instance.transform.localPosition += new Vector3 (0f, 0.1f, 0f);
-		StartCoroutine (BuildInstance ());
 	}
 }
