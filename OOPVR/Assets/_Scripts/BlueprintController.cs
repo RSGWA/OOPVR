@@ -10,8 +10,14 @@ public class BlueprintController : MonoBehaviour {
 
 	private bool menuOpen;
 
+	private Vector3 originalSize;
+	private Vector3 highlightedSize;
+	private Vector3 growth = new Vector3 (0.015f, 1, 0.015f);
+
 	// Use this for initialization
 	void Start () {
+		originalSize = transform.localScale;
+		highlightedSize = transform.localScale += growth;
 		SetGazedAt (false);
 		optionsMenu.SetActive (false);
 		menuOpen = false;
@@ -19,14 +25,14 @@ public class BlueprintController : MonoBehaviour {
 
 	public void SetGazedAt(bool gazedAt) {
 		if (menuOpen) {
-			transform.localScale = new Vector3 (0.15f, 1, 0.11f);
+			transform.localScale = highlightedSize;
 			return;
 		}
 
 		if (gazedAt) {
-			transform.localScale += new Vector3 (0.01f, 1, 0.01f);
+			transform.localScale = highlightedSize;
 		} else {
-			transform.localScale = new Vector3 (0.14f, 1, 0.1f);
+			transform.localScale = originalSize;
 		}
 	}
 
