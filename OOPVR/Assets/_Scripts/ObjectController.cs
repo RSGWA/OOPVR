@@ -9,9 +9,11 @@ public class ObjectController : MonoBehaviour {
 
     public GameObject AllVariables;
     private Vector3 objScale;
+    private Transform originalParent;
 
     void Start()
     {
+        
         objScale = objct.transform.localScale;
     }
 
@@ -25,12 +27,11 @@ public class ObjectController : MonoBehaviour {
 
     public void OnTheShelf()
     {
-        //objct.transform.parent = null;
-        objct.transform.parent = Holder.transform;
-        objct.transform.localPosition = Holder.transform.localPosition;
+        objct.transform.parent = Holder.transform.parent;
+        objct.transform.position = Holder.transform.position;
         objct.transform.rotation = Holder.transform.rotation;
 
-        objct.transform.localScale = objScale;
+        objct.transform.localScale = Holder.transform.localScale;
 
         AllVariables.SetActive(false);
     }
