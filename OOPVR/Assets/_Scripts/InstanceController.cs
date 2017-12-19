@@ -12,7 +12,6 @@ public class InstanceController : MonoBehaviour {
 	void Start () {
 		// CreateCubeWithDoor ();
 		makeTinted ();
-		this.gameObject.SetActive (false);
 	}
 	
 	// Update is called once per frame
