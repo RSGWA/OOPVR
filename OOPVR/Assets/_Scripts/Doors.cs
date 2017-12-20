@@ -7,6 +7,8 @@ public class Doors : MonoBehaviour {
 	Animator animator;
 	bool doorOpen;
 
+	public int doorOpenIdleHash = Animator.StringToHash("Open Idle");
+
 	void Start() {
 		doorOpen = false;
 		animator = GetComponent<Animator>();
