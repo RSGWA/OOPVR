@@ -19,7 +19,7 @@ public class ObjectController : MonoBehaviour {
 
     public void InHands()
     {
-        objct.transform.parent = Holder.transform;
+        objct.transform.parent = Holder.transform.parent;
         objct.transform.position = Holder.transform.position;
 
         AllVariables.SetActive(true);

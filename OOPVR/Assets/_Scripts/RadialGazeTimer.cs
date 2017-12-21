@@ -30,7 +30,7 @@ public class RadialGazeTimer : MonoBehaviour {
         if (counterTimer >= NumberOfSecondsForSelection)
         {
             PerformActionOnGameObject();
-
+			ResetCounter ();
         }
         
     }
@@ -43,7 +43,9 @@ public class RadialGazeTimer : MonoBehaviour {
 
 
     public void PerformActionOnGameObject()
-    {
+	{
+		
+		/*
         if(place == "HAND")
         {
             ResetCounter();
@@ -54,6 +56,7 @@ public class RadialGazeTimer : MonoBehaviour {
             ResetCounter();
             ToDoAction.GetComponent<ObjectController>().OnTheShelf();
         }
+        */
 
         
     }

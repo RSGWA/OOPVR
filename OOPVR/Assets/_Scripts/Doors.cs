@@ -27,4 +27,18 @@ public class Doors : MonoBehaviour {
 			doorOpen = false;
 		}
 	}
+
+	public void enableDoors() {
+		GetComponent<BoxCollider> ().enabled = true;
+	}
+
+	public void disableDoors() {
+		GetComponent<BoxCollider> ().enabled = false;
+	}
+
+	public void closeDoors() {
+		DoorControl ("Close");
+		doorOpen = false;
+	}
+
 }

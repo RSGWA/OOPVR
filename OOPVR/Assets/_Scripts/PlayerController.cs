@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 originPosition;
 
 	private Animator anim;
+	Animator playerAnim;
 	private bool doorOpen;
 
 	// Use this for initialization
@@ -14,10 +15,16 @@ public class PlayerController : MonoBehaviour {
 		originPosition = transform.position;
 		Debug.Log (originPosition);
 		doorOpen = false;
+		playerAnim = transform.GetChild(0).GetComponent<Animator>();
 	}
 
 	public void backToOrigin() {
 		transform.position = originPosition;
+
+		GameObject.Find ("InstancePrefab").GetComponent<InstanceController> ().makeTinted ();
+		GameObject door = GameObject.Find ("Door");
+		door.GetComponent<Doors> ().enableDoors ();
+		door.GetComponent<Doors> ().closeDoors ();
 	}
 
 	public void moveIntoRoom(GameObject room) {
@@ -38,7 +45,6 @@ public class PlayerController : MonoBehaviour {
 			yield return null;
 
 			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("DoorOpenIdle")) {
-				Debug.Log ("DOOR FINISHED OPENING");
 				doorOpen = true;
 			}		
 		}
@@ -47,14 +53,19 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator movePlayer(GameObject room) {
 		while (!doorOpen) {
 			yield return new WaitForSeconds (0.1f);
-			Debug.Log (doorOpen);
 		}
 		// Move player to destination point
+		//PlayerControl("InstanceCreated");
 		Transform dest = room.transform.Find ("PlayerDest");
 		transform.position = new Vector3 (dest.position.x, transform.position.y, dest.position.z);
 
-		Debug.Log ("PLAYER MOVED INTO ROOM");
+		GameObject.Find ("InstancePrefab").GetComponent<InstanceController> ().makeTransparent ();
+
+		GameObject door = GameObject.Find("Door");
+		door.GetComponent<Doors> ().disableDoors ();
 	}
 
-
+	void PlayerControl(string direction) {
+		playerAnim.SetTrigger(direction);
+	}
 }
