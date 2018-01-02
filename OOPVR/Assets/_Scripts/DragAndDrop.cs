@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DDController : MonoBehaviour {
+public class DragAndDrop : MonoBehaviour {
 
 	public GameObject Hand; 
 	public GameObject Shelf; // Shelf to be placed on

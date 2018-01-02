@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RadialGazeTimerr : MonoBehaviour {
+public class RadialGaze : MonoBehaviour {
 
 	public float NumberOfSecondsForSelection = 3f;
 	public Transform RadialProgress;
@@ -39,12 +39,12 @@ public class RadialGazeTimerr : MonoBehaviour {
 		switch (obj.tag) {
 		case "Variable":
 			// Pick up variable
-			obj.GetComponent<DDController> ().InHands ();
+			obj.GetComponent<DragAndDrop> ().InHands ();
 			break;
 		case "Shelf":
 			Debug.Log ("SHELF DETECTED");
 			// Place on shelf
-			obj.GetComponent<DDController> ().OnTheShelf (obj);
+			obj.GetComponent<DragAndDrop> ().OnTheShelf (obj);
 			break;
 		default:
 			break;
