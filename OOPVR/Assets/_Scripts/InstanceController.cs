@@ -13,8 +13,8 @@ public class InstanceController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// CreateCubeWithDoor ();
-		this.gameObject.SetActive(false);
-		makeTinted ();
+		//this.gameObject.SetActive(false);
+		makeTransparent ();
 		anim = GetComponent<Animator> ();
 		anim.speed = 0.55f;
 	}

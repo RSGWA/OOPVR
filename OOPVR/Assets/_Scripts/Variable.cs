@@ -4,22 +4,32 @@ using UnityEngine;
 
 public class Variable : MonoBehaviour {
 	private AnimationCurve anim;
+	AnimationCurve yAnim;
+	AnimationCurve xAnim;
+
 	private Keyframe[] ks;
 
 	public GameObject Hand;
 
 	void Start() {
-		ks = new Keyframe[50];
-		Keyframe beginning = new Keyframe (0, transform.position.x);
-		int i = 0;
-		while (i < ks.Length) {
-			ks [i] = new Keyframe (i, i * i);
-			i++;
-		}
+
+		Hand = GameObject.FindGameObjectWithTag ("Hand");
+		ks = new Keyframe[2];
+
+		ks [0] = new Keyframe (0, transform.position.z);
+		ks [1] = new Keyframe (3, Hand.transform.position.z);
 		anim = new AnimationCurve (ks);
+
+		ks [0] = new Keyframe (0, transform.position.y);
+		ks [1] = new Keyframe (3, Hand.transform.position.y);
+		yAnim = new AnimationCurve (ks);
+
+		ks [0] = new Keyframe (0, transform.position.x);
+		ks [1] = new Keyframe (3, Hand.transform.position.x);
+		xAnim = new AnimationCurve (ks);
 	}
 
 	void Update() {
-		transform.position = new Vector3 (Time.time, anim.Evaluate (Time.time), 0);
+		transform.position = new Vector3 (xAnim.Evaluate(Time.time), yAnim.Evaluate(Time.time), anim.Evaluate(Time.time));
 	}
 }
