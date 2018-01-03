@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class DragAndDrop : MonoBehaviour {
 
-	public GameObject Hand; 
-	public GameObject Shelf; // Shelf to be placed on
+	private GameObject Hand; 
+	private GameObject[] boxes;
 
 	private static GameObject objInHand;
+	private static bool isObjInHand;
 
 	void Start()
 	{
 		Hand = GameObject.Find ("Hand");
-		Shelf.GetComponent<BoxCollider> ().enabled = false;
+		boxes = GameObject.FindGameObjectsWithTag ("Box");
+		enableBoxes (false);
+		isObjInHand = false;
+	}
+
+	void Update() {
+		if (isObjInHand) {
+			// Object follow reticle
+		}
 	}
 
 	public void InHands()
@@ -20,19 +29,26 @@ public class DragAndDrop : MonoBehaviour {
 		transform.parent = Hand.transform.parent;
 		transform.position = Hand.transform.position;
 		objInHand = this.gameObject;
-		Shelf.GetComponent<BoxCollider> ().enabled = true;
+		isObjInHand = true;
+		enableBoxes (true);
 	}
 
-	public void OnTheShelf(GameObject shelf)
+	public void InBox()
 	{
-		Transform dropPosition = shelf.transform.GetChild (0);
-
-		objInHand.transform.parent = dropPosition.transform.parent;
-		objInHand.transform.position = dropPosition.position;
-		objInHand.transform.rotation = dropPosition.transform.rotation;
-
-		objInHand.transform.localScale = dropPosition.transform.localScale;
+		objInHand.transform.parent = transform.parent;
+		objInHand.transform.position = transform.position;
+		objInHand.transform.rotation = transform.rotation;
+		objInHand.transform.localScale = transform.localScale;
 		
-		Shelf.GetComponent<BoxCollider> ().enabled = false;
+		enableBoxes (false);
+		isObjInHand = false;
 	}
+
+	private void enableBoxes(bool enable) 
+	{
+		foreach (GameObject box in boxes) {
+			box.GetComponent<BoxCollider> ().enabled = enable;
+		}
+	}
+
 }

@@ -41,10 +41,9 @@ public class RadialGaze : MonoBehaviour {
 			// Pick up variable
 			obj.GetComponent<DragAndDrop> ().InHands ();
 			break;
-		case "Shelf":
-			Debug.Log ("SHELF DETECTED");
-			// Place on shelf
-			obj.GetComponent<DragAndDrop> ().OnTheShelf (obj);
+		case "Box":
+			// Place in box
+			obj.GetComponent<DragAndDrop> ().InBox ();
 			break;
 		default:
 			break;

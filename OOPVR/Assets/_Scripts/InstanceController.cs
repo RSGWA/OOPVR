@@ -8,11 +8,14 @@ public class InstanceController : MonoBehaviour {
 	public Material transparent;
 	public Material tinted;
 
+	private Animator anim;
+
 	// Use this for initialization
 	void Start () {
 		// CreateCubeWithDoor ();
 		this.gameObject.SetActive(false);
 		makeTinted ();
+		anim = GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -23,6 +26,11 @@ public class InstanceController : MonoBehaviour {
 	public void createInstance() {
 		// Create instance somehow
 		this.gameObject.SetActive(true);
+		InstanceControl ("Create");
+	}
+
+	void InstanceControl(string direction) {
+		anim.SetTrigger(direction);
 	}
 
 	public void makeTransparent() {
