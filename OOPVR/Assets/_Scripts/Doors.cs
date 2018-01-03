@@ -14,8 +14,16 @@ public class Doors : MonoBehaviour {
 		animator = GetComponent<Animator>();
 	}
 
-	void DoorControl(string direction) {
+	private void DoorControl(string direction) {
 		animator.SetTrigger(direction);
+	}
+
+	public void openDoor() {
+		DoorControl ("Open");
+	}
+
+	public void closeDoor() {
+		DoorControl ("Close");
 	}
 
 	public void ControlDoor() {
