@@ -16,6 +16,7 @@ public class InstanceController : MonoBehaviour {
 		this.gameObject.SetActive(false);
 		makeTinted ();
 		anim = GetComponent<Animator> ();
+		anim.speed = 0.55f;
 	}
 	
 	// Update is called once per frame
@@ -24,7 +25,6 @@ public class InstanceController : MonoBehaviour {
 	}
 
 	public void createInstance() {
-		// Create instance somehow
 		this.gameObject.SetActive(true);
 		InstanceControl ("Create");
 	}
