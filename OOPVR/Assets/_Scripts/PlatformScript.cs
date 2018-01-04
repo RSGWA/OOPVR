@@ -13,8 +13,6 @@ public class PlatformScript : MonoBehaviour {
 
         _anim = GetComponent<Animator>();
         _go = GameObject.FindGameObjectWithTag("Door");
-
-
 	}
 	
 	// Update is called once per frame

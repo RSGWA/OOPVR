@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4372013, g: 0.48494095, b: 0.5652107, a: 1}
+  m_IndirectSpecularColor: {r: 0.43720153, g: 0.48494124, b: 0.565211, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -123,8 +123,8 @@ GameObject:
   - component: {fileID: 25235113}
   - component: {fileID: 25235112}
   - component: {fileID: 25235111}
-  - component: {fileID: 25235110}
   - component: {fileID: 25235109}
+  - component: {fileID: 25235110}
   m_Layer: 0
   m_Name: Parent
   m_TagString: Untagged
@@ -159,17 +159,6 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_MethodName: ControlDoor
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -222,13 +211,12 @@ MonoBehaviour:
 --- !u!114 &25235110
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114170755147818452, guid: 53c3bad9df30ace479d2b3a12b9229fd,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 25235108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 875bc4994dc4a1e449a1b32c798942ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &25235111
@@ -238,13 +226,13 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 25235108}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0fa35e5fad978d4a9982537a9e0150e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   NumberOfSecondsForSelection: 3
-  RadialProgress: {fileID: 0}
+  RadialProgress: {fileID: 1907400409}
 --- !u!95 &25235112
 Animator:
   serializedVersion: 3
@@ -255,10 +243,10 @@ Animator:
   m_GameObject: {fileID: 25235108}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e3d2344e67144f544bbdafb4833804ab, type: 2}
+  m_Controller: {fileID: 9100000, guid: bb373119948c428469576ca4f2ff69e2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -271,7 +259,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 25235108}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.336, y: 0.32, z: 3.76}
+  m_LocalPosition: {x: 4.894, y: 0.379, z: 1.926}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1278378388}
@@ -1965,7 +1953,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1278378387}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.28, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1166185948}
@@ -2732,8 +2720,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1656356487}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 325.5, y: 181.5, z: 0}
-  m_LocalScale: {x: 0.3765966, y: 0.3765966, z: 0.3765966}
+  m_LocalPosition: {x: 604.5, y: 322.5, z: 0}
+  m_LocalScale: {x: 0.68288255, y: 0.68288255, z: 0.68288255}
   m_Children:
   - {fileID: 1907400409}
   m_Father: {fileID: 1392799447}
