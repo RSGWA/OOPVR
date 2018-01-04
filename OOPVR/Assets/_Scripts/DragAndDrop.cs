@@ -15,9 +15,12 @@ public class DragAndDrop : MonoBehaviour {
 	AnimationCurve zCurve;
 	Keyframe[] ks;
 
+	Quaternion originalRot;
+
 	float currentTime = 0;
 
 	bool moveToHand = false;
+	bool inHand = false;
 
 	void Start()
 	{
@@ -28,17 +31,19 @@ public class DragAndDrop : MonoBehaviour {
 
 	public void InHands()
 	{
+		originalRot = transform.rotation;
 		transform.parent = Hand.transform;
-		setUpAnimation();
 		currentTime = Time.time;
+		setUpAnimation();
 		objInHand = this.gameObject;
 		enableBoxes (true);
 		moveToHand = true;
+		inHand = true;
 	}
 
 	public void InBox()
 	{
-		moveToHand = false;
+		inHand = false;
 		objInHand.transform.parent = transform.parent;
 		objInHand.transform.position = transform.position;
 		objInHand.transform.rotation = transform.rotation;
@@ -78,9 +83,15 @@ public class DragAndDrop : MonoBehaviour {
 		if (moveToHand) {
 			transform.position = new Vector3 (xCurve.Evaluate(Time.time - currentTime), yCurve.Evaluate(Time.time - currentTime), 
 				zCurve.Evaluate (Time.time - currentTime));
-			if (Time.time >= currentTime + ANIM_LENGTH) {
+
+			if (Time.time > currentTime + ANIM_LENGTH) {
 				moveToHand = false;
+				//transform.position = Hand.transform.position;
 			}
+		}
+
+		if (inHand) {
+			transform.rotation = originalRot;
 		}
 	}
 
