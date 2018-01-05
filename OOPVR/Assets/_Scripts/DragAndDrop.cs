@@ -8,6 +8,7 @@ public class DragAndDrop : MonoBehaviour {
 	private GameObject[] boxes;
 
 	private static GameObject objInHand;
+	private static Vector3 origRot;
 	private static float ANIM_LENGTH = 1.2f;
 
 	AnimationCurve xCurve;
@@ -29,24 +30,24 @@ public class DragAndDrop : MonoBehaviour {
 		enableBoxes (false);
 	}
 
-	public void InHands()
+	public void ToHands()
 	{
 		originalRot = transform.rotation;
 		transform.parent = Hand.transform;
 		currentTime = Time.time;
-		setUpAnimation();
+		setUpVariableToHandAnimation();
 		objInHand = this.gameObject;
 		enableBoxes (true);
 		moveToHand = true;
 		inHand = true;
 	}
 
-	public void InBox()
+	public void ToBox()
 	{
 		inHand = false;
+
 		objInHand.transform.parent = transform.parent;
-		objInHand.transform.position = transform.position;
-		objInHand.transform.rotation = transform.rotation;
+		//objInHand.transform.position = transform.position;
 		
 		enableBoxes (false);
 	}
@@ -58,22 +59,25 @@ public class DragAndDrop : MonoBehaviour {
 		}
 	}
 
-	void setUpAnimation() 
+	void setUpVariableToHandAnimation() 
 	{
 		ks = new Keyframe[2];
 
-		ks[0] = new Keyframe (0,transform.position.x);
-		ks[1] = new Keyframe (ANIM_LENGTH, Hand.transform.position.x);
+		ks[0] = new Keyframe (0,transform.localPosition.x);
+		ks[1] = new Keyframe (ANIM_LENGTH, 0);
+		//Debug.Log ("TARGET X: " + Hand.transform.localPosition.x);
 		xCurve = new AnimationCurve (ks);
 		xCurve.postWrapMode = WrapMode.Once;
 
-		ks [0] = new Keyframe (0, transform.position.y);
-		ks [1] = new Keyframe (ANIM_LENGTH, Hand.transform.position.y);
+		ks [0] = new Keyframe (0, transform.localPosition.y);
+		ks [1] = new Keyframe (ANIM_LENGTH, 0);
+		//Debug.Log ("TARGET Y: " + Hand.transform.localPosition.y);
 		yCurve = new AnimationCurve (ks);
 		yCurve.postWrapMode = WrapMode.Once;
 
-		ks [0] = new Keyframe (0, transform.position.z);
-		ks [1] = new Keyframe (ANIM_LENGTH, Hand.transform.position.z);
+		ks [0] = new Keyframe (0, transform.localPosition.z);
+		ks [1] = new Keyframe (ANIM_LENGTH, 0);
+		//Debug.Log ("TARGET Z: " + Hand.transform.localPosition.z);
 		zCurve = new AnimationCurve (ks);
 		zCurve.postWrapMode = WrapMode.Once;
 
@@ -81,17 +85,16 @@ public class DragAndDrop : MonoBehaviour {
 
 	void Update() {
 		if (moveToHand) {
-			transform.position = new Vector3 (xCurve.Evaluate(Time.time - currentTime), yCurve.Evaluate(Time.time - currentTime), 
+			transform.localPosition = new Vector3 (xCurve.Evaluate(Time.time - currentTime), yCurve.Evaluate(Time.time - currentTime), 
 				zCurve.Evaluate (Time.time - currentTime));
 
 			if (Time.time > currentTime + ANIM_LENGTH) {
 				moveToHand = false;
-				//transform.position = Hand.transform.position;
 			}
 		}
 
 		if (inHand) {
-			transform.rotation = originalRot;
+			transform.rotation = Hand.transform.rotation;
 		}
 	}
 

@@ -39,11 +39,11 @@ public class RadialGaze : MonoBehaviour {
 		switch (obj.tag) {
 		case "Variable":
 			// Pick up variable
-			obj.GetComponent<DragAndDrop> ().InHands ();
+			obj.GetComponent<VariableController> ().ToHands ();
 			break;
 		case "Box":
 			// Place in box
-			obj.GetComponent<DragAndDrop> ().InBox ();
+			obj.GetComponent<BoxController> ().ToBox ();
 			break;
 		default:
 			break;

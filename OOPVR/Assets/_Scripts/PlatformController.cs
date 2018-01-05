@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformScript : MonoBehaviour {
+public class PlatformController : MonoBehaviour {
 
     private Animator _anim;
     GameObject _go = null;
