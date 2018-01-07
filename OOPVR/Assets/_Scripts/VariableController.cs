@@ -55,7 +55,7 @@ public class VariableController : MonoBehaviour {
 		inHand = true;
 
 		// Enable Boxes
-		GameObject.FindGameObjectWithTag ("Box").GetComponent<BoxController>().enableBoxes(true);
+		//GameObject.FindGameObjectWithTag ("Box").GetComponent<BoxController>().enableBoxes(true);
 
 		// Disable variable
 		GetComponent<BoxCollider>().enabled = false;
