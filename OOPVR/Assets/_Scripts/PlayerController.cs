@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour {
 	public void backToOrigin() {
 		transform.position = originPosition;
 
-		GameObject.Find ("InstancePrefab").GetComponent<InstanceController> ().makeTinted ();
+		//GameObject.Find ("InstancePrefab").GetComponent<InstanceController> ().makeTinted ();
+		GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ().makeTinted ();
 		GameObject door = GameObject.Find ("Door");
 		door.GetComponent<Doors> ().enableDoors ();
 		door.GetComponent<Doors> ().closeDoors ();
@@ -59,7 +60,8 @@ public class PlayerController : MonoBehaviour {
 		Transform dest = room.transform.Find ("PlayerDest");
 		transform.position = new Vector3 (dest.position.x, transform.position.y, dest.position.z);
 
-		GameObject.Find ("InstancePrefab").GetComponent<InstanceController> ().makeTransparent ();
+		//GameObject.Find ("InstancePrefab").GetComponent<InstanceController> ().makeTransparent ();
+		GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ().makeTransparent ();
 
 		GameObject door = GameObject.Find("Door");
 		door.GetComponent<Doors> ().disableDoors ();
