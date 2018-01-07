@@ -107,9 +107,18 @@ public class PlatformController : MonoBehaviour
             {
                 //***FIRE DOOR ANIMATION HERE****
                 platform.GetComponent<Animator>().SetTrigger("Activate"); // activating the platforms
+                
+
             }
+            setPlatformColliders(false);
         }
 
+    }
+
+    void setPlatformColliders(bool key)
+    {
+        GetComponent<BoxCollider>().enabled = key;
+        GetComponent<CapsuleCollider>().enabled = key;
     }
 
 }
