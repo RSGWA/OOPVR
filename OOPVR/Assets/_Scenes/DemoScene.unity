@@ -2861,7 +2861,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 3862f9b250c7a2849948222efce29b49, type: 2}
+  - {fileID: 2100000, guid: 8f8afe415c6e9054da3d9a671335005f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3189,7 +3189,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1342970974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.25, y: 0.96068835, z: 0.68}
+  m_LocalPosition: {x: -5.4, y: 0.96068835, z: 0.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3898,7 +3898,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 40494424}
+      - m_Target: {fileID: 513456383}
         m_MethodName: createInstance
         m_Mode: 1
         m_Arguments:
@@ -4521,15 +4521,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.48
+      value: -0.21
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.39
+      value: -3.18
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4553,11 +4553,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
       propertyPath: m_LocalScale.z
@@ -4583,6 +4583,10 @@ Prefab:
       propertyPath: m_TagString
       value: Instance
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0cde69e1aa08fab49a358a466ac4a63c, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 907c7306e4732cb49af6347c22c7254a, type: 3}
   m_IsPrefabParent: 0
