@@ -14,7 +14,7 @@ public class InstanceController : MonoBehaviour {
 	void Start () {
 		// CreateCubeWithDoor ();
 		//this.gameObject.SetActive(false);
-		makeTransparent ();
+		//makeTransparent ();
 		anim = GetComponent<Animator> ();
 		anim.speed = 0.55f;
 	}
