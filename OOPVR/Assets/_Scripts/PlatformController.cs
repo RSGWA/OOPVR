@@ -10,6 +10,9 @@ public class PlatformController : MonoBehaviour
     private GameObject objInHand;
     bool active = false;
     private GameObject parameterPosition;
+    private GameObject _Player;
+
+    enum PlayerDirection  {InsideMethod, OutsideMethod};
 
     // Use this for initialization
     void Start()
@@ -17,6 +20,7 @@ public class PlatformController : MonoBehaviour
 
         _anim = GetComponent<Animator>();
         Hand = GameObject.FindGameObjectWithTag("Hand");
+        _Player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -30,27 +34,46 @@ public class PlatformController : MonoBehaviour
         if (!active)
         {
             _anim.SetTrigger("Activate");
+            GetComponent<BoxCollider>().enabled = false;
+            GetComponent<CapsuleCollider>().enabled = false;
             active = true;
         }
         else
         {
+            //GetComponent<BoxCollider>().enabled = true;
+           // GetComponent<CapsuleCollider>().enabled = true;
             _anim.SetTrigger("Deactivate");
             active = false;
         }
+
+        //if (dir == PlayerDirection.InsideMethod)
+        //{
+        //    
+            
+        //    //disable platform colliders.
+            
+        //    //
+
+
+        //}else if(dir == PlayerDirection.OutsideMethod)
+        //{
+        //    //
+        //}
 
     }
 
     public void ToPlatform(Transform platformPos)
     {
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
-        
-
-        Transform platform = platformPos.Find("Platform");
-        parameterPosition = platform.Find("ParamPos").gameObject;
+       
+        parameterPosition = platformPos.Find("Platform").Find("ParamPos").gameObject;
 
         objInHand.transform.parent = parameterPosition.transform.parent;
         objInHand.transform.position = parameterPosition.transform.position;
         objInHand.transform.rotation = parameterPosition.transform.rotation;
+        objInHand.transform.localScale = new Vector3(0.2f, 0.02f, 0.02f);
+
+        objInHand.GetComponent<Collider>().enabled = true;
 
     }
 
@@ -66,8 +89,18 @@ public class PlatformController : MonoBehaviour
             //Checks parameter type matches variable type
             if (paramType.tag == variableType)
             {
-                //***FIRE DOOR ANIMATION HERE****
+                //Activate platform
                 Control();
+
+                //***FIRE DOOR ANIMATION HERE****
+                GameObject doors = parentPlatform.transform.parent.Find("Door").gameObject;
+                doors.GetComponent<Doors>().ControlDoor();
+
+                //Move player into the room
+                GameObject roomObject = parentPlatform.transform.parent.gameObject;
+                _Player.GetComponent<PlayerController>().moveIntoRoom(roomObject);
+
+                
             }
         }
 
