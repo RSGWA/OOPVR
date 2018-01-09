@@ -61,7 +61,6 @@ public class RadialGaze : MonoBehaviour
 			obj.GetComponent<PlatformController> ().ControlPlatform (obj, variableType);
 			break;
 		case "Move":
-			Debug.Log ("Move object detected");
 			player.GetComponent<PlayerController> ().moveTo (obj);
 			break;
 		default:
