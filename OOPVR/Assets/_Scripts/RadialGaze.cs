@@ -5,20 +5,20 @@ using UnityEngine.UI;
 
 public class RadialGaze : MonoBehaviour
 {
-
     public float NumberOfSecondsForSelection = 3f;
     public Transform RadialProgress;
     private float counterTimer = 0;
     private static string variableType = "";
     private Transform platformPos;
 
+	private GameObject player;
+
     // Use this for initialization
     void Start()
-    {
-
+	{
         RadialProgress.GetComponent<Image>().fillAmount = 0;
-        this.enabled = false;
-
+		player = GameObject.FindGameObjectWithTag ("Player");
+		this.enabled = false;
     }
 
     // Update is called once per frame
@@ -47,21 +47,25 @@ public class RadialGaze : MonoBehaviour
         platformPos = obj.transform;
         switch (obj.tag)
         {
-            case "Variable":
-                variableType = obj.transform.GetChild(0).tag;
-                // Pick up variable
-                obj.GetComponent<VariableController>().ToHands();
-                break;
-            case "Box":
-                // Place in box
-                obj.GetComponent<BoxController>().ToBox();
-                break;
-            case "Platform":
-                obj.GetComponent<PlatformController>().ToPlatform(platformPos);
-                obj.GetComponent<PlatformController>().ControlPlatform(obj, variableType);
-                break;
-            default:
-                break;
+		case "Variable":
+			variableType = obj.transform.GetChild(0).tag;
+			// Pick up variable
+			obj.GetComponent<VariableController>().ToHands();
+			break;
+		case "Box":
+			// Place in box
+			obj.GetComponent<BoxController>().boxAction();
+			break;
+		case "Platform":
+			obj.GetComponent<PlatformController> ().ToPlatform (platformPos);
+			obj.GetComponent<PlatformController> ().ControlPlatform (obj, variableType);
+			break;
+		case "Move":
+			Debug.Log ("Move object detected");
+			player.GetComponent<PlayerController> ().moveTo (obj);
+			break;
+		default:
+			break;
         }
     }
 }

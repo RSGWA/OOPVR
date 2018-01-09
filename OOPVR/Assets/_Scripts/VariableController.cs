@@ -23,6 +23,7 @@ public class VariableController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Hand = GameObject.Find ("Hand");
+		vars = GameObject.FindGameObjectsWithTag ("Variable");
 		movingToHand = false;
 		currentTime = 0;
 	}
@@ -45,20 +46,43 @@ public class VariableController : MonoBehaviour {
 
 	public void ToHands()
 	{
-		transform.parent = Hand.transform;
+		
+		GameObject objInHand = Hand.GetComponent<HandController> ().getObjInHand ();
 
-		Hand.GetComponent<HandController> ().setObjInHand (this.gameObject);
-		setUpVariableToHandAnimation ();
+		if (objInHand != null) {
+			// Swap object in hand with object gazed at
+			objInHand.transform.parent = transform.parent;
+			transform.parent = Hand.transform;
 
-		currentTime = Time.time;
-		movingToHand = true;
+			objInHand.transform.position = transform.position;
+			transform.position = Hand.transform.position;
+
+			Hand.GetComponent<HandController> ().setObjInHand (this.gameObject);
+			enableVars (true);
+		} else {
+			transform.parent = Hand.transform;
+
+			Hand.GetComponent<HandController> ().setObjInHand (this.gameObject);
+			setUpVariableToHandAnimation ();
+
+			currentTime = Time.time;
+			movingToHand = true;
+
+			// Enable Boxes
+			if (GameObject.FindGameObjectWithTag ("Box") != null) {
+				GameObject.FindGameObjectWithTag ("Box").GetComponent<BoxController> ().enableBoxes (true);
+			}
+
+			// Disable RigidBody Component if present
+			if (GetComponent<Rigidbody> () != null) {
+				Destroy (GetComponent<Rigidbody>());
+			}
+
+			// Disable variable in hand
+			GetComponent<BoxCollider>().enabled = false;
+		}
+
 		inHand = true;
-
-		// Enable Boxes
-		//GameObject.FindGameObjectWithTag ("Box").GetComponent<BoxController>().enableBoxes(true);
-
-		// Disable variable
-		GetComponent<BoxCollider>().enabled = false;
 	}
 
 	void setUpVariableToHandAnimation() 
@@ -87,6 +111,12 @@ public class VariableController : MonoBehaviour {
 
 	public void setInHand(bool b) {
 		inHand = b;
+	}
+
+	void enableVars(bool enable) {
+		foreach (GameObject var in vars) {
+			var.GetComponent<BoxCollider> ().enabled = enable;
+		}
 	}
 
 }

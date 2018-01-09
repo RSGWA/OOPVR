@@ -28,6 +28,11 @@ public class PlayerController : MonoBehaviour {
 		door.GetComponent<Doors> ().closeDoors ();
 	}
 
+	public void moveTo(GameObject dest)
+	{
+		transform.position = new Vector3 (dest.transform.position.x, transform.position.y, dest.transform.position.z);
+	}
+		
 	public void moveIntoRoom(GameObject room) {
 		//Animator animator = doorScript.getAnimator ();
 
