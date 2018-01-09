@@ -71,7 +71,7 @@ public class PlatformController : MonoBehaviour
         objInHand.transform.parent = parameterPosition.transform.parent;
         objInHand.transform.position = parameterPosition.transform.position;
         objInHand.transform.rotation = parameterPosition.transform.rotation;
-        objInHand.transform.localScale = new Vector3(0.2f, 0.02f, 0.02f);
+        
 
         objInHand.GetComponent<Collider>().enabled = true;
 
