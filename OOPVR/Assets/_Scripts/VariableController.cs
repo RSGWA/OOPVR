@@ -45,12 +45,10 @@ public class VariableController : MonoBehaviour {
 
 	public void ToHands()
 	{
-		transform.parent = Hand.transform;
-
 		GameObject objInHand = Hand.GetComponent<HandController> ().getObjInHand ();
 
 		if (objInHand != null) {
-			objInHand.transform.parent = Hand.transform;
+			objInHand.transform.parent = transform.parent;
 			transform.parent = Hand.transform;
 
 			objInHand.transform.position = transform.position;
@@ -73,7 +71,7 @@ public class VariableController : MonoBehaviour {
 				Destroy (GetComponent<Rigidbody> ());
 			}
 
-			// Disable variable
+			// Disable current variable in hand
 			GetComponent<BoxCollider> ().enabled = false;
 		}
 
