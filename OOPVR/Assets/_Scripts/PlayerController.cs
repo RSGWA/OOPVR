@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 		transform.position = originPosition;
 
 		//GameObject.Find ("InstancePrefab").GetComponent<InstanceController> ().makeTinted ();
-		GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ().makeTinted ();
+		//GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ().makeTinted ();
 		GameObject door = GameObject.Find ("Door");
 		door.GetComponent<Doors> ().enableDoors ();
 		door.GetComponent<Doors> ().closeDoors ();
