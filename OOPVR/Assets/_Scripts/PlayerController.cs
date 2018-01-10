@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour {
 	public void moveIntoRoom(GameObject room) {
 		//Animator animator = doorScript.getAnimator ();
 
-		GameObject door = GameObject.Find ("Door");
+		GameObject door = GameObject.FindGameObjectWithTag ("Door");
 		anim = door.GetComponent<Animator> ();
 
 		StartCoroutine ("check");
@@ -66,10 +66,10 @@ public class PlayerController : MonoBehaviour {
 		transform.position = new Vector3 (dest.position.x, transform.position.y, dest.position.z);
 
 		//GameObject.Find ("InstancePrefab").GetComponent<InstanceController> ().makeTransparent ();
-		GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ().makeTransparent ();
+		//GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ().makeTransparent ();
 
-		GameObject door = GameObject.Find("Door");
-		door.GetComponent<Doors> ().disableDoors ();
+		//GameObject door = GameObject.Find("Door");
+		//door.GetComponent<Doors> ().disableDoors ();
 	}
 
 	void PlayerControl(string direction) {
