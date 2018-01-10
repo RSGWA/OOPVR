@@ -13,27 +13,26 @@ public class VariableController : MonoBehaviour {
 	private Keyframe[] ks;
 
 	private static float ANIM_LENGTH = 1.0f;
-	private static GameObject objInHand;
 
 	float currentTime;
 
 	bool movingToHand;
 	bool inHand = false;
 
-	// Use this for initialization
 	void Start () {
 		Hand = GameObject.Find ("Hand");
 		vars = GameObject.FindGameObjectsWithTag ("Variable");
 		movingToHand = false;
 		currentTime = 0;
+		transform.Rotate (Vector3.right * Time.deltaTime);
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (movingToHand) {
 			transform.localPosition = new Vector3 (xCurve.Evaluate(Time.time - currentTime), yCurve.Evaluate(Time.time - currentTime), 
 				zCurve.Evaluate (Time.time - currentTime));
-			if (Time.time > currentTime + ANIM_LENGTH) {
+			// Signals end of animation
+			if (Time.time - currentTime > ANIM_LENGTH) {
 				movingToHand = false;
 			}
 		}
@@ -45,8 +44,10 @@ public class VariableController : MonoBehaviour {
 
 	public void ToHands()
 	{
+		currentTime = Time.time;
 		GameObject objInHand = Hand.GetComponent<HandController> ().getObjInHand ();
 
+		// Checking if there is already a variable in hand - if so, swap them
 		if (objInHand != null) {
 			objInHand.transform.parent = transform.parent;
 			transform.parent = Hand.transform;
@@ -54,11 +55,10 @@ public class VariableController : MonoBehaviour {
 			objInHand.transform.position = transform.position;
 			transform.position = Hand.transform.position;
 			enableVars (true);
-		} else {
+		} else { 
 			transform.parent = Hand.transform;
 			setUpVariableToHandAnimation ();
 
-			currentTime = Time.time;
 			movingToHand = true;
 
 			// Enable Boxes

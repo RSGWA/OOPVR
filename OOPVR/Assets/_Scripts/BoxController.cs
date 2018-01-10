@@ -11,16 +11,21 @@ public class BoxController : MonoBehaviour {
 	private AnimationCurve xCurve;
 	private AnimationCurve yCurve;
 	private AnimationCurve zCurve;
-
 	private Keyframe[] ks;
 
-	private static float ANIM_LENGTH = 1f;
+	private AnimationCurve xRotCurve;
+	private AnimationCurve yRotCurve;
+	private AnimationCurve zRotCurve;
+
+	private static float ANIM_LENGTH = 1.1f;
+	private static float ANIM_DELAY = 0.5f;
 
 	float currentTime = 0;
 
 	bool movingVarToBox = false;
 	bool movingBoxToHand = false;
 	bool movingBoxToBox = false;
+	bool tipBox = false;
 
 	// Use this for initialization
 	void Start () {
@@ -32,9 +37,12 @@ public class BoxController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (movingVarToBox) {
-			objInHand.transform.localPosition = new Vector3 (xCurve.Evaluate (Time.time - currentTime), yCurve.Evaluate (Time.time - currentTime), 
+			objInHand.transform.localPosition = new Vector3 (
+				xCurve.Evaluate (Time.time - currentTime), 
+				yCurve.Evaluate (Time.time - currentTime), 
 				zCurve.Evaluate (Time.time - currentTime));
-			if (Time.time > currentTime + ANIM_LENGTH) {
+			
+			if (Time.time - currentTime > ANIM_LENGTH) {
 				movingVarToBox = false;
 				objInHand.GetComponent<VariableController> ().setInHand (false);
 
@@ -43,34 +51,55 @@ public class BoxController : MonoBehaviour {
 
 				objInHand.GetComponent<BoxCollider> ().enabled = true;
 				objInHand.AddComponent<Rigidbody> ();
-				//objInHand.GetComponent<Rigidbody> ().useGravity = false;
-				//objInHand.GetComponent<Rigidbody> ().AddForce (0f, -1.3f, 0f, ForceMode.Impulse);
 			}
 		} else if (movingBoxToHand) {
-			transform.localPosition = new Vector3 (xCurve.Evaluate (Time.time - currentTime), yCurve.Evaluate (Time.time - currentTime), 
+			transform.localPosition = new Vector3 (
+				xCurve.Evaluate (Time.time - currentTime), 
+				yCurve.Evaluate (Time.time - currentTime), 
 				zCurve.Evaluate (Time.time - currentTime));
-			if (Time.time > currentTime + ANIM_LENGTH) {
+			
+			if (Time.time - currentTime > ANIM_LENGTH) {
 				movingBoxToHand = false;
 			}
 		} else if (movingBoxToBox) {
-			objInHand.transform.localPosition = new Vector3 (xCurve.Evaluate (Time.time - currentTime), yCurve.Evaluate (Time.time - currentTime), 
+			objInHand.transform.rotation = transform.rotation;
+			objInHand.transform.localPosition = new Vector3 (
+				xCurve.Evaluate (Time.time - currentTime), 
+				yCurve.Evaluate (Time.time - currentTime), 
 				zCurve.Evaluate (Time.time - currentTime));
-			if (Time.time > currentTime + ANIM_LENGTH) {
+
+			if (Time.time - currentTime > ANIM_LENGTH) {
+				Debug.Log ("Animation Completed");
 				movingBoxToBox = false;
 
 				// Rotates box upright
-				objInHand.transform.rotation = transform.rotation;
+				//objInHand.transform.rotation = transform.rotation;
 				// Tip box
+				tipBox = true;
+				/*
 				Vector3 rot = objInHand.transform.rotation.eulerAngles;
 				rot = new Vector3 (rot.x + 180, rot.y, rot.z);
 				objInHand.transform.rotation = Quaternion.Euler (rot);
+				*/
 			}
 		}
+
+		if (tipBox) {
+			Vector3 to = new Vector3 (20, 20, 20);
+			if (Vector3.Distance (objInHand.transform.eulerAngles, to) > 0.01f) {
+				objInHand.transform.eulerAngles = Vector3.Lerp (objInHand.transform.rotation.eulerAngles, to, Time.deltaTime);
+			} else {
+				objInHand.transform.eulerAngles = to;
+				tipBox = false;
+			}
+		}
+
 
 	}
 
 	public void boxAction()
 	{
+		currentTime = Time.time;
 		objInHand = Hand.GetComponent<HandController> ().getObjInHand ();
 
 		if (objInHand == null) {
@@ -93,6 +122,7 @@ public class BoxController : MonoBehaviour {
 					// Variable to box
 					//enableBoxes (false);
 					setUpVarToBoxAnimation ();
+					//rotateVarAnimation ();
 					movingVarToBox = true;
 				} else if (objInHand.tag == "Box") {
 					// Box to box
@@ -105,7 +135,6 @@ public class BoxController : MonoBehaviour {
 				enableBoxes (true);
 			}
 		}
-		currentTime = Time.time;
 	}
 
 	void setUpVarToBoxAnimation() 
@@ -113,7 +142,7 @@ public class BoxController : MonoBehaviour {
 		ks = new Keyframe[2];
 
 		ks[0] = new Keyframe (0, objInHand.transform.localPosition.x);
-		ks[1] = new Keyframe (ANIM_LENGTH, -0.5f);
+		ks[1] = new Keyframe (ANIM_LENGTH, 0);
 		xCurve = new AnimationCurve (ks);
 		xCurve.postWrapMode = WrapMode.Once;
 
@@ -123,7 +152,7 @@ public class BoxController : MonoBehaviour {
 		yCurve.postWrapMode = WrapMode.Once;
 
 		ks [0] = new Keyframe (0, objInHand.transform.localPosition.z);
-		ks [1] = new Keyframe (ANIM_LENGTH, 2.5f);
+		ks [1] = new Keyframe (ANIM_LENGTH, 3.5f);
 		zCurve = new AnimationCurve (ks);
 		zCurve.postWrapMode = WrapMode.Once;
 	}
@@ -147,7 +176,7 @@ public class BoxController : MonoBehaviour {
 		zCurve = new AnimationCurve (ks);
 		zCurve.postWrapMode = WrapMode.Once;
 	}
-		
+
 	void setUpBoxToHandAnimation() 
 	{
 		ks = new Keyframe[2];
@@ -170,6 +199,57 @@ public class BoxController : MonoBehaviour {
 		zCurve = new AnimationCurve (ks);
 		zCurve.postWrapMode = WrapMode.Once;
 
+	}
+
+	void setUpVariableToHandAnimation() 
+	{
+		ks = new Keyframe[2];
+
+		ks[0] = new Keyframe (0,transform.localPosition.x);
+		ks[1] = new Keyframe (ANIM_LENGTH, 0);
+
+		xCurve = new AnimationCurve (ks);
+		xCurve.postWrapMode = WrapMode.Once;
+
+		ks [0] = new Keyframe (0, transform.localPosition.y);
+		ks [1] = new Keyframe (ANIM_LENGTH, 0);
+
+		yCurve = new AnimationCurve (ks);
+		yCurve.postWrapMode = WrapMode.Once;
+
+		ks [0] = new Keyframe (0, transform.localPosition.z);
+		ks [1] = new Keyframe (ANIM_LENGTH, 0);
+
+		zCurve = new AnimationCurve (ks);
+		zCurve.postWrapMode = WrapMode.Once;
+
+	}
+
+	void rotateVarAnimation() 
+	{
+		Keyframe[] keys = new Keyframe[2];
+		/*
+		Vector3 rot = objInHand.transform.rotation.eulerAngles;
+		rot = new Vector3 (rot.x + 180, rot.y, rot.z);
+		objInHand.transform.rotation = Quaternion.Euler (rot);
+		*/
+		keys[0] = new Keyframe (0,objInHand.transform.rotation.x);
+		keys[1] = new Keyframe (ANIM_LENGTH, 0);
+
+		xRotCurve = new AnimationCurve (keys);
+		xRotCurve.postWrapMode = WrapMode.Once;
+
+		keys [0] = new Keyframe (0, objInHand.transform.rotation.y);
+		keys [1] = new Keyframe (ANIM_LENGTH, 0);
+
+		yRotCurve = new AnimationCurve (keys);
+		yRotCurve.postWrapMode = WrapMode.Once;
+
+		keys [0] = new Keyframe (0, objInHand.transform.rotation.z);
+		keys [1] = new Keyframe (ANIM_LENGTH, 0);
+
+		zRotCurve = new AnimationCurve (keys);
+		zRotCurve.postWrapMode = WrapMode.Once;
 	}
 
 	public void enableBoxes(bool enable) 
