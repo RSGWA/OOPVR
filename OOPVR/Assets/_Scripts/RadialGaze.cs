@@ -63,6 +63,9 @@ public class RadialGaze : MonoBehaviour
 		case "Move":
 			player.GetComponent<PlayerController> ().moveTo (obj);
 			break;
+		case "Return":
+			obj.GetComponent<ReturnController> ().checkAndReturn ();
+			break;
 		default:
 			break;
         }
