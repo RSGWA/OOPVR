@@ -4,52 +4,61 @@ using UnityEngine;
 
 public class ParameterController : MonoBehaviour
 {
-
+    public Material activeColor;
     private GameObject doors;
-    private GameObject paramVariableBox;
-    private GameObject paramPlatform;
+    private GameObject[] parameters;
+    private Transform[] varBoxes;
+    private int numOfParams;
+    private static int count = 0;
 
 
     // Use this for initialization
     void Start()
     {
-
-        paramVariableBox = transform.GetChild(1).gameObject;
-        paramPlatform = transform.GetChild(0).gameObject;
-        doors = transform.parent.parent.Find("Doors").gameObject;
-
+        doors = transform.parent.Find("Doors").gameObject;
+        numOfParams = transform.childCount;
+        parameters = new GameObject[numOfParams];
+        varBoxes = new Transform[numOfParams];
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        //int childCount = paramVariableBox.transform.childCount;
-        //if (childCount == 3)
-        //{
-        //    //Light up parameter platform
-
-        //    //Open Door
-        //    if(doors != null)
-        //    {
-        //        doors.GetComponent<Doors>().ControlDoor();
-        //    }
-        //    print("Doors null");
-
-        //    //Move Player into Method
-        //}
-
     }
 
     public void ControlPlatform()
     {
-
         
+        print("Control Platform -> Animate open Door and Move PLAYER");
+
+        //Visual effect
+        GetComponent<Renderer>().material = activeColor;
+
+        //Open Door
+        doors.GetComponent<Door>().ControlDoor();
+
+        //Move Player
+
+
     }
 
-    public void OpenDoors()
+    public void addVariableBox(Transform vb)
     {
+        if(numOfParams == 1)
+        {
+            ControlPlatform();
+        }
+        else
+        {
+            varBoxes[count] = vb;
+            count++;
 
+            if(numOfParams == count)
+            {
+                ControlPlatform();
+            }
+        }
     }
 
 }

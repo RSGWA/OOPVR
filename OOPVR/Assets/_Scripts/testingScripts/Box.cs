@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VariableBoxController : MonoBehaviour
-{
+public class Box : MonoBehaviour {
 
     private GameObject Hand;
     private GameObject[] variableBoxes;
@@ -112,12 +111,10 @@ public class VariableBoxController : MonoBehaviour
             }
         }
 
-        if(onParameter && paramReady)
+        if (onParameter && paramReady)
         {
             //Control Platform
-            transform.parent.parent.GetComponent<ParameterController>().addVariableBox(transform);
-            onParameter = false;
-            paramReady = false;
+
         }
 
     }
@@ -128,7 +125,7 @@ public class VariableBoxController : MonoBehaviour
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
 
         string parent = "";
-        if (transform.parent != null)
+        if (transform.parent.tag != null)
         {
             parent = transform.parent.tag;
             print(parent + "  this is the PARENT");
@@ -138,11 +135,11 @@ public class VariableBoxController : MonoBehaviour
             {
                 onParameter = true;
             }
-            
+
             //Check for other variableboxes in different methods
-            
+
         }
-        
+
         //Check whether the VariableBox is on a Parameter
         //if(transform.parent.tag == "Parameter")
         //{
@@ -152,7 +149,7 @@ public class VariableBoxController : MonoBehaviour
         if (objInHand == null)
         {
             //Check whether the variabeBox contains a value, only then it could be picked up
-            if(transform.childCount == 3)
+            if (transform.childCount == 3)
             {
                 transform.parent = Hand.transform;
                 setUpBoxToHandAnimation();
@@ -164,7 +161,7 @@ public class VariableBoxController : MonoBehaviour
                 //A visual effect to denote variableBox does not contain a value
                 print("variableBox Does not contain a variable, CANNOT PICK UP");
             }
-            
+
         }
         else
         {
@@ -197,11 +194,12 @@ public class VariableBoxController : MonoBehaviour
                 }
 
                 //Player holding a VariableBox
-            }else if (objInHand.tag == "VariableBox")
+            }
+            else if (objInHand.tag == "VariableBox")
             {
                 string handVarBoxType = objInHand.transform.GetChild(0).tag;
-                
-                if(varBoxType == handVarBoxType)
+
+                if (varBoxType == handVarBoxType)
                 {
                     //check whether the variableBox we gazing at contain a value
                     if (transform.childCount == 3)
