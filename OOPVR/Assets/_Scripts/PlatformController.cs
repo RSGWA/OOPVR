@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlatformController : MonoBehaviour
 {
-
     private Animator _anim;
     private GameObject Hand;
     private GameObject objInHand;
@@ -45,20 +44,6 @@ public class PlatformController : MonoBehaviour
             _anim.SetTrigger("Deactivate");
             active = false;
         }
-
-        //if (dir == PlayerDirection.InsideMethod)
-        //{
-        //    
-            
-        //    //disable platform colliders.
-            
-        //    //
-
-
-        //}else if(dir == PlayerDirection.OutsideMethod)
-        //{
-        //    //
-        //}
 
     }
 

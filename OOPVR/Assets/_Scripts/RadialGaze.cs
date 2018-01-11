@@ -11,14 +11,14 @@ public class RadialGaze : MonoBehaviour
     private static string variableType = "";
     private Transform platformPos;
 
-	private GameObject player;
+    private GameObject player;
 
     // Use this for initialization
     void Start()
-	{
+    {
         RadialProgress.GetComponent<Image>().fillAmount = 0;
-		player = GameObject.FindGameObjectWithTag ("Player");
-		this.enabled = false;
+        player = GameObject.FindGameObjectWithTag("Player");
+        this.enabled = false;
     }
 
     // Update is called once per frame
@@ -45,26 +45,36 @@ public class RadialGaze : MonoBehaviour
     {
         GameObject obj = GvrPointerInputModule.CurrentRaycastResult.gameObject;
         platformPos = obj.transform;
+
+        print(obj.tag + "This is the object tag!!!!");
         switch (obj.tag)
         {
-		case "Variable":
-			variableType = obj.transform.GetChild(0).tag;
-			// Pick up variable
-			obj.GetComponent<VariableController>().ToHands();
-			break;
-		case "Box":
-			// Place in box
-			obj.GetComponent<BoxController>().boxAction();
-			break;
-		case "Platform":
-			obj.GetComponent<PlatformController> ().ToPlatform (platformPos);
-			obj.GetComponent<PlatformController> ().ControlPlatform (obj, variableType);
-			break;
-		case "Move":
-			player.GetComponent<PlayerController> ().moveTo (obj);
-			break;
-		default:
-			break;
+            case "Variable":
+                variableType = obj.transform.GetChild(0).tag;
+                // Pick up variable
+                obj.GetComponent<VariableController>().ToHands();
+                break;
+            case "Value":
+                // Pick up Value
+                obj.GetComponent<ValueController>().ToHands();
+                break;
+            case "Box":
+                // Place in box
+                obj.GetComponent<BoxController>().boxAction();
+                break;
+            case "VariableBox":
+                // Place in box
+                obj.GetComponent<VariableBoxController>().boxAction();
+                break;
+            case "Platform":
+                obj.GetComponent<PlatformController>().ToPlatform(platformPos);
+                obj.GetComponent<PlatformController>().ControlPlatform(obj, variableType);
+                break;
+            case "Move":
+                player.GetComponent<PlayerController>().moveTo(obj);
+                break;
+            default:
+                break;
         }
     }
 }
