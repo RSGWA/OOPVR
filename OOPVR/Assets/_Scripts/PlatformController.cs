@@ -79,7 +79,7 @@ public class PlatformController : MonoBehaviour
 
                 //***FIRE DOOR ANIMATION HERE****
                 GameObject doors = parentPlatform.transform.parent.Find("Door").gameObject;
-                doors.GetComponent<Doors>().ControlDoor();
+                doors.GetComponent<Door>().ControlDoor();
 
                 //Move player into the room
                 GameObject roomObject = parentPlatform.transform.parent.gameObject;

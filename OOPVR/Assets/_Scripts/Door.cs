@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Doors : MonoBehaviour {
+public class Door : MonoBehaviour {
 
 	Animator animator;
 	bool doorOpen;
@@ -20,10 +20,14 @@ public class Doors : MonoBehaviour {
 
 	public void openDoor() {
 		DoorControl ("Open");
+		GetComponent<BoxCollider> ().enabled = false;
+		doorOpen = true;
 	}
 
 	public void closeDoor() {
 		DoorControl ("Close");
+		GetComponent<BoxCollider> ().enabled = true;
+		doorOpen = false;
 	}
 
 	public void ControlDoor() {
@@ -36,17 +40,12 @@ public class Doors : MonoBehaviour {
 		}
 	}
 
-	public void enableDoors() {
+	public void enableDoor() {
 		GetComponent<BoxCollider> ().enabled = true;
 	}
 
-	public void disableDoors() {
+	public void disableDoor() {
 		GetComponent<BoxCollider> ().enabled = false;
-	}
-
-	public void closeDoors() {
-		DoorControl ("Close");
-		doorOpen = false;
 	}
 
 }
