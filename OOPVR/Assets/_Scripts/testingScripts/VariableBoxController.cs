@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VariableBoxController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class VariableBoxController : MonoBehaviour
     private GameObject[] variableBoxes;
     private GameObject objInHand;
     private GameObject parameter;
+    private GameObject MessageCanvas;
 
     private AnimationCurve xCurve;
     private AnimationCurve yCurve;
@@ -31,11 +33,15 @@ public class VariableBoxController : MonoBehaviour
     bool onParameter = false;
     bool paramReady = false;
 
+    private Text Status;
     // Use this for initialization
     void Start()
     {
         Hand = GameObject.FindGameObjectWithTag("Hand");
         variableBoxes = GameObject.FindGameObjectsWithTag("VariableBox");
+        MessageCanvas = GameObject.Find("MessageCanvas");
+        Status = MessageCanvas.transform.Find("MessageText").GetComponent<Text>();
+
         //enableBoxes (false);
     }
 
@@ -142,17 +148,11 @@ public class VariableBoxController : MonoBehaviour
             //Check for other variableboxes in different methods
             
         }
-        
-        //Check whether the VariableBox is on a Parameter
-        //if(transform.parent.tag == "Parameter")
-        //{
-        //    onParameter = true;
-        //}
 
         if (objInHand == null)
         {
             //Check whether the variabeBox contains a value, only then it could be picked up
-            if(transform.childCount == 3)
+            if(transform.childCount == 3) //&& !onParameter)
             {
                 transform.parent = Hand.transform;
                 setUpBoxToHandAnimation();
@@ -162,7 +162,9 @@ public class VariableBoxController : MonoBehaviour
             else
             {
                 //A visual effect to denote variableBox does not contain a value
-                print("variableBox Does not contain a variable, CANNOT PICK UP");
+                print("CANNOT PICK UP: variableBox Does not contain a variable, ");
+                //MessageCanvas.GetComponent<HintStatus>().SetMessage("CANNOT PICK UP: VariableBox does not contain a Value");
+                Status.text = "CANNOT PICK UP: VariableBox does not contain a Value";
             }
             
         }
@@ -174,7 +176,7 @@ public class VariableBoxController : MonoBehaviour
             if (objInHand.tag == "Value")
             {
                 string valueType = objInHand.transform.GetChild(0).tag;
-                print("Value type  " + valueType + "  VarboxType == " + varBoxType);
+               // print("Value type  " + valueType + "  VarboxType == " + varBoxType);
                 if (valueType == varBoxType)
                 {
                     //Placing value into VariableBox
@@ -193,7 +195,8 @@ public class VariableBoxController : MonoBehaviour
                 {
                     //A visual effect to denote that the value's type inHand does not match variableBox Type
                     print("Value type and variableBox Mismatch");
-
+                    //MessageCanvas.GetComponent<HintStatus>().SetMessage("Value and VariableBox TYPES Mismatch");
+                    Status.text = "Value and VariableBox TYPES Mismatch";
                 }
 
                 //Player holding a VariableBox
@@ -216,7 +219,9 @@ public class VariableBoxController : MonoBehaviour
                 else
                 {
                     //A visual effect to denote variableBox types mismatch
-                    print("VariableBoxes mismatches");
+                    print("VariableBoxes mismatche");
+                    //MessageCanvas.GetComponent<HintStatus>().SetMessage("VariableBoxes Mismatch");
+                    Status.text = "VariableBoxes Mismatch";
                 }
             }
         }

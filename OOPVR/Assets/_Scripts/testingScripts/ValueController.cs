@@ -57,9 +57,18 @@ public class ValueController : MonoBehaviour
         if (objInHand == null)
         {
             transform.parent = Hand.transform;
-            setUpValueToHandAnimation();  
+            setUpValueToHandAnimation();
 
             movingToHand = true;
+
+            // Disable RigidBody if present on component
+            if (GetComponent<Rigidbody>() != null)
+            {
+                Destroy(GetComponent<Rigidbody>());
+            }
+
+            // Disable current variable in hand
+            GetComponent<BoxCollider>().enabled = false;
 
 
         }
@@ -79,53 +88,12 @@ public class ValueController : MonoBehaviour
             }
             else if (objInHand.tag == "VariableBox") //dont really need this here
             {
-                //check VariableBox does not have value
-                //if(variableBox no value)
-                //setUpAnimation Value to VariableBox
-                //else
-                //check if valueType in VariableBox is the same as objInHand valueType
-                //swap the values???
+                print("CANNOT PICK UP: VariableBox in hand");
             }
         }
 
         Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
         inHand = true;
-
-
-        // Checking if there is already a variable in hand - if so, swap them
-        //if (objInHand != null)
-        //{
-        //    objInHand.transform.parent = transform.parent;
-        //    transform.parent = Hand.transform;
-
-        //    objInHand.transform.position = transform.position;
-        //    transform.position = Hand.transform.position;
-        //    enableVars(true);
-        //}
-        //else
-        //{
-        //    transform.parent = Hand.transform;
-        //    setUpVariableToHandAnimation();
-
-        //    movingToHand = true;
-
-        //    // Enable Boxes
-        //    if (GameObject.FindGameObjectWithTag("Box") != null)
-        //    {
-        //        GameObject.FindGameObjectWithTag("Box").GetComponent<BoxController>().enableBoxes(true);
-        //    }
-
-        //    // Disable RigidBody if present on component
-        //    if (GetComponent<Rigidbody>() != null)
-        //    {
-        //        Destroy(GetComponent<Rigidbody>());
-        //    }
-
-        //    // Disable current variable in hand
-        //    GetComponent<BoxCollider>().enabled = false;
-        //}
-
-
 
     }
 
