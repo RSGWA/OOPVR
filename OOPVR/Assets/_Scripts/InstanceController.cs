@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 public class InstanceController : MonoBehaviour {
 	
 	public GameObject player;
-	public Material transparent;
-	public Material tinted;
 
 	private Animator anim;
 
@@ -16,8 +14,7 @@ public class InstanceController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gameObject.SetActive (false);
-		transform.localScale = new Vector3 (0, 0, 0);
+		//gameObject.SetActive (false);
 		anim = GetComponent<Animator> ();
 	}
 	
@@ -84,11 +81,7 @@ public class InstanceController : MonoBehaviour {
 		anim.SetTrigger(direction);
 	}
 
-	public void makeTransparent() {
-		GetComponent<Renderer> ().material = transparent;
-	}
-
-	public void makeTinted() {
-		GetComponent<Renderer> ().material = tinted;
+	public bool hasInstanceBeenCreated() {
+		return instanceLowered;
 	}
 }
