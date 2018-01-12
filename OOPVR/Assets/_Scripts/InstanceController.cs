@@ -12,13 +12,13 @@ public class InstanceController : MonoBehaviour {
 	private Animator anim;
 
 	bool instanceCreated = false;
+	bool instanceLowered = false;
 
 	// Use this for initialization
 	void Start () {
-		//gameObject.SetActive (false);
-		//transform.localScale = new Vector3 (0, 0, 0);
+		gameObject.SetActive (false);
+		transform.localScale = new Vector3 (0, 0, 0);
 		anim = GetComponent<Animator> ();
-		anim.speed = 0.55f;
 	}
 	
 	// Update is called once per frame
@@ -30,13 +30,15 @@ public class InstanceController : MonoBehaviour {
 		this.gameObject.SetActive (true);
 		InstanceControl ("Create");
 		InstanceControl ("Lower");
-		StartCoroutine ("check");
+		StartCoroutine ("checkInstanceCreated");
 		StartCoroutine ("returnBlueprint");
+		StartCoroutine ("checkInstanceLowered");
+		StartCoroutine ("updateObjective");
 	}
 
 	// Checks if instance has finished being created so blueprint can be returned
 	// to its original position
-	IEnumerator check() {
+	IEnumerator checkInstanceCreated() {
 		instanceCreated = false;
 
 		while (!instanceCreated) {
@@ -44,7 +46,19 @@ public class InstanceController : MonoBehaviour {
 
 			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("InstanceCreated")) {
 				instanceCreated = true;
-			}		
+			}	
+		}
+	}
+
+	IEnumerator checkInstanceLowered() {
+		instanceLowered = false;
+
+		while (!instanceLowered) {
+			yield return null;
+
+			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("InstanceCreatedIdle")) {
+				instanceLowered = true;
+			}	
 		}
 	}
 
@@ -54,6 +68,15 @@ public class InstanceController : MonoBehaviour {
 		}
 
 		GameObject.FindGameObjectWithTag ("Blueprint").GetComponent<BlueprintController> ().returnToOrigin ();
+
+	}
+
+	IEnumerator updateObjective() {
+		while (!instanceLowered) {
+			yield return new WaitForSeconds (0.1f);
+		}
+
+		// Update objectives if necessary
 
 	}
 
