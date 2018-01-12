@@ -59,8 +59,9 @@ public class PlayerController : MonoBehaviour {
 		}
 		// Move player to destination point
 		//PlayerControl("InstanceCreated");
-		Transform dest = room.transform.Find ("PlayerDest");
+		Transform dest = room.transform.Find("PlayerDest");
 		transform.position = new Vector3 (dest.position.x, transform.position.y, dest.position.z);
+		transform.rotation = dest.rotation;
 	}
 
 	void PlayerControl(string direction) {

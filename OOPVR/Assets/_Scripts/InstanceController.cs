@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InstanceController : MonoBehaviour {
 	
@@ -10,11 +11,12 @@ public class InstanceController : MonoBehaviour {
 
 	private Animator anim;
 
+	bool instanceCreated = false;
+
 	// Use this for initialization
 	void Start () {
-		// CreateCubeWithDoor ();
-		//this.gameObject.SetActive(false);
-		//makeTransparent ();
+		//gameObject.SetActive (false);
+		//transform.localScale = new Vector3 (0, 0, 0);
 		anim = GetComponent<Animator> ();
 		anim.speed = 0.55f;
 	}
@@ -25,8 +27,34 @@ public class InstanceController : MonoBehaviour {
 	}
 
 	public void createInstance() {
-		this.gameObject.SetActive(true);
+		this.gameObject.SetActive (true);
 		InstanceControl ("Create");
+		InstanceControl ("Lower");
+		StartCoroutine ("check");
+		StartCoroutine ("returnBlueprint");
+	}
+
+	// Checks if instance has finished being created so blueprint can be returned
+	// to its original position
+	IEnumerator check() {
+		instanceCreated = false;
+
+		while (!instanceCreated) {
+			yield return null;
+
+			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("InstanceCreated")) {
+				instanceCreated = true;
+			}		
+		}
+	}
+
+	IEnumerator returnBlueprint() {
+		while (!instanceCreated) {
+			yield return new WaitForSeconds (0.1f);
+		}
+
+		GameObject.FindGameObjectWithTag ("Blueprint").GetComponent<BlueprintController> ().returnToOrigin ();
+
 	}
 
 	void InstanceControl(string direction) {
@@ -39,28 +67,5 @@ public class InstanceController : MonoBehaviour {
 
 	public void makeTinted() {
 		GetComponent<Renderer> ().material = tinted;
-	}
-
-	void reverseNormals() {
-		MeshFilter filter = GetComponent(typeof (MeshFilter)) as MeshFilter;
-		if (filter != null) {
-			Mesh mesh = filter.mesh;
-
-			Vector3[] normals = mesh.normals;
-			for (int i=0;i<normals.Length;i++)
-				normals[i] = -normals[i];
-			mesh.normals = normals;
-
-			for (int m=0;m<mesh.subMeshCount;m++) {
-				int[] triangles = mesh.GetTriangles(m);
-				for (int i=0;i<triangles.Length;i+=3) {
-					int temp = triangles[i + 0];
-					triangles[i + 0] = triangles[i + 1];
-					triangles[i + 1] = temp;
-				}
-				mesh.SetTriangles(triangles, m);
-			}
-		}
-		Debug.Log ("NORMALS REVERSED");
 	}
 }
