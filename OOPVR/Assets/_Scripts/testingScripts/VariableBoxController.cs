@@ -40,7 +40,7 @@ public class VariableBoxController : MonoBehaviour
         Hand = GameObject.FindGameObjectWithTag("Hand");
         variableBoxes = GameObject.FindGameObjectsWithTag("VariableBox");
         MessageCanvas = GameObject.Find("MessageCanvas");
-        Status = MessageCanvas.transform.Find("MessageText").GetComponent<Text>();
+        //Status = MessageCanvas.transform.Find("MessageText").GetComponent<Text>();
 
         //enableBoxes (false);
     }
@@ -162,9 +162,17 @@ public class VariableBoxController : MonoBehaviour
             else
             {
                 //A visual effect to denote variableBox does not contain a value
-                print("CANNOT PICK UP: variableBox Does not contain a variable, ");
-                //MessageCanvas.GetComponent<HintStatus>().SetMessage("CANNOT PICK UP: VariableBox does not contain a Value");
-                Status.text = "CANNOT PICK UP: VariableBox does not contain a Value";
+                if (onParameter)
+                {
+                    print("CANNOT PICK UP: VariableBox is a parameter.");
+                    MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP:  VariableBox is a parameter.");
+                }
+                else
+                {
+                    print("CANNOT PICK UP: VariableBox has not been assigned a Value");
+                    MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: VariableBox has not been assigned a Value");
+                }
+               
             }
             
         }
@@ -194,9 +202,9 @@ public class VariableBoxController : MonoBehaviour
                 else
                 {
                     //A visual effect to denote that the value's type inHand does not match variableBox Type
-                    print("Value type and variableBox Mismatch");
-                    //MessageCanvas.GetComponent<HintStatus>().SetMessage("Value and VariableBox TYPES Mismatch");
-                    Status.text = "Value and VariableBox TYPES Mismatch";
+                    print("Value and VariableBox TYPES Mismatch");
+                    MessageCanvas.GetComponent<Status>().SetMessage("Value and VariableBox TYPES Mismatch");
+                    
                 }
 
                 //Player holding a VariableBox
@@ -219,9 +227,9 @@ public class VariableBoxController : MonoBehaviour
                 else
                 {
                     //A visual effect to denote variableBox types mismatch
-                    print("VariableBoxes mismatche");
-                    //MessageCanvas.GetComponent<HintStatus>().SetMessage("VariableBoxes Mismatch");
-                    Status.text = "VariableBoxes Mismatch";
+                    print("VariableBoxes mismatch");
+                    MessageCanvas.GetComponent<Status>().SetMessage("VariableBoxes Mismatch");
+                   
                 }
             }
         }

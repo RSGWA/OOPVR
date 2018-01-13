@@ -62,7 +62,7 @@ public class ParameterController : MonoBehaviour
         GameObject roomObject = transform.parent.gameObject;
         GetComponent<Renderer>().material = normalColor;
         Player.GetComponent<PlayerController>().moveIntoRoom(roomObject);
-        GetComponent<Light>().enabled = false;
+        //GetComponent<Light>().enabled = false;
     }
 
     public void addVariableBox(Transform vb)
