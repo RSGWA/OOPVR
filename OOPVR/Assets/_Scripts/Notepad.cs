@@ -12,11 +12,12 @@ public class Notepad : MonoBehaviour {
 	void Start() {
 		objective = GameObject.FindGameObjectWithTag ("Objective");
 
-		objectives = new string[4];
-		objectives[0] = "Create instance";
-		objectives[1] = "Enter default constructor";
-		objectives[2] = "Set name and age";
-		objectives[3] = "Return";
+		objectives = new string[5];
+		objectives [0] = "Create instance";
+		objectives [1] = "Enter default constructor";
+		objectives [2] = "Set name and age";
+		objectives [3] = "Return";
+		objectives [4] = "Activity Completed";
 
 		setObjective (objectives [currentObjective]);
 	}
@@ -27,8 +28,8 @@ public class Notepad : MonoBehaviour {
 
 	public void updateObjective() {
 		currentObjective++;
-		if (currentObjective > 3) {
-			Debug.Log ("Activity Finished");
+		if (currentObjective > 4) {
+			//Debug.Log ("Activity Finished");
 		} else {
 			setObjective (objectives [currentObjective]);
 		}

@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
 	Animator playerAnim;
 	private bool doorOpen;
 	private GameObject currentRoom;
+	private bool inRoom = false;
+	private bool returned = false;
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +25,8 @@ public class PlayerController : MonoBehaviour {
 
 		currentRoom.transform.GetChild (0).GetComponent<Door> ().closeDoor ();
 		currentRoom.transform.GetChild (1).GetComponent<Door> ().closeDoor ();
+
+		returned = true;
 	}
 
 	public void moveTo(GameObject dest)
@@ -62,9 +66,19 @@ public class PlayerController : MonoBehaviour {
 		Transform dest = room.transform.Find("PlayerDest");
 		transform.position = new Vector3 (dest.position.x, transform.position.y, dest.position.z);
 		transform.rotation = dest.rotation;
+
+		inRoom = true;
 	}
 
 	void PlayerControl(string direction) {
 		playerAnim.SetTrigger(direction);
+	}
+
+	public bool isInRoom() {
+		return inRoom;
+	}
+
+	public bool hasReturned() {
+		return returned;
 	}
 }

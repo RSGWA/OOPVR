@@ -18,7 +18,6 @@ public class BoxController : MonoBehaviour {
 	private AnimationCurve zRotCurve;
 
 	private static float ANIM_LENGTH = 1.1f;
-	private static float ANIM_DELAY = 0.5f;
 
 	float currentTime = 0;
 
@@ -26,6 +25,8 @@ public class BoxController : MonoBehaviour {
 	bool movingBoxToHand = false;
 	bool movingBoxToBox = false;
 	bool tipBox = false;
+
+	bool variableInBox = false;
 
 	// Use this for initialization
 	void Start () {
@@ -51,6 +52,8 @@ public class BoxController : MonoBehaviour {
 
 				objInHand.GetComponent<BoxCollider> ().enabled = true;
 				objInHand.AddComponent<Rigidbody> ();
+
+				variableInBox = true;
 			}
 		} else if (movingBoxToHand) {
 			transform.localPosition = new Vector3 (
@@ -259,4 +262,7 @@ public class BoxController : MonoBehaviour {
 		}
 	}
 
+	public bool isVarInBox() {
+		return variableInBox;
+	}
 }
