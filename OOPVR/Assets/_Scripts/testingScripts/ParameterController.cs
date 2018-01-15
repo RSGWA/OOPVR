@@ -35,12 +35,7 @@ public class ParameterController : MonoBehaviour
 
     public void ControlPlatform()
     {
-        
-        print("Control Platform -> Animate open Door and Move PLAYER");
-
         StartCoroutine(Control());
-        
-
     }
 
     private IEnumerator Control()

@@ -117,7 +117,6 @@ public class VariableBoxController : MonoBehaviour
             }
 
         }
-
         if (destroyValue)
         {
             transform.GetChild(2).transform.Translate(Vector3.up * 0.5f * (Time.deltaTime));
@@ -129,7 +128,6 @@ public class VariableBoxController : MonoBehaviour
             }
 
         }
-
         if (onParameter && paramReady)
         {
             //Control Platform
@@ -187,12 +185,12 @@ public class VariableBoxController : MonoBehaviour
                 if (onParameter)
                 {
                     print("CANNOT PICK UP: VariableBox is a parameter.");
-                    MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP:  VariableBox is a parameter.");
+                    MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: This is a Parameter");
                 }
                 else
                 {
                     print("CANNOT PICK UP: VariableBox has not been assigned a Value");
-                    MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: VariableBox has not been assigned a Value");
+                    MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: Uninitialised variable.");
                 }
 
             }
@@ -235,7 +233,7 @@ public class VariableBoxController : MonoBehaviour
                 {
                     //A visual effect to denote that the value's type inHand does not match variableBox Type
                     print("Value and VariableBox TYPES Mismatch");
-                    MessageCanvas.GetComponent<Status>().SetMessage("Value and VariableBox TYPES Mismatch");
+                    MessageCanvas.GetComponent<Status>().SetMessage("TYPE MISMATCH: Cannot assign a Value of type "+ valueType + " to variable of type " + varBoxType);
 
                 }
 
@@ -274,7 +272,7 @@ public class VariableBoxController : MonoBehaviour
                 {
                     //A visual effect to denote variableBox types mismatch
                     print("VariableBoxes mismatch");
-                    MessageCanvas.GetComponent<Status>().SetMessage("VariableBoxes Mismatch");
+                    MessageCanvas.GetComponent<Status>().SetMessage("TYPE MISMATCH: Variable Types mismatch");
 
                 }
             }

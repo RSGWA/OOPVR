@@ -7,6 +7,7 @@ public class ValueController : MonoBehaviour
 
     private GameObject Hand;
     private GameObject[] vars;
+    private GameObject MessageCanvas;
 
     private AnimationCurve xCurve;
     private AnimationCurve yCurve;
@@ -27,6 +28,7 @@ public class ValueController : MonoBehaviour
         movingToHand = false;
         currentTime = 0;
         transform.Rotate(Vector3.right * Time.deltaTime);
+        MessageCanvas = GameObject.Find("MessageCanvas");
     }
 
     void Update()
@@ -70,7 +72,6 @@ public class ValueController : MonoBehaviour
             // Disable current variable in hand
             GetComponent<BoxCollider>().enabled = false;
 
-
         }
         else
         {
@@ -89,6 +90,7 @@ public class ValueController : MonoBehaviour
             else if (objInHand.tag == "VariableBox") //dont really need this here
             {
                 print("CANNOT PICK UP: VariableBox in hand");
+                MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP:  Uninitialised variable");
             }
         }
 
