@@ -11,6 +11,8 @@ public class VariableBoxController : MonoBehaviour
     private GameObject objInHand;
     private GameObject parameter;
     private GameObject MessageCanvas;
+    private GameObject variableBoxValue;
+    private GameObject newVarBoxValue;
 
     private Transform ghostObject;
     private static Transform originalObject;
@@ -33,7 +35,7 @@ public class VariableBoxController : MonoBehaviour
     bool movingBoxToHand = false;
     bool movingBoxToBox = false;
     bool tipBox = false;
-    bool returnBox = false;
+    bool destroyValue = false;
     bool onParameter = false;
     bool paramReady = false;
 
@@ -83,60 +85,52 @@ public class VariableBoxController : MonoBehaviour
         }
         else if (movingBoxToBox)
         {
-            objInHand.transform.rotation = transform.rotation;
-            objInHand.transform.localPosition = new Vector3(
-                xCurve.Evaluate(Time.time - currentTime),
-                yCurve.Evaluate(Time.time - currentTime),
-                zCurve.Evaluate(Time.time - currentTime));
-
-            if (Time.time - currentTime > ANIM_LENGTH)
+            if (objInHand != null)
             {
-                Debug.Log("Animation Completed");
-                movingBoxToBox = false;
 
-                setUpBoxReturnAnimation();
-                returnBox = true;
+                objInHand.transform.rotation = transform.rotation;
+                objInHand.transform.localPosition = new Vector3(
+                    xCurve.Evaluate(Time.time - currentTime),
+                    yCurve.Evaluate(Time.time - currentTime),
+                    zCurve.Evaluate(Time.time - currentTime));
 
-                // Rotates box upright
-                //objInHand.transform.rotation = transform.rotation;
-                // Tip box
-                //tipBox = true;
-                /*
-                Vector3 rot = objInHand.transform.rotation.eulerAngles;
-                rot = new Vector3(rot.x + 180, rot.y, rot.z);
-                objInHand.transform.rotation = Quaternion.Euler(rot);
-                */
-            }
-        }
-        if (returnBox)
-        {
-            objInHand.transform.localPosition = new Vector3(
-                xCurve.Evaluate(Time.time - currentTime),
-                yCurve.Evaluate(Time.time - currentTime),
-                zCurve.Evaluate(Time.time - currentTime));
+                tipBox = true;
 
-            if (Time.time - currentTime > ANIM_LENGTH)
-            {
-                returnBox = false;
+
+                if (Time.time - currentTime > ANIM_LENGTH)
+                {
+                    Debug.Log("Animation Completed");
+                    movingBoxToBox = false;
+
+                }
             }
 
         }
         if (tipBox)
         {
-            Vector3 to = new Vector3(20, 20, 20);
-            if (Vector3.Distance(objInHand.transform.eulerAngles, to) > 0.01f)
+            objInHand.transform.Rotate(Vector3.right * 100 * (Time.time - currentTime));
+
+            if (Time.time - currentTime > ANIM_LENGTH)
             {
-                objInHand.transform.eulerAngles = Vector3.Lerp(objInHand.transform.rotation.eulerAngles, to, Time.deltaTime);
-                
-            }
-            else
-            {
-                objInHand.transform.eulerAngles = to;
+                newVarBoxValue.SetActive(true);
                 tipBox = false;
             }
+
         }
 
-        if(onParameter && paramReady)
+        if (destroyValue)
+        {
+            transform.GetChild(2).transform.Translate(Vector3.up * 0.5f * (Time.deltaTime));
+
+            if (Time.time - currentTime > ANIM_LENGTH)
+            {
+                Destroy(transform.GetChild(2).gameObject);
+                destroyValue = false;
+            }
+
+        }
+
+        if (onParameter && paramReady)
         {
             //Control Platform
             transform.parent.parent.GetComponent<ParameterController>().addVariableBox(transform);
@@ -162,15 +156,15 @@ public class VariableBoxController : MonoBehaviour
             {
                 onParameter = true;
             }
-            
+
             //Check for other variableboxes in different methods
-            
+
         }
 
         if (objInHand == null)
         {
             //Check whether the variabeBox contains a value, only then it could be picked up
-            if(transform.childCount == 3) //&& !onParameter)
+            if (transform.childCount == 3) //&& !onParameter)
             {
                 originalObject = transform;
 
@@ -180,7 +174,7 @@ public class VariableBoxController : MonoBehaviour
                 rend.material = Resources.Load("HologramMaterial") as Material;
 
                 //set parent of Ghost VariableBox to be Hand
-                ghostObject.parent = Hand.transform;                
+                ghostObject.parent = Hand.transform;
                 Hand.GetComponent<HandController>().setObjInHand(ghostObject.gameObject);
 
                 //Animate
@@ -200,9 +194,9 @@ public class VariableBoxController : MonoBehaviour
                     print("CANNOT PICK UP: VariableBox has not been assigned a Value");
                     MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: VariableBox has not been assigned a Value");
                 }
-               
+
             }
-            
+
         }
         else
         {
@@ -212,16 +206,27 @@ public class VariableBoxController : MonoBehaviour
             if (objInHand.tag == "Value")
             {
                 string valueType = objInHand.transform.GetChild(0).tag;
-               // print("Value type  " + valueType + "  VarboxType == " + varBoxType);
+                // print("Value type  " + valueType + "  VarboxType == " + varBoxType);
                 if (valueType == varBoxType)
                 {
+                    // A variableBox already contains a value
+                    if (transform.childCount == 3)
+                    {
+                        Transform value = transform.GetChild(2);
+                        if (value.GetComponent<Rigidbody>() != null)
+                        {
+                            Destroy(value.GetComponent<Rigidbody>());
+                        }
+                        destroyValue = true;
+
+                    }
+
                     objInHand.transform.parent = transform;
                     Hand.GetComponent<HandController>().setObjInHand(null);
 
                     //Placing value into VariableBox
                     setUpVarToBoxAnimation();
                     movingVarToBox = true;
-                    //rotateVarAnimation();
 
                     paramReady = true;
 
@@ -231,48 +236,38 @@ public class VariableBoxController : MonoBehaviour
                     //A visual effect to denote that the value's type inHand does not match variableBox Type
                     print("Value and VariableBox TYPES Mismatch");
                     MessageCanvas.GetComponent<Status>().SetMessage("Value and VariableBox TYPES Mismatch");
-                    
+
                 }
 
                 //Player holding a VariableBox
-            }else if (objInHand.tag == "VariableBox")
+            }
+            else if (objInHand.tag == "VariableBox")
             {
                 string handVarBoxType = objInHand.transform.GetChild(0).tag;
-                
-                if(varBoxType == handVarBoxType)
+
+                if (varBoxType == handVarBoxType)
                 {
-                    //check whether the variableBox we gazing at contain a value
+                    //if  variable has a value assigned, update the value
                     if (transform.childCount == 3)
                     {
                         GameObject oldValue = transform.GetChild(2).gameObject;
                         Destroy(oldValue);
                     }
 
-                    GameObject hand = objInHand.transform.parent.gameObject;
-                    GameObject variableBoxValue = objInHand.transform.GetChild(2).gameObject;
+                    variableBoxValue = objInHand.transform.GetChild(2).gameObject;
 
-                   
-                    
-
-
-                    //Below block is a work in progress
-                    //**************************************************
+                    //tip value of variable in hand to variable gazing at
                     objInHand.transform.parent = transform;
-
                     setUpBoxToBoxAnimation();
                     movingBoxToBox = true;
 
-                    objInHand.transform.parent = hand.transform;
-                    //setUpBoxReturnAnimation();
-                    //returnBox = true;
-
-                    Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
                     Hand.GetComponent<HandController>().setObjInHand(null);
-                    Destroy(originalObject.GetChild(2).gameObject,1f); //Destroy the original value where ghost is from
-                    Destroy(objInHand);
-                    
-                    //
-                    //***************************************************
+
+                    //Assign new value to new variable
+                    Destroy(objInHand, ANIM_LENGTH + 1f);
+                    newVarBoxValue = Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
+                    newVarBoxValue.SetActive(false);
+                    Destroy(variableBoxValue);
 
                 }
                 else
@@ -280,7 +275,7 @@ public class VariableBoxController : MonoBehaviour
                     //A visual effect to denote variableBox types mismatch
                     print("VariableBoxes mismatch");
                     MessageCanvas.GetComponent<Status>().SetMessage("VariableBoxes Mismatch");
-                   
+
                 }
             }
         }
@@ -372,57 +367,6 @@ public class VariableBoxController : MonoBehaviour
         zCurve = new AnimationCurve(ks);
         zCurve.postWrapMode = WrapMode.Once;
 
-    }
-
-    void setUpBoxReturnAnimation()
-    {
-        ks = new Keyframe[2];
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.x);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        xCurve = new AnimationCurve(ks);
-        xCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.y);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        yCurve = new AnimationCurve(ks);
-        yCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.z);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        zCurve = new AnimationCurve(ks);
-        zCurve.postWrapMode = WrapMode.Once;
-
-    }
-
-    void rotateVarAnimation()
-    {
-        Keyframe[] keys = new Keyframe[2];
-        /*
-		Vector3 rot = objInHand.transform.rotation.eulerAngles;
-		rot = new Vector3 (rot.x + 180, rot.y, rot.z);
-		objInHand.transform.rotation = Quaternion.Euler (rot);
-		*/
-        keys[0] = new Keyframe(0, objInHand.transform.rotation.x);
-        keys[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        xRotCurve = new AnimationCurve(keys);
-        xRotCurve.postWrapMode = WrapMode.Once;
-
-        keys[0] = new Keyframe(0, objInHand.transform.rotation.y);
-        keys[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        yRotCurve = new AnimationCurve(keys);
-        yRotCurve.postWrapMode = WrapMode.Once;
-
-        keys[0] = new Keyframe(0, objInHand.transform.rotation.z);
-        keys[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        zRotCurve = new AnimationCurve(keys);
-        zRotCurve.postWrapMode = WrapMode.Once;
     }
 
     public void enableBoxes(bool enable)
