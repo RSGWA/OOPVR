@@ -26,7 +26,7 @@ public class DefaultConstructor : MonoBehaviour {
 			instanceCreated = instance.hasInstanceBeenCreated ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.updateObjective ();
+		notepad.updateObjective ("1");
 		StartCoroutine ("checkConstructorEntered");
 	}
 
@@ -35,7 +35,7 @@ public class DefaultConstructor : MonoBehaviour {
 			constructorEntered = player.isInRoom ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.updateObjective ();
+		notepad.updateObjective ("2");
 		StartCoroutine ("checkInstanceVarsSet");
 	}
 
@@ -43,7 +43,7 @@ public class DefaultConstructor : MonoBehaviour {
 		while (!instanceVariablesSet()) {
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.updateObjective ();
+		notepad.updateObjective ("3");
 		StartCoroutine ("checkReturn");
 	}
 
@@ -52,7 +52,7 @@ public class DefaultConstructor : MonoBehaviour {
 			returned = player.hasReturned ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.updateObjective ();
+		// Activity Finished
 	}
 
 	bool instanceVariablesSet() {

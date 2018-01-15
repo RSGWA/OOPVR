@@ -7,32 +7,35 @@ public class Notepad : MonoBehaviour {
 
 	GameObject[] objectives;
 	GameObject tracker;
-	int currentObjective = 0;
 
 	void Start() {
 		objectives = GameObject.FindGameObjectsWithTag ("Objective");
 		tracker = GameObject.FindGameObjectWithTag ("Tracker");
-		setObjective ();
+		setObjective (getObjective ("0"));
 	}
 
 	void Update() {
 		
 	}
 
-	public void updateObjective() {
-		currentObjective++;
-		if (currentObjective > objectives.Length) {
-			// Activity Finished
-		} else {
-			setObjective ();
-		}
+	public void updateObjective(string objNumber) {
+		setObjective (getObjective (objNumber));
 	}
 
-	void setObjective() {
+	void setObjective(GameObject objective) {
 		tracker.transform.localPosition = new Vector3 (
 			tracker.transform.localPosition.x, 
-			objectives [currentObjective].transform.localPosition.y,
+			objective.transform.localPosition.y,
 			tracker.transform.localPosition.z);
+	}
+
+	GameObject getObjective(string number) {
+		foreach (GameObject objective in objectives) {
+			if (objective.name == number) {
+				return objective;
+			}
+		}
+		return null;
 	}
 		
 
