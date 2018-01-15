@@ -52,7 +52,7 @@ public class BoxController : MonoBehaviour {
 
 				objInHand.GetComponent<BoxCollider> ().enabled = true;
 				objInHand.AddComponent<Rigidbody> ();
-
+			
 				variableInBox = true;
 			}
 		} else if (movingBoxToHand) {
@@ -96,8 +96,7 @@ public class BoxController : MonoBehaviour {
 				tipBox = false;
 			}
 		}
-
-
+			
 	}
 
 	public void boxAction()
@@ -113,6 +112,7 @@ public class BoxController : MonoBehaviour {
 			setUpBoxToHandAnimation ();
 			Hand.GetComponent<HandController> ().setObjInHand (this.gameObject);
 			movingBoxToHand = true;
+
 		} else {
 			string variableType = objInHand.transform.GetChild (0).tag;
 			string boxType = transform.GetChild (0).tag;
@@ -123,16 +123,15 @@ public class BoxController : MonoBehaviour {
 
 				if (objInHand.tag == "Variable") {
 					// Variable to box
-					//enableBoxes (false);
 					setUpVarToBoxAnimation ();
-					//rotateVarAnimation ();
 					movingVarToBox = true;
+
 				} else if (objInHand.tag == "Box") {
 					// Box to box
 					setUpBoxToBoxAnimation ();
 					movingBoxToBox = true;
-				}
 
+				}
 			} else {
 				// Display type mismatch message or something
 				enableBoxes (true);

@@ -10,46 +10,49 @@ public class DefaultConstructor : MonoBehaviour {
 
 	bool instanceCreated = false;
 	bool constructorEntered = false;
-	bool instanceVariablesChecked = false;
-	bool checkReturn = false;
+	bool returned = false;
 
 	// Use this for initialization
 	void Start () {
 		instance = GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ();
 		notepad = GameObject.FindGameObjectWithTag ("Notepad").GetComponent<Notepad> ();
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
+
+		StartCoroutine ("checkInstanceCreated");
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (!instanceCreated) {
-			if (instance.hasInstanceBeenCreated ()) {
-				notepad.updateObjective ();
-				instanceCreated = true;
-			}
-		}
 
-		if (!constructorEntered) {
-			if (player.isInRoom()) {
-				notepad.updateObjective ();
-				constructorEntered = true;
-			}
+	IEnumerator checkInstanceCreated() {
+		while (!instanceCreated) {
+			instanceCreated = instance.hasInstanceBeenCreated ();
+			yield return new WaitForSeconds (0.1f);
 		}
+		notepad.updateObjective ();
+		StartCoroutine ("checkConstructorEntered");
+	}
 
-		if (!instanceVariablesChecked) {
-			if (instanceVariablesSet()) {
-				notepad.updateObjective ();
-				instanceVariablesChecked = true;
-			}
+	IEnumerator checkConstructorEntered() {
+		while (!constructorEntered) {
+			constructorEntered = player.isInRoom ();
+			yield return new WaitForSeconds (0.1f);
 		}
+		notepad.updateObjective ();
+		StartCoroutine ("checkInstanceVarsSet");
+	}
 
-		if (!checkReturn) {
-			if (player.hasReturned()) {
-				notepad.updateObjective ();
-				checkReturn = true;
-			}
+	IEnumerator checkInstanceVarsSet() {
+		while (!instanceVariablesSet()) {
+			yield return new WaitForSeconds (0.1f);
 		}
+		notepad.updateObjective ();
+		StartCoroutine ("checkReturn");
+	}
 
+	IEnumerator checkReturn() {
+		while (!returned) {
+			returned = player.hasReturned ();
+			yield return new WaitForSeconds (0.1f);
+		}
+		notepad.updateObjective ();
 	}
 
 	bool instanceVariablesSet() {

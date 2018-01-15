@@ -26,8 +26,6 @@ public class ReturnController : MonoBehaviour {
 		if (varType == returnType) {
 			// Exit room
 			GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().backToOrigin();
-		} else {
-			// Stay
 		}
 
 	}

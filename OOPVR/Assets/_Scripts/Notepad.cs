@@ -36,7 +36,7 @@ public class Notepad : MonoBehaviour {
 	}
 
 	void setObjective(string text) {
-		objective.GetComponent<Text> ().text = text;
+		//objective.GetComponent<Text> ().text = text;
 	}
 
 }
