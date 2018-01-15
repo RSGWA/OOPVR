@@ -5,21 +5,14 @@ using UnityEngine.UI;
 
 public class Notepad : MonoBehaviour {
 
-	GameObject objective;
-	string[] objectives;
+	GameObject[] objectives;
+	GameObject tracker;
 	int currentObjective = 0;
 
 	void Start() {
-		objective = GameObject.FindGameObjectWithTag ("Objective");
-
-		objectives = new string[5];
-		objectives [0] = "Create instance";
-		objectives [1] = "Enter default constructor";
-		objectives [2] = "Set name and age";
-		objectives [3] = "Return";
-		objectives [4] = "Activity Completed";
-
-		setObjective (objectives [currentObjective]);
+		objectives = GameObject.FindGameObjectsWithTag ("Objective");
+		tracker = GameObject.FindGameObjectWithTag ("Tracker");
+		setObjective ();
 	}
 
 	void Update() {
@@ -28,15 +21,19 @@ public class Notepad : MonoBehaviour {
 
 	public void updateObjective() {
 		currentObjective++;
-		if (currentObjective > 4) {
-			//Debug.Log ("Activity Finished");
+		if (currentObjective > objectives.Length) {
+			// Activity Finished
 		} else {
-			setObjective (objectives [currentObjective]);
+			setObjective ();
 		}
 	}
 
-	void setObjective(string text) {
-		//objective.GetComponent<Text> ().text = text;
+	void setObjective() {
+		tracker.transform.localPosition = new Vector3 (
+			tracker.transform.localPosition.x, 
+			objectives [currentObjective].transform.localPosition.y,
+			tracker.transform.localPosition.z);
 	}
+		
 
 }
