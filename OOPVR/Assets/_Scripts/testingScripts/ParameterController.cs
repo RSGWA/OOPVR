@@ -9,6 +9,7 @@ public class ParameterController : MonoBehaviour
     private GameObject doorExt, doorInt;
     private GameObject Player;
     private GameObject[] parameters;
+    private GameObject methodName;
     private Transform[] varBoxes;
     private int numOfParams;
     private Material normalColor;
@@ -19,6 +20,7 @@ public class ParameterController : MonoBehaviour
     void Start()
     {
         Player = GameObject.Find("Player");
+        methodName = transform.parent.Find("MethodName").gameObject;
         doorExt = transform.parent.Find("DoorExt").gameObject;
         doorInt = transform.parent.Find("DoorInt").gameObject;
         numOfParams = transform.childCount;
@@ -43,6 +45,7 @@ public class ParameterController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         //Visual effect
         GetComponent<Renderer>().material = activeColor;
+        methodName.GetComponent<Renderer>().material = activeColor;
         //GetComponent<Light>().enabled = true;
         yield return new WaitForSeconds(.5f);
        
@@ -50,12 +53,12 @@ public class ParameterController : MonoBehaviour
         //Open Door
         doorExt.GetComponent<Door>().openDoor();
         doorInt.GetComponent<Door>().openDoor();
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
 
        
         //Move Player
         GameObject roomObject = transform.parent.gameObject;
-        GetComponent<Renderer>().material = normalColor;
+        //GetComponent<Renderer>().material = normalColor;
         Player.GetComponent<PlayerController>().moveIntoRoom(roomObject);
         //GetComponent<Light>().enabled = false;
     }
