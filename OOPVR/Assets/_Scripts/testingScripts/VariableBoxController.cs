@@ -36,6 +36,7 @@ public class VariableBoxController : MonoBehaviour
     bool paramReady = false;
 
 	bool boxAssigned = false;
+	bool varRemoved = false;
 
     // Use this for initialization
     void Start()
@@ -67,6 +68,7 @@ public class VariableBoxController : MonoBehaviour
                 objInHand.AddComponent<Rigidbody>();
 
 				boxAssigned = true;
+				variableBoxValue = objInHand;
             }
         }
         else if (movingBoxToHand)
@@ -113,13 +115,17 @@ public class VariableBoxController : MonoBehaviour
         }
         if (destroyValue)
         {
-            transform.GetChild(2).transform.Translate(Vector3.up * 0.5f * (Time.deltaTime));
-
-            if (Time.time - currentTime > ANIM_LENGTH)
-            {
-                Destroy(transform.GetChild(2).gameObject);
-                destroyValue = false;
-            }
+			variableBoxValue.transform.position = new Vector3 (
+				variableBoxValue.transform.position.x, 
+				yCurve.Evaluate (Time.time - currentTime), 
+				variableBoxValue.transform.position.z);
+			
+			if (Time.time - currentTime > ANIM_LENGTH) {
+				variableBoxValue.transform.parent = null;
+				Destroy (variableBoxValue);
+				destroyValue = false;
+				varRemoved = true;
+			}
 
         }
         if (onParameter && paramReady)
@@ -132,146 +138,143 @@ public class VariableBoxController : MonoBehaviour
 
     }
 
-    public void boxAction()
-    {
-        currentTime = Time.time;
-        objInHand = Hand.GetComponent<HandController>().getObjInHand();
+	public void boxAction()
+	{
+		currentTime = Time.time;
+		objInHand = Hand.GetComponent<HandController> ().getObjInHand ();
 
-        string parent = "";
-        if (transform.parent != null)
-        {
-            parent = transform.parent.tag;
-            print(parent + "  this is the PARENT");
+		string parent = "";
+		if (transform.parent != null)
+		{
+			parent = transform.parent.tag;
+			print(parent + "  this is the PARENT");
 
-            //VariableBox is OnParameter
-            if (parent == "Parameter")
-            {
-                onParameter = true;
-            }
+			//VariableBox is OnParameter
+			if (parent == "Parameter")
+			{
+				onParameter = true;
+			}
 
-            //Check for other variableboxes in different methods
+			//Check for other variableboxes in different methods
 
-        }
+		}
 
-        if (objInHand == null)
-        {
-            //Check whether the variabeBox contains a value, only then it could be picked up
-            if (boxAssigned) //&& !onParameter)
-            {
-                originalObject = transform;
+		if (objInHand == null) {
+			//Check whether the variabeBox contains a value, only then it could be picked up
+			if (boxAssigned) //&& !onParameter)
+			{
+				originalObject = transform;
 
-                //create Ghost VariablBox
-                ghostObject = Instantiate(transform, transform.position, transform.rotation, transform.parent);
-                Renderer rend = ghostObject.GetComponent<Renderer>();
-                rend.material = Resources.Load("HologramMaterial") as Material;
+				//create Ghost VariablBox
+				ghostObject = Instantiate(transform, transform.position, transform.rotation, transform.parent);
+				Renderer rend = ghostObject.GetComponent<Renderer>();
+				rend.material = Resources.Load("HologramMaterial") as Material;
 
-                //set parent of Ghost VariableBox to be Hand
-                ghostObject.parent = Hand.transform;
-                Hand.GetComponent<HandController>().setObjInHand(ghostObject.gameObject);
+				//set parent of Ghost VariableBox to be Hand
+				ghostObject.parent = Hand.transform;
+				Hand.GetComponent<HandController>().setObjInHand(ghostObject.gameObject);
 
-                //Animate
-                setUpBoxToHandAnimation();
-                movingBoxToHand = true;
-            }
-            else
-            {
-                //A visual effect to denote variableBox does not contain a value
-                if (onParameter)
-                {
-                    print("CANNOT PICK UP: VariableBox is a parameter.");
-                    MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: This is a Parameter");
-                }
-                else
-                {
-                    print("CANNOT PICK UP: VariableBox has not been assigned a Value");
-                    MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: Uninitialised variable.");
-                }
+				//Animate
+				setUpBoxToHandAnimation();
+				movingBoxToHand = true;
+			}
+			else
+			{
+				//A visual effect to denote variableBox does not contain a value
+				if (onParameter)
+				{
+					print("CANNOT PICK UP: VariableBox is a parameter.");
+					MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: This is a Parameter");
+				}
+				else
+				{
+					print("CANNOT PICK UP: VariableBox has not been assigned a Value");
+					MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: Uninitialised variable.");
+				}
 
-            }
+			}
+		} else {
+			if (boxAssigned) { // A variable is already assigned
+				Debug.Log ("Variable already assigned a value");
+				setUpRemovingVarAnimation ();
+				destroyValue = true;
+				StartCoroutine ("removeVariableAndAct");
+			} else {
+				action ();
+			}
+		}
+	}
 
-        }
-        else
-        {
-            string varBoxType = transform.GetChild(0).tag;
+	void action() {
+		string varBoxType = transform.GetChild (0).tag;
 
-            //player holding a Value
-            if (objInHand.tag == "Value")
-            {
-                string valueType = objInHand.transform.GetChild(0).tag;
-                // print("Value type  " + valueType + "  VarboxType == " + varBoxType);
-                if (valueType == varBoxType)
-                {
-                    // A variableBox already contains a value
-                    if (boxAssigned)
-                    {
-                        Transform value = transform.GetChild(2);
-                        if (value.GetComponent<Rigidbody>() != null)
-                        {
-                            Destroy(value.GetComponent<Rigidbody>());
-                        }
-                        destroyValue = true;
+		if (objInHand.tag == "Value") 
+		{
+			string variableType = objInHand.transform.GetChild (0).tag;
 
-                    }
+			if (varBoxType == variableType) 
+			{
+				currentTime = Time.time;
+				objInHand.transform.parent = this.transform;
+			
+				setUpVarToBoxAnimation ();
+				movingVarToBox = true;
+				variableBoxValue = objInHand;
+				Hand.GetComponent<HandController> ().setObjInHand (null); // Object no longer in hand
+			}
+			else 
+			{
+				//A visual effect to denote that the value's type inHand does not match variableBox Type
+				print ("Value and VariableBox TYPES Mismatch");
+				MessageCanvas.GetComponent<Status> ().SetMessage ("TYPE MISMATCH: Cannot assign a Value of type " + variableType + " to variable of type " + varBoxType);
+			}
+		} 
+		else if (objInHand.tag == "VariableBox") 
+		{
+			string variableBoxTypeInHand = objInHand.transform.GetChild(0).tag;
 
-                    objInHand.transform.parent = transform;
-                    Hand.GetComponent<HandController>().setObjInHand(null);
+			if (varBoxType == variableBoxTypeInHand)
+			{
+				//if  variable has a value assigned, update the value
+				if (boxAssigned)
+				{
+					Destroy(variableBoxValue);
+				}
 
-                    //Placing value into VariableBox
-                    setUpVarToBoxAnimation();
-                    movingVarToBox = true;
+				// Set variable value to value of that in the box in hand
+				//variableBoxValue = objInHand.transform.GetChild(2).gameObject;
 
-                    paramReady = true;
+				//tip value of variable in hand to variable gazing at
+				objInHand.transform.parent = transform;
+				setUpBoxToBoxAnimation();
+				movingBoxToBox = true;
 
-                }
-                else
-                {
-                    //A visual effect to denote that the value's type inHand does not match variableBox Type
-                    print("Value and VariableBox TYPES Mismatch");
-                    MessageCanvas.GetComponent<Status>().SetMessage("TYPE MISMATCH: Cannot assign a Value of type "+ valueType + " to variable of type " + varBoxType);
+				Hand.GetComponent<HandController>().setObjInHand(null);
 
-                }
+				//Assign new value to new variable
+				Destroy(objInHand, ANIM_LENGTH + 1f);
+				newVarBoxValue = Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
+				newVarBoxValue.SetActive(false);
+				Destroy(variableBoxValue);
 
-                //Player holding a VariableBox
-            }
-            else if (objInHand.tag == "VariableBox")
-            {
-                string handVarBoxType = objInHand.transform.GetChild(0).tag;
+			}
+			else
+			{
+				//A visual effect to denote variableBox types mismatch
+				print("VariableBoxes mismatch");
+				MessageCanvas.GetComponent<Status>().SetMessage("TYPE MISMATCH: Variable Types mismatch");
 
-                if (varBoxType == handVarBoxType)
-                {
-                    //if  variable has a value assigned, update the value
-					if (boxAssigned)
-                    {
-                        GameObject oldValue = transform.GetChild(2).gameObject;
-                        Destroy(oldValue);
-                    }
+			}
+		}
+	}
 
-                    variableBoxValue = objInHand.transform.GetChild(2).gameObject;
-
-                    //tip value of variable in hand to variable gazing at
-                    objInHand.transform.parent = transform;
-                    setUpBoxToBoxAnimation();
-                    movingBoxToBox = true;
-
-                    Hand.GetComponent<HandController>().setObjInHand(null);
-
-                    //Assign new value to new variable
-                    Destroy(objInHand, ANIM_LENGTH + 1f);
-                    newVarBoxValue = Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
-                    newVarBoxValue.SetActive(false);
-                    Destroy(variableBoxValue);
-
-                }
-                else
-                {
-                    //A visual effect to denote variableBox types mismatch
-                    print("VariableBoxes mismatch");
-                    MessageCanvas.GetComponent<Status>().SetMessage("TYPE MISMATCH: Variable Types mismatch");
-
-                }
-            }
-        }
-    }
+	IEnumerator removeVariableAndAct() {
+		while (!varRemoved) {
+			yield return new WaitForSeconds (0.1f);
+		}
+		action ();
+		varRemoved = false;
+	}
 
     void setUpVarToBoxAnimation()
     {
@@ -361,6 +364,18 @@ public class VariableBoxController : MonoBehaviour
 
     }
 
+	void setUpRemovingVarAnimation() 
+	{
+		ks = new Keyframe[2];
+
+		ks [0] = new Keyframe (0, variableBoxValue.transform.position.y);
+		ks [1] = new Keyframe (ANIM_LENGTH, variableBoxValue.transform.position.y + 1f);
+
+		yCurve = new AnimationCurve (ks);
+		yCurve.postWrapMode = WrapMode.Once;
+
+	}
+
     public void enableBoxes(bool enable)
     {
         foreach (GameObject box in variableBoxes)
@@ -368,5 +383,9 @@ public class VariableBoxController : MonoBehaviour
             box.GetComponent<BoxCollider>().enabled = enable;
         }
     }
+
+	public bool isVarInBox() {
+		return boxAssigned;
+	}
 
 }

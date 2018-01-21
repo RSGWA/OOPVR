@@ -75,24 +75,15 @@ public class ValueController : MonoBehaviour
         }
         else
         {
-            //if theres another value, swap the values
-            if (objInHand.tag == "Value")
-            {
-                //swap the values
-                objInHand.transform.parent = transform.parent;
-                transform.parent = Hand.transform;
+			//swap the values
+			objInHand.transform.parent = transform.parent;
+			transform.parent = Hand.transform;
 
-                objInHand.transform.position = transform.position;
-                transform.position = Hand.transform.position;
-                enableVars(true);
+			objInHand.transform.position = transform.position;
+			transform.position = Hand.transform.position;
+			enableVars(true);
 
-            }
-            else if (objInHand.tag == "VariableBox") //dont really need this here
-            {
-                print("CANNOT PICK UP: VariableBox in hand");
-                MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP:  Uninitialised variable");
-            }
-        }
+		}
 
         Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
         inHand = true;
