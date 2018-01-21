@@ -221,6 +221,8 @@ public class VariableBoxController : MonoBehaviour
 				movingVarToBox = true;
 				variableBoxValue = objInHand;
 				Hand.GetComponent<HandController> ().setObjInHand (null); // Object no longer in hand
+
+				paramReady = true;
 			}
 			else 
 			{
