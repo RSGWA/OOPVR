@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour {
 	public void moveIntoRoom(GameObject room) {
 		currentRoom = room;
 
-		GameObject door = GameObject.FindGameObjectWithTag ("Door");
+        GameObject door = GameObject.FindGameObjectWithTag ("Door");
 		anim = door.GetComponent<Animator> ();
 
 		StartCoroutine ("check");
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour {
 
 	// Checks if door has fully opened before transporting player into room
 	IEnumerator check() {
-		doorOpen = false;
+		doorOpen = currentRoom.transform.GetChild(0).GetComponent<Door>().isDoorOpen();
 
 		while (!doorOpen) {
 			yield return null;

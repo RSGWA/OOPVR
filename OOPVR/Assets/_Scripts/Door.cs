@@ -48,4 +48,9 @@ public class Door : MonoBehaviour {
 		GetComponent<BoxCollider> ().enabled = false;
 	}
 
+    public bool isDoorOpen()
+    {
+        return doorOpen;
+    }
+
 }
