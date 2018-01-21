@@ -10,6 +10,7 @@ public class VariableBoxController : MonoBehaviour
     private GameObject[] variableBoxes;
     private GameObject objInHand;
     private GameObject parameter;
+
     private GameObject MessageCanvas;
     private GameObject variableBoxValue;
     private GameObject newVarBoxValue;
@@ -22,12 +23,7 @@ public class VariableBoxController : MonoBehaviour
     private AnimationCurve zCurve;
     private Keyframe[] ks;
 
-    private AnimationCurve xRotCurve;
-    private AnimationCurve yRotCurve;
-    private AnimationCurve zRotCurve;
-
     private static float ANIM_LENGTH = 1.5f;
-    private static float ANIM_DELAY = 0.5f;
 
     float currentTime = 0;
 
@@ -39,14 +35,14 @@ public class VariableBoxController : MonoBehaviour
     bool onParameter = false;
     bool paramReady = false;
 
+	bool boxAssigned = false;
+
     // Use this for initialization
     void Start()
     {
         Hand = GameObject.FindGameObjectWithTag("Hand");
         variableBoxes = GameObject.FindGameObjectsWithTag("VariableBox");
         MessageCanvas = GameObject.Find("MessageCanvas");
-
-        //enableBoxes (false);
     }
 
     // Update is called once per frame
@@ -69,6 +65,8 @@ public class VariableBoxController : MonoBehaviour
 
                 objInHand.GetComponent<BoxCollider>().enabled = true;
                 objInHand.AddComponent<Rigidbody>();
+
+				boxAssigned = true;
             }
         }
         else if (movingBoxToHand)
@@ -94,14 +92,10 @@ public class VariableBoxController : MonoBehaviour
                     yCurve.Evaluate(Time.time - currentTime),
                     zCurve.Evaluate(Time.time - currentTime));
 
-                tipBox = true;
-
-
                 if (Time.time - currentTime > ANIM_LENGTH)
                 {
-                    Debug.Log("Animation Completed");
                     movingBoxToBox = false;
-
+					tipBox = true;
                 }
             }
 
@@ -162,7 +156,7 @@ public class VariableBoxController : MonoBehaviour
         if (objInHand == null)
         {
             //Check whether the variabeBox contains a value, only then it could be picked up
-            if (transform.childCount == 3) //&& !onParameter)
+            if (boxAssigned) //&& !onParameter)
             {
                 originalObject = transform;
 
@@ -208,7 +202,7 @@ public class VariableBoxController : MonoBehaviour
                 if (valueType == varBoxType)
                 {
                     // A variableBox already contains a value
-                    if (transform.childCount == 3)
+                    if (boxAssigned)
                     {
                         Transform value = transform.GetChild(2);
                         if (value.GetComponent<Rigidbody>() != null)
@@ -246,7 +240,7 @@ public class VariableBoxController : MonoBehaviour
                 if (varBoxType == handVarBoxType)
                 {
                     //if  variable has a value assigned, update the value
-                    if (transform.childCount == 3)
+					if (boxAssigned)
                     {
                         GameObject oldValue = transform.GetChild(2).gameObject;
                         Destroy(oldValue);
