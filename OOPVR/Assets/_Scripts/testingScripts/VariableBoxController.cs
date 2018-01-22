@@ -85,33 +85,34 @@ public class VariableBoxController : MonoBehaviour
         }
         else if (movingBoxToBox)
         {
-            if (objInHand != null)
-            {
-
-                objInHand.transform.rotation = transform.rotation;
-                objInHand.transform.localPosition = new Vector3(
-                    xCurve.Evaluate(Time.time - currentTime),
-                    yCurve.Evaluate(Time.time - currentTime),
-                    zCurve.Evaluate(Time.time - currentTime));
-
-                if (Time.time - currentTime > ANIM_LENGTH)
-                {
-                    movingBoxToBox = false;
-					tipBox = true;
-                }
-            }
-
-        }
+			objInHand.transform.rotation = transform.rotation;
+            objInHand.transform.localPosition = new Vector3(
+				xCurve.Evaluate(Time.time - currentTime),
+				yCurve.Evaluate(Time.time - currentTime),
+				zCurve.Evaluate(Time.time - currentTime));
+				
+			if (Time.time - currentTime > ANIM_LENGTH)
+			{
+				movingBoxToBox = false;
+				tipBox = true;
+			}
+		}
         if (tipBox)
         {
-            objInHand.transform.Rotate(Vector3.right * 100 * (Time.time - currentTime));
+			/*
+			Vector3 to = new Vector3 (0, 180, 0);
+			if (Vector3.Distance (objInHand.transform.eulerAngles, to) > 0.01f) {
+				objInHand.transform.eulerAngles = Vector3.Lerp (objInHand.transform.rotation.eulerAngles, to, Time.deltaTime);
+			} else {
+				objInHand.transform.eulerAngles = to;
+				tipBox = false;
+			}
+			*/
 
-            if (Time.time - currentTime > ANIM_LENGTH)
-            {
-                newVarBoxValue.SetActive(true);
-                tipBox = false;
-            }
-
+			objInHand.transform.Rotate (Vector3.down * 180);
+			newVarBoxValue.SetActive (true);
+			Destroy (objInHand);
+			tipBox = false;
         }
         if (destroyValue)
         {
@@ -147,7 +148,6 @@ public class VariableBoxController : MonoBehaviour
 		if (transform.parent != null)
 		{
 			parent = transform.parent.tag;
-			print(parent + "  this is the PARENT");
 
 			//VariableBox is OnParameter
 			if (parent == "Parameter")
@@ -165,10 +165,12 @@ public class VariableBoxController : MonoBehaviour
 			{
 				originalObject = transform;
 
-				//create Ghost VariablBox
+				//create Ghost VariableBox
 				ghostObject = Instantiate(transform, transform.position, transform.rotation, transform.parent);
 				Renderer rend = ghostObject.GetComponent<Renderer>();
 				rend.material = Resources.Load("HologramMaterial") as Material;
+
+				ghostObject.GetComponent<VariableBoxController> ().setVariableBoxValue (variableBoxValue);
 
 				//set parent of Ghost VariableBox to be Hand
 				ghostObject.parent = Hand.transform;
@@ -253,11 +255,17 @@ public class VariableBoxController : MonoBehaviour
 
 				Hand.GetComponent<HandController>().setObjInHand(null);
 
+				variableBoxValue = objInHand.GetComponent<VariableBoxController> ().getVariableBoxValue ();
+				newVarBoxValue = Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
+				newVarBoxValue.SetActive (false);
+
 				//Assign new value to new variable
+				/*
 				Destroy(objInHand, ANIM_LENGTH + 1f);
 				newVarBoxValue = Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
 				newVarBoxValue.SetActive(false);
 				Destroy(variableBoxValue);
+				*/
 
 			}
 			else
@@ -388,6 +396,14 @@ public class VariableBoxController : MonoBehaviour
 
 	public bool isVarInBox() {
 		return boxAssigned;
+	}
+
+	public GameObject getVariableBoxValue() {
+		return variableBoxValue;
+	}
+
+	public void setVariableBoxValue(GameObject obj) {
+		variableBoxValue = obj;
 	}
 
 }

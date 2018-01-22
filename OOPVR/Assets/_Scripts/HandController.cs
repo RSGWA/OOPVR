@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour {
 
-	private GameObject objInHand;
+	private static GameObject objInHand;
 
 	// Use this for initialization
 	void Start () {
