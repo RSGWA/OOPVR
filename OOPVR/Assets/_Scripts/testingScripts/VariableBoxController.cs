@@ -99,16 +99,6 @@ public class VariableBoxController : MonoBehaviour
 		}
         if (tipBox)
         {
-			/*
-			Vector3 to = new Vector3 (0, 180, 0);
-			if (Vector3.Distance (objInHand.transform.eulerAngles, to) > 0.01f) {
-				objInHand.transform.eulerAngles = Vector3.Lerp (objInHand.transform.rotation.eulerAngles, to, Time.deltaTime);
-			} else {
-				objInHand.transform.eulerAngles = to;
-				tipBox = false;
-			}
-			*/
-
 			objInHand.transform.Rotate (Vector3.down * 180);
 			newVarBoxValue.SetActive (true);
 			Destroy (objInHand);
@@ -123,7 +113,6 @@ public class VariableBoxController : MonoBehaviour
 			
 			if (Time.time - currentTime > ANIM_LENGTH) {
 				variableBoxValue.transform.parent = null;
-				Destroy (variableBoxValue);
 				destroyValue = false;
 				varRemoved = true;
 			}
@@ -169,8 +158,6 @@ public class VariableBoxController : MonoBehaviour
 				ghostObject = Instantiate(transform, transform.position, transform.rotation, transform.parent);
 				Renderer rend = ghostObject.GetComponent<Renderer>();
 				rend.material = Resources.Load("HologramMaterial") as Material;
-
-				ghostObject.GetComponent<VariableBoxController> ().setVariableBoxValue (variableBoxValue);
 
 				//set parent of Ghost VariableBox to be Hand
 				ghostObject.parent = Hand.transform;
@@ -239,12 +226,6 @@ public class VariableBoxController : MonoBehaviour
 
 			if (varBoxType == variableBoxTypeInHand)
 			{
-				//if  variable has a value assigned, update the value
-				if (boxAssigned)
-				{
-					Destroy(variableBoxValue);
-				}
-
 				// Set variable value to value of that in the box in hand
 				//variableBoxValue = objInHand.transform.GetChild(2).gameObject;
 
@@ -255,7 +236,9 @@ public class VariableBoxController : MonoBehaviour
 
 				Hand.GetComponent<HandController>().setObjInHand(null);
 
-				variableBoxValue = objInHand.GetComponent<VariableBoxController> ().getVariableBoxValue ();
+				variableBoxValue = originalObject.GetComponent<VariableBoxController> ().getVariableBoxValue ();
+				boxAssigned = true;
+
 				newVarBoxValue = Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
 				newVarBoxValue.SetActive (false);
 
