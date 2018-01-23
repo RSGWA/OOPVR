@@ -107,7 +107,7 @@ public class VariableBoxController : MonoBehaviour
 
 			objInHand.transform.Rotate (Vector3.down * 180);
 			variableBoxValue.transform.parent = this.transform;
-			Destroy (objInHand, 3f);
+			Destroy (objInHand, 1.8f);
 			tipBox = false;
         }
         if (destroyValue)

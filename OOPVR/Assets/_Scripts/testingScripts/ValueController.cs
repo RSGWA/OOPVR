@@ -29,6 +29,7 @@ public class ValueController : MonoBehaviour
         movingToHand = false;
         currentTime = 0;
         MessageCanvas = GameObject.Find("MessageCanvas");
+		Rect outline = new Rect (0,0,10,10);
     }
 
     void Update()
@@ -74,14 +75,13 @@ public class ValueController : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
 
 			Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
+			inHand = true;
         }
         else
         {
 			// Swap values
 			swap ();
 		}
-
-        inHand = true;
 
     }
 
@@ -94,9 +94,10 @@ public class ValueController : MonoBehaviour
 			objInHand.transform.position = transform.position;
 			transform.position = Hand.transform.position;
 			enableVars (true);
-
+			inHand = true;
 			// TODO: Swap animation 
 		} else if (objInHand.tag == "VariableBox") {
+
 			// Dont swap if variable box in hand
 			// TODO: Show two values cannot be swapped
 		}
