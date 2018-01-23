@@ -9,6 +9,7 @@ public class ValueController : MonoBehaviour
     private GameObject[] vars;
     private GameObject MessageCanvas;
 	private GameObject objInHand;
+	private Transform ghost;
 
     private AnimationCurve xCurve;
     private AnimationCurve yCurve;
@@ -60,6 +61,12 @@ public class ValueController : MonoBehaviour
         //if hand has no object, Pick up the value
         if (objInHand == null)
         {
+
+			// Create Ghost copy to leave behind
+			ghost = Instantiate(transform, transform.position, transform.rotation, transform.parent);
+			Renderer rend = ghost.GetComponent<Renderer>();
+			rend.material = Resources.Load("GhostText") as Material;
+
             transform.parent = Hand.transform;
             setUpValueToHandAnimation();
 
@@ -139,4 +146,8 @@ public class ValueController : MonoBehaviour
             var.GetComponent<BoxCollider>().enabled = enable;
         }
     }
+
+	public Transform getGhost() {
+		return ghost;
+	}
 }

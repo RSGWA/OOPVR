@@ -179,6 +179,7 @@ public class VariableBoxController : MonoBehaviour
 					Destroy (ghostObj.getVariableBoxValue ().GetComponent<Rigidbody> ());
 				}
 
+				// Disable ghost object in hand
 				ghostObj.enableVariableBox (false);
 
 				//Animate
