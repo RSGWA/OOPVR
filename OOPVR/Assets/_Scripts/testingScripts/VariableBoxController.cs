@@ -15,7 +15,9 @@ public class VariableBoxController : MonoBehaviour
     private GameObject variableBoxValue;
     private GameObject newVarBoxValue;
 
-    private Transform ghostObject;
+	// Only one Ghost Object can exist at a time so all boxes must have a
+	// reference to it and the original
+    private static Transform ghostObject;
     private static Transform originalObject;
 
     private AnimationCurve xCurve;
@@ -64,7 +66,7 @@ public class VariableBoxController : MonoBehaviour
                 // Rotates object to stand up in box
                 objInHand.transform.rotation = Quaternion.identity;
 
-                objInHand.GetComponent<BoxCollider>().enabled = true;
+				objInHand.GetComponent<BoxCollider> ().enabled = true;
                 objInHand.AddComponent<Rigidbody>();
 
 				boxAssigned = true;
@@ -99,9 +101,13 @@ public class VariableBoxController : MonoBehaviour
 		}
         if (tipBox)
         {
+			if (variableBoxValue.GetComponent<Rigidbody> () == null) {
+				variableBoxValue.AddComponent<Rigidbody> ();
+			}
+
 			objInHand.transform.Rotate (Vector3.down * 180);
-			newVarBoxValue.SetActive (true);
-			Destroy (objInHand);
+			variableBoxValue.transform.parent = this.transform;
+			Destroy (objInHand, 3f);
 			tipBox = false;
         }
         if (destroyValue)
@@ -113,6 +119,8 @@ public class VariableBoxController : MonoBehaviour
 			
 			if (Time.time - currentTime > ANIM_LENGTH) {
 				variableBoxValue.transform.parent = null;
+				Destroy (variableBoxValue);
+				variableBoxValue = new GameObject ();
 				destroyValue = false;
 				varRemoved = true;
 			}
@@ -163,6 +171,16 @@ public class VariableBoxController : MonoBehaviour
 				ghostObject.parent = Hand.transform;
 				Hand.GetComponent<HandController>().setObjInHand(ghostObject.gameObject);
 
+				VariableBoxController ghostObj = ghostObject.GetComponent<VariableBoxController> ();
+				// Set variable box value in the script so it can be accessed later
+				ghostObj.setVariableBoxValue (ghostObject.GetChild (3).gameObject);
+
+				if (ghostObj.getVariableBoxValue().GetComponent<Rigidbody>() != null) {
+					Destroy (ghostObj.getVariableBoxValue ().GetComponent<Rigidbody> ());
+				}
+
+				ghostObj.enableVariableBox (false);
+
 				//Animate
 				setUpBoxToHandAnimation();
 				movingBoxToHand = true;
@@ -184,7 +202,6 @@ public class VariableBoxController : MonoBehaviour
 			}
 		} else {
 			if (boxAssigned) { // A variable is already assigned
-				Debug.Log ("Variable already assigned a value");
 				setUpRemovingVarAnimation ();
 				destroyValue = true;
 				StartCoroutine ("removeVariableAndAct");
@@ -196,14 +213,13 @@ public class VariableBoxController : MonoBehaviour
 
 	void action() {
 		string varBoxType = transform.GetChild (0).tag;
-
+		currentTime = Time.time;
 		if (objInHand.tag == "Value") 
 		{
 			string variableType = objInHand.transform.GetChild (0).tag;
 
 			if (varBoxType == variableType) 
 			{
-				currentTime = Time.time;
 				objInHand.transform.parent = this.transform;
 			
 				setUpVarToBoxAnimation ();
@@ -226,29 +242,21 @@ public class VariableBoxController : MonoBehaviour
 
 			if (varBoxType == variableBoxTypeInHand)
 			{
-				// Set variable value to value of that in the box in hand
-				//variableBoxValue = objInHand.transform.GetChild(2).gameObject;
 
-				//tip value of variable in hand to variable gazing at
+				// Set up animation
 				objInHand.transform.parent = transform;
 				setUpBoxToBoxAnimation();
 				movingBoxToBox = true;
 
 				Hand.GetComponent<HandController>().setObjInHand(null);
 
-				variableBoxValue = originalObject.GetComponent<VariableBoxController> ().getVariableBoxValue ();
 				boxAssigned = true;
 
-				newVarBoxValue = Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
-				newVarBoxValue.SetActive (false);
+				// Set new variable box value
+				variableBoxValue = ghostObject.GetComponent<VariableBoxController> ().getVariableBoxValue ();
 
-				//Assign new value to new variable
-				/*
-				Destroy(objInHand, ANIM_LENGTH + 1f);
-				newVarBoxValue = Instantiate(variableBoxValue, transform.position, Quaternion.identity, transform);
-				newVarBoxValue.SetActive(false);
-				Destroy(variableBoxValue);
-				*/
+				//ghostObject.GetComponent<VariableBoxController> ().getVariableBoxValue ().transform.parent = transform;
+
 
 			}
 			else
@@ -256,7 +264,6 @@ public class VariableBoxController : MonoBehaviour
 				//A visual effect to denote variableBox types mismatch
 				print("VariableBoxes mismatch");
 				MessageCanvas.GetComponent<Status>().SetMessage("TYPE MISMATCH: Variable Types mismatch");
-
 			}
 		}
 	}
@@ -369,14 +376,6 @@ public class VariableBoxController : MonoBehaviour
 
 	}
 
-    public void enableBoxes(bool enable)
-    {
-        foreach (GameObject box in variableBoxes)
-        {
-            box.GetComponent<BoxCollider>().enabled = enable;
-        }
-    }
-
 	public bool isVarInBox() {
 		return boxAssigned;
 	}
@@ -387,6 +386,14 @@ public class VariableBoxController : MonoBehaviour
 
 	public void setVariableBoxValue(GameObject obj) {
 		variableBoxValue = obj;
+	}
+
+	public void enableVariableBox(bool enable) {
+		BoxCollider[] colliders = GetComponents<BoxCollider> ();
+
+		foreach (BoxCollider collider in colliders) {
+			collider.enabled = enable;
+		}
 	}
 
 }

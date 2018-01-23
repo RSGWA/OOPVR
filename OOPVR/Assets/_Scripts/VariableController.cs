@@ -63,7 +63,7 @@ public class VariableController : MonoBehaviour {
 
 			// Enable Boxes
 			if (GameObject.FindGameObjectWithTag ("Box") != null) {
-				GameObject.FindGameObjectWithTag ("Box").GetComponent<VariableBoxController> ().enableBoxes (true);
+				GameObject.FindGameObjectWithTag ("Box").GetComponent<VariableBoxController> ().enableVariableBox (true);
 			}
 
 			// Disable RigidBody if present on component

@@ -8,6 +8,7 @@ public class ValueController : MonoBehaviour
     private GameObject Hand;
     private GameObject[] vars;
     private GameObject MessageCanvas;
+	private GameObject objInHand;
 
     private AnimationCurve xCurve;
     private AnimationCurve yCurve;
@@ -27,7 +28,6 @@ public class ValueController : MonoBehaviour
         vars = GameObject.FindGameObjectsWithTag("Value");
         movingToHand = false;
         currentTime = 0;
-        transform.Rotate(Vector3.right * Time.deltaTime);
         MessageCanvas = GameObject.Find("MessageCanvas");
     }
 
@@ -44,16 +44,17 @@ public class ValueController : MonoBehaviour
             }
         }
 
-        if (inHand)
-        {
-            transform.rotation = Hand.transform.rotation;
-        }
+		if (inHand) {
+			transform.rotation = Hand.transform.rotation;
+		} else {
+			//transform.Rotate (Vector3.up * 67.5f * Time.deltaTime);
+		}
     }
 
     public void ToHands()
     {
         currentTime = Time.time;
-        GameObject objInHand = Hand.GetComponent<HandController>().getObjInHand();
+        objInHand = Hand.GetComponent<HandController>().getObjInHand();
 
         //if hand has no object, Pick up the value
         if (objInHand == null)
@@ -72,23 +73,34 @@ public class ValueController : MonoBehaviour
             // Disable current variable in hand
             GetComponent<BoxCollider>().enabled = false;
 
+			Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
         }
         else
         {
-			//swap the values
+			// Swap values
+			swap ();
+		}
+
+        inHand = true;
+
+    }
+
+	void swap() {
+		if (objInHand.tag == "Value") {
+			// Swap value in hand with value gazed at
 			objInHand.transform.parent = transform.parent;
 			transform.parent = Hand.transform;
 
 			objInHand.transform.position = transform.position;
 			transform.position = Hand.transform.position;
-			enableVars(true);
+			enableVars (true);
 
+			// TODO: Swap animation 
+		} else if (objInHand.tag == "VariableBox") {
+			// Dont swap if variable box in hand
+			// TODO: Show two values cannot be swapped
 		}
-
-        Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
-        inHand = true;
-
-    }
+	}
 
     void setUpValueToHandAnimation()
     {
