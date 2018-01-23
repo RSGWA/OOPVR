@@ -7,8 +7,6 @@ public class Door : MonoBehaviour {
 	Animator animator;
 	bool doorOpen;
 
-	public int doorOpenIdleHash = Animator.StringToHash("Open Idle");
-
 	void Start() {
 		doorOpen = false;
 		animator = GetComponent<Animator>();
@@ -48,9 +46,14 @@ public class Door : MonoBehaviour {
 		GetComponent<BoxCollider> ().enabled = false;
 	}
 
-    public bool isDoorOpen()
+    public bool isDoorFullyOpen()
     {
-        return doorOpen;
+		return GetComponent<Animator>().GetCurrentAnimatorStateInfo (0).IsName ("DoorOpenIdle");
     }
 
+	public bool isDoorOpen()
+	{
+		return doorOpen;
+	}
+		
 }

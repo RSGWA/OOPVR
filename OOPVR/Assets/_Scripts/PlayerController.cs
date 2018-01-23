@@ -46,12 +46,13 @@ public class PlayerController : MonoBehaviour {
 
 	// Checks if door has fully opened before transporting player into room
 	IEnumerator check() {
-		doorOpen = currentRoom.transform.GetChild(0).GetComponent<Door>().isDoorOpen();
+		doorOpen = false;
+
 
 		while (!doorOpen) {
 			yield return null;
 
-			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("DoorOpenIdle")) {
+			if (currentRoom.transform.GetChild(0).GetComponent<Door>().isDoorFullyOpen()) {
 				doorOpen = true;
 			}		
 		}
@@ -62,8 +63,8 @@ public class PlayerController : MonoBehaviour {
 			yield return new WaitForSeconds (0.1f);
 		}
 		// Move player to destination point
-		//PlayerControl("InstanceCreated");
 		Transform dest = room.transform.Find("PlayerDest");
+		Debug.Log (dest);
 		transform.position = new Vector3 (dest.position.x, transform.position.y, dest.position.z);
 		transform.rotation = dest.rotation;
 
