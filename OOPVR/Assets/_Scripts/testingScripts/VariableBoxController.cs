@@ -20,10 +20,7 @@ public class VariableBoxController : MonoBehaviour
     private static Transform ghostObject;
     private static Transform originalObject;
 
-    private AnimationCurve xCurve;
-    private AnimationCurve yCurve;
-    private AnimationCurve zCurve;
-    private Keyframe[] ks;
+	private AnimationCurve[] curves;
 
     private static float ANIM_LENGTH = 1.5f;
 
@@ -54,11 +51,11 @@ public class VariableBoxController : MonoBehaviour
         if (movingVarToBox)
         {
             objInHand.transform.localPosition = new Vector3(
-                xCurve.Evaluate(Time.time - currentTime),
-                yCurve.Evaluate(Time.time - currentTime),
-                zCurve.Evaluate(Time.time - currentTime));
+				curves[0].Evaluate(Time.time - currentTime),
+				curves[1].Evaluate(Time.time - currentTime),
+				curves[2].Evaluate(Time.time - currentTime));
 
-            if (Time.time - currentTime > ANIM_LENGTH)
+            if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
             {
                 movingVarToBox = false;
                 objInHand.GetComponent<ValueController>().setInHand(false);
@@ -76,11 +73,11 @@ public class VariableBoxController : MonoBehaviour
         else if (movingBoxToHand)
         {
             ghostObject.localPosition = new Vector3(
-                xCurve.Evaluate(Time.time - currentTime),
-                yCurve.Evaluate(Time.time - currentTime),
-                zCurve.Evaluate(Time.time - currentTime));
+				curves[0].Evaluate(Time.time - currentTime),
+				curves[1].Evaluate(Time.time - currentTime),
+				curves[2].Evaluate(Time.time - currentTime));
 
-            if (Time.time - currentTime > ANIM_LENGTH)
+			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
             {
                 movingBoxToHand = false;
             }
@@ -89,11 +86,11 @@ public class VariableBoxController : MonoBehaviour
         {
 			objInHand.transform.rotation = transform.rotation;
             objInHand.transform.localPosition = new Vector3(
-				xCurve.Evaluate(Time.time - currentTime),
-				yCurve.Evaluate(Time.time - currentTime),
-				zCurve.Evaluate(Time.time - currentTime));
+				curves[0].Evaluate(Time.time - currentTime),
+				curves[1].Evaluate(Time.time - currentTime),
+				curves[2].Evaluate(Time.time - currentTime));
 				
-			if (Time.time - currentTime > ANIM_LENGTH)
+			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
 			{
 				movingBoxToBox = false;
 				tipBox = true;
@@ -107,20 +104,16 @@ public class VariableBoxController : MonoBehaviour
 
 			objInHand.transform.Rotate (Vector3.down * 180);
 			variableBoxValue.transform.parent = this.transform;
-			Destroy (objInHand, 1.8f);
+			Destroy (objInHand, 1.5f);
 			tipBox = false;
         }
         if (destroyValue)
         {
-			variableBoxValue.transform.position = new Vector3 (
-				variableBoxValue.transform.position.x, 
-				yCurve.Evaluate (Time.time - currentTime), 
-				variableBoxValue.transform.position.z);
-			
-			if (Time.time - currentTime > ANIM_LENGTH) {
+			variableBoxValue.transform.Translate (Vector3.up * 0.85f * Time.deltaTime);
+
+			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH) {
 				variableBoxValue.transform.parent = null;
 				Destroy (variableBoxValue);
-				variableBoxValue = new GameObject ();
 				destroyValue = false;
 				varRemoved = true;
 			}
@@ -182,8 +175,9 @@ public class VariableBoxController : MonoBehaviour
 				// Disable ghost object in hand
 				ghostObj.enableVariableBox (false);
 
-				//Animate
-				setUpBoxToHandAnimation();
+				// Set up animation - Ghost Object to Hand
+				//setUpBoxToHandAnimation();
+				curves = AnimatorController.moveToParent(ghostObject.transform, 0, 0, 0);
 				movingBoxToHand = true;
 			}
 			else
@@ -202,8 +196,10 @@ public class VariableBoxController : MonoBehaviour
 
 			}
 		} else {
-			if (boxAssigned) { // A variable is already assigned
-				setUpRemovingVarAnimation ();
+			if (boxAssigned) {
+				// Rotate variable in box upright for animation
+				variableBoxValue.transform.rotation = Quaternion.identity;
+				Destroy(variableBoxValue.GetComponent<Rigidbody>());
 				destroyValue = true;
 				StartCoroutine ("removeVariableAndAct");
 			} else {
@@ -223,7 +219,11 @@ public class VariableBoxController : MonoBehaviour
 			{
 				objInHand.transform.parent = this.transform;
 			
-				setUpVarToBoxAnimation ();
+				curves = AnimatorController.moveToParent(objInHand.transform, 0,0,3.5f);
+
+				// Remove ghost of variable
+				objInHand.GetComponent<ValueController>().removeGhost();
+
 				movingVarToBox = true;
 				variableBoxValue = objInHand;
 				Hand.GetComponent<HandController> ().setObjInHand (null); // Object no longer in hand
@@ -246,7 +246,9 @@ public class VariableBoxController : MonoBehaviour
 
 				// Set up animation
 				objInHand.transform.parent = transform;
-				setUpBoxToBoxAnimation();
+				//setUpBoxToBoxAnimation();
+				curves = AnimatorController.moveToParent(objInHand.transform, 0, 0, 4f);
+
 				movingBoxToBox = true;
 
 				Hand.GetComponent<HandController>().setObjInHand(null);
@@ -275,106 +277,6 @@ public class VariableBoxController : MonoBehaviour
 		}
 		action ();
 		varRemoved = false;
-	}
-
-    void setUpVarToBoxAnimation()
-    {
-        ks = new Keyframe[2];
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.x);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-        xCurve = new AnimationCurve(ks);
-        xCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.y);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-        yCurve = new AnimationCurve(ks);
-        yCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.z);
-        ks[1] = new Keyframe(ANIM_LENGTH, 3.5f);
-        zCurve = new AnimationCurve(ks);
-        zCurve.postWrapMode = WrapMode.Once;
-    }
-
-    void setUpBoxToBoxAnimation()
-    {
-        ks = new Keyframe[2];
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.x);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-        xCurve = new AnimationCurve(ks);
-        xCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.y);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-        yCurve = new AnimationCurve(ks);
-        yCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, objInHand.transform.localPosition.z);
-        ks[1] = new Keyframe(ANIM_LENGTH, 4f);
-        zCurve = new AnimationCurve(ks);
-        zCurve.postWrapMode = WrapMode.Once;
-    }
-
-    void setUpBoxToHandAnimation()
-    {
-        ks = new Keyframe[2];
-
-        ks[0] = new Keyframe(0, ghostObject.transform.localPosition.x);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        xCurve = new AnimationCurve(ks);
-        xCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, ghostObject.transform.localPosition.y);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        yCurve = new AnimationCurve(ks);
-        yCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, ghostObject.transform.localPosition.z);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        zCurve = new AnimationCurve(ks);
-        zCurve.postWrapMode = WrapMode.Once;
-
-    }
-
-    void setUpVariableToHandAnimation()
-    {
-        ks = new Keyframe[2];
-
-        ks[0] = new Keyframe(0, transform.localPosition.x);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        xCurve = new AnimationCurve(ks);
-        xCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, transform.localPosition.y);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        yCurve = new AnimationCurve(ks);
-        yCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, transform.localPosition.z);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        zCurve = new AnimationCurve(ks);
-        zCurve.postWrapMode = WrapMode.Once;
-
-    }
-
-	void setUpRemovingVarAnimation() 
-	{
-		ks = new Keyframe[2];
-
-		ks [0] = new Keyframe (0, variableBoxValue.transform.position.y);
-		ks [1] = new Keyframe (ANIM_LENGTH, variableBoxValue.transform.position.y + 1f);
-
-		yCurve = new AnimationCurve (ks);
-		yCurve.postWrapMode = WrapMode.Once;
-
 	}
 
 	public bool isVarInBox() {

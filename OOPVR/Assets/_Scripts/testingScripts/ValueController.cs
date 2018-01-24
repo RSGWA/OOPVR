@@ -9,14 +9,10 @@ public class ValueController : MonoBehaviour
     private GameObject[] vars;
     private GameObject MessageCanvas;
 	private GameObject objInHand;
+
 	private Transform ghost;
 
-    private AnimationCurve xCurve;
-    private AnimationCurve yCurve;
-    private AnimationCurve zCurve;
-    private Keyframe[] ks;
-
-    private static float ANIM_LENGTH = 1.0f;
+	private AnimationCurve[] curves;
 
     float currentTime;
 
@@ -30,17 +26,20 @@ public class ValueController : MonoBehaviour
         movingToHand = false;
         currentTime = 0;
         MessageCanvas = GameObject.Find("MessageCanvas");
-		Rect outline = new Rect (0,0,10,10);
+		AnimationCurve[] curves = new AnimationCurve[3];
     }
 
     void Update()
     {
         if (movingToHand)
         {
-            transform.localPosition = new Vector3(xCurve.Evaluate(Time.time - currentTime), yCurve.Evaluate(Time.time - currentTime),
-                zCurve.Evaluate(Time.time - currentTime));
+			transform.localPosition = new Vector3(
+				curves[0].Evaluate(Time.time - currentTime), 
+				curves[1].Evaluate(Time.time - currentTime),
+				curves[2].Evaluate(Time.time - currentTime));
+
             // Signals end of animation
-            if (Time.time - currentTime > ANIM_LENGTH)
+            if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
             {
                 movingToHand = false;
             }
@@ -55,7 +54,7 @@ public class ValueController : MonoBehaviour
 
     public void ToHands()
     {
-        currentTime = Time.time;
+		currentTime = Time.time;
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
 
         //if hand has no object, Pick up the value
@@ -63,12 +62,11 @@ public class ValueController : MonoBehaviour
         {
 
 			// Create Ghost copy to leave behind
-			ghost = Instantiate(transform, transform.position, transform.rotation, transform.parent);
-			Renderer rend = ghost.GetComponent<Renderer>();
-			rend.material = Resources.Load("GhostText") as Material;
+			createValueGhost();
 
+			// Set up animation
             transform.parent = Hand.transform;
-            setUpValueToHandAnimation();
+			curves = AnimatorController.moveToParent(transform, 0, 0, 0);
 
             movingToHand = true;
 
@@ -94,45 +92,41 @@ public class ValueController : MonoBehaviour
 
 	void swap() {
 		if (objInHand.tag == "Value") {
-			// Swap value in hand with value gazed at
-			objInHand.transform.parent = transform.parent;
-			transform.parent = Hand.transform;
 
-			objInHand.transform.position = transform.position;
+			// Put value in hand back where it was
+			Transform objInHandGhost = objInHand.GetComponent<ValueController> ().getGhost ();
+			objInHand.transform.position = objInHandGhost.transform.position;
+			objInHand.transform.rotation = objInHandGhost.transform.rotation;
+			objInHand.transform.parent = objInHandGhost.transform.parent;
+			Destroy (objInHand.GetComponent<ValueController> ().getGhost ().gameObject);
+
+			// Create Ghost and place new Value in Hand
+			createValueGhost();
+
+			transform.parent = Hand.transform;
 			transform.position = Hand.transform.position;
+
+			Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
+
 			enableVars (true);
 			inHand = true;
 			// TODO: Swap animation 
 		} else if (objInHand.tag == "VariableBox") {
-
 			// Dont swap if variable box in hand
 			// TODO: Show two values cannot be swapped
 		}
 	}
 
-    void setUpValueToHandAnimation()
-    {
-        ks = new Keyframe[2];
+	void createValueGhost() {
+		ghost = Instantiate(transform, transform.position, transform.rotation, transform.parent);
+		Renderer rend = ghost.GetComponent<Renderer>();
+		rend.material = Resources.Load("GhostText") as Material;
+		ghost.GetComponent<BoxCollider>().enabled = false;
+	}
 
-        ks[0] = new Keyframe(0, transform.localPosition.x);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        xCurve = new AnimationCurve(ks);
-        xCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, transform.localPosition.y);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        yCurve = new AnimationCurve(ks);
-        yCurve.postWrapMode = WrapMode.Once;
-
-        ks[0] = new Keyframe(0, transform.localPosition.z);
-        ks[1] = new Keyframe(ANIM_LENGTH, 0);
-
-        zCurve = new AnimationCurve(ks);
-        zCurve.postWrapMode = WrapMode.Once;
-
-    }
+	public void removeGhost() {
+		Destroy(ghost.gameObject);
+	}
 
     public void setInHand(bool b)
     {
