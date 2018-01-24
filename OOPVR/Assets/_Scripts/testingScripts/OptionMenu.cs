@@ -36,21 +36,30 @@ public class OptionMenu : MonoBehaviour {
 
         if (isSelected == false)
         {
-            ShowOptions();
-            outline.eraseRenderer = false;
+            Select();
             //variableBox.enableVariableBox(false);
-            isSelected = true;
-
         }
         else
         {
-            HideOptions();
-            outline.eraseRenderer = true;
-            isSelected = false;
+            Deselect();
         }
         
 
 
+    }
+
+    public void Select()
+    {
+        ShowOptions();
+        outline.eraseRenderer = false;
+        isSelected = true;
+    }
+
+    public void Deselect()
+    {
+        HideOptions();
+        outline.eraseRenderer = true;
+        isSelected = false;
     }
 
     void ShowOptions()
