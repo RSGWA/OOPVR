@@ -40,4 +40,33 @@ public static class AnimatorController {
 		curves [2] = zCurve;
 		return curves;
 	}
+
+	public static AnimationCurve[] movePlayer(Transform player, Vector3 destination) {
+		ks = new Keyframe[2];
+
+		ks[0] = new Keyframe(0, player.position.x);
+		ks[1] = new Keyframe(ANIM_LENGTH, destination.x);
+
+		xCurve = new AnimationCurve(ks);
+		xCurve.postWrapMode = WrapMode.Once;
+
+		// Keep the players 'height'
+		ks[0] = new Keyframe(0, player.position.y);
+		ks[1] = new Keyframe(ANIM_LENGTH, player.position.y);
+
+		yCurve = new AnimationCurve(ks);
+		yCurve.postWrapMode = WrapMode.Once;
+
+		ks[0] = new Keyframe(0, player.position.z);
+		ks[1] = new Keyframe(ANIM_LENGTH, destination.z);
+
+		zCurve = new AnimationCurve(ks);
+		zCurve.postWrapMode = WrapMode.Once;
+
+		AnimationCurve[] curves = new AnimationCurve[3];
+		curves [0] = xCurve;
+		curves [1] = yCurve;
+		curves [2] = zCurve;
+		return curves;
+	}
 }

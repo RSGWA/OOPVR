@@ -11,13 +11,16 @@ public class ValueController : MonoBehaviour
 	private GameObject objInHand;
 
 	private Transform ghost;
+	private Transform objInHandGhost;
 
 	private AnimationCurve[] curves;
+	private AnimationCurve[] curvesSwap;
 
     float currentTime;
 
     bool movingToHand;
     bool inHand = false;
+	bool swapping = false;
 
     void Start()
     {
@@ -31,24 +34,37 @@ public class ValueController : MonoBehaviour
 
     void Update()
     {
-        if (movingToHand)
-        {
-			transform.localPosition = new Vector3(
-				curves[0].Evaluate(Time.time - currentTime), 
-				curves[1].Evaluate(Time.time - currentTime),
-				curves[2].Evaluate(Time.time - currentTime));
+		if (movingToHand) {
+			transform.localPosition = new Vector3 (
+				curves [0].Evaluate (Time.time - currentTime), 
+				curves [1].Evaluate (Time.time - currentTime),
+				curves [2].Evaluate (Time.time - currentTime));
 
-            // Signals end of animation
-            if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
-            {
-                movingToHand = false;
-            }
-        }
+			// Signals end of animation
+			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH) {
+				movingToHand = false;
+			}
+		} else if (swapping) {
+			transform.localPosition = new Vector3 (
+				curves [0].Evaluate (Time.time - currentTime), 
+				curves [1].Evaluate (Time.time - currentTime),
+				curves [2].Evaluate (Time.time - currentTime));
+
+			objInHand.transform.localPosition = new Vector3 (
+				curvesSwap[0].Evaluate (Time.time - currentTime), 
+				curvesSwap [1].Evaluate (Time.time - currentTime),
+				curvesSwap [2].Evaluate (Time.time - currentTime));
+
+			// Signals end of animation
+			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH) {
+				swapping = false;
+				objInHand.transform.parent = objInHandGhost.transform.parent;
+				Destroy (objInHandGhost.gameObject);
+			}
+		}
 
 		if (inHand) {
 			transform.rotation = Hand.transform.rotation;
-		} else {
-			//transform.Rotate (Vector3.up * 67.5f * Time.deltaTime);
 		}
     }
 
@@ -94,23 +110,26 @@ public class ValueController : MonoBehaviour
 		if (objInHand.tag == "Value") {
 
 			// Put value in hand back where it was
-			Transform objInHandGhost = objInHand.GetComponent<ValueController> ().getGhost ();
-			objInHand.transform.position = objInHandGhost.transform.position;
+			objInHandGhost = objInHand.GetComponent<ValueController> ().getGhost ();
 			objInHand.transform.rotation = objInHandGhost.transform.rotation;
-			objInHand.transform.parent = objInHandGhost.transform.parent;
-			Destroy (objInHand.GetComponent<ValueController> ().getGhost ().gameObject);
+			objInHand.transform.parent = objInHandGhost.transform;
+	
+			// Animate moving value in hand back to its original position
+			curvesSwap = AnimatorController.moveToParent (objInHand.transform, 0, 0, 0);
 
 			// Create Ghost and place new Value in Hand
 			createValueGhost();
 
 			transform.parent = Hand.transform;
-			transform.position = Hand.transform.position;
+
+			// Animate value being gazed at being brought to hand
+			curves = AnimatorController.moveToParent (transform, 0, 0, 0);
 
 			Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
 
 			enableVars (true);
 			inHand = true;
-			// TODO: Swap animation 
+			swapping = true;
 		} else if (objInHand.tag == "VariableBox") {
 			// Dont swap if variable box in hand
 			// TODO: Show two values cannot be swapped
