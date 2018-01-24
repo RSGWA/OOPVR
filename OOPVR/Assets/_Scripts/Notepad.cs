@@ -7,11 +7,13 @@ public class Notepad : MonoBehaviour {
 
 	GameObject[] objectives;
 	GameObject tracker;
+	GameObject code;
 
 	void Start() {
 		objectives = GameObject.FindGameObjectsWithTag ("Objective");
 		tracker = GameObject.FindGameObjectWithTag ("Tracker");
 		setObjective (getObjective ("0"));
+		code = this.transform.Find ("Code").gameObject;
 	}
 
 	void Update() {
