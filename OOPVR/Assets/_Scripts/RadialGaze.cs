@@ -64,6 +64,9 @@ public class RadialGaze : MonoBehaviour
             case "VariableBox":
                 // Place in box
                 obj.GetComponent<VariableBoxController>().boxAction();
+
+                // For testing Control Menu
+                //obj.GetComponent<OptionMenu>().ControlMenu();
                 break;
             case "Platform":
                 obj.GetComponent<PlatformController>().ToPlatform(platformPos);

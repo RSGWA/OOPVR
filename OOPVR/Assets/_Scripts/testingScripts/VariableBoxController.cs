@@ -11,12 +11,12 @@ public class VariableBoxController : MonoBehaviour
     private GameObject objInHand;
     private GameObject parameter;
 
-    private GameObject MessageCanvas;
     private GameObject variableBoxValue;
     private GameObject newVarBoxValue;
+    private Status MessageCanvas;
 
-	// Only one Ghost Object can exist at a time so all boxes must have a
-	// reference to it and the original
+    // Only one Ghost Object can exist at a time so all boxes must have a
+    // reference to it and the original
     private static Transform ghostObject;
     private static Transform originalObject;
 
@@ -42,7 +42,7 @@ public class VariableBoxController : MonoBehaviour
     {
         Hand = GameObject.FindGameObjectWithTag("Hand");
         variableBoxes = GameObject.FindGameObjectsWithTag("VariableBox");
-        MessageCanvas = GameObject.Find("MessageCanvas");
+        MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
     }
 
     // Update is called once per frame
@@ -186,12 +186,12 @@ public class VariableBoxController : MonoBehaviour
 				if (onParameter)
 				{
 					print("CANNOT PICK UP: VariableBox is a parameter.");
-					MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: This is a Parameter");
+					MessageCanvas.SetMessage("CANNOT PICK UP: This is a Parameter");
 				}
 				else
 				{
 					print("CANNOT PICK UP: VariableBox has not been assigned a Value");
-					MessageCanvas.GetComponent<Status>().SetMessage("CANNOT PICK UP: Uninitialised variable.");
+					MessageCanvas.SetMessage("CANNOT PICK UP: Uninitialised variable.");
 				}
 
 			}
@@ -234,7 +234,7 @@ public class VariableBoxController : MonoBehaviour
 			{
 				//A visual effect to denote that the value's type inHand does not match variableBox Type
 				print ("Value and VariableBox TYPES Mismatch");
-				MessageCanvas.GetComponent<Status> ().SetMessage ("TYPE MISMATCH: Cannot assign a Value of type " + variableType + " to variable of type " + varBoxType);
+				MessageCanvas.SetMessage ("TYPE MISMATCH: Cannot assign a Value of type " + variableType + " to variable of type " + varBoxType);
 			}
 		} 
 		else if (objInHand.tag == "VariableBox") 
@@ -266,7 +266,7 @@ public class VariableBoxController : MonoBehaviour
 			{
 				//A visual effect to denote variableBox types mismatch
 				print("VariableBoxes mismatch");
-				MessageCanvas.GetComponent<Status>().SetMessage("TYPE MISMATCH: Variable Types mismatch");
+				MessageCanvas.SetMessage("TYPE MISMATCH: Variable Types mismatch");
 			}
 		}
 	}

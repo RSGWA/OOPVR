@@ -30,19 +30,25 @@ public class OptionMenu : MonoBehaviour {
 
     public void ControlMenu()
     {
-        isSelected = true;
+        //some way of disabling the optionMenu when another object is selected
 
-        if (isSelected)
+        
+
+        if (isSelected == false)
         {
             ShowOptions();
-
             outline.eraseRenderer = false;
-
-            variableBox.enableVariableBox(false);
-
+            //variableBox.enableVariableBox(false);
+            isSelected = true;
 
         }
-        //some way of disabling the optionMenu when another object is selected
+        else
+        {
+            HideOptions();
+            outline.eraseRenderer = true;
+            isSelected = false;
+        }
+        
 
 
     }
