@@ -44,7 +44,7 @@ public class TestVariableBox : MonoBehaviour
         variableBoxes = GameObject.FindGameObjectsWithTag("VariableBox");
         MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
         options = transform.GetComponent<OptionMenu>();
-        
+
     }
 
     // Update is called once per frame
@@ -130,13 +130,12 @@ public class TestVariableBox : MonoBehaviour
             onParameter = false;
             paramReady = false;
         }
-
     }
 
     public void boxAction()
     {
         currentTime = Time.time;
-       // objInHand = Hand.GetComponent<HandController>().getObjInHand();
+        objInHand = Hand.GetComponent<HandController>().getObjInHand();
 
         string parent = "";
         if (transform.parent != null)
@@ -214,16 +213,16 @@ public class TestVariableBox : MonoBehaviour
             }
             else
             {
-                action();
+                AssignAction();
             }
         }
     }
 
     public void CopyButton()
     {
-        
+        currentTime = Time.time;
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
-        
+
 
         if (objInHand == null)
         {
@@ -260,7 +259,7 @@ public class TestVariableBox : MonoBehaviour
                 curves = AnimatorController.moveToParent(ghostObject.transform, 0, 0, 0);
                 movingBoxToHand = true;
 
-                options.Select();
+                //options.Select();
             }
             else
             {
@@ -278,47 +277,57 @@ public class TestVariableBox : MonoBehaviour
 
             }
         }
-        //else
-        //{
-        //    if (boxAssigned)
-        //    {
-        //        // Rotate variable in box upright for animation
-        //        variableBoxValue.transform.rotation = Quaternion.identity;
-        //        Destroy(variableBoxValue.GetComponent<Rigidbody>());
-        //        destroyValue = true;
-        //        StartCoroutine("removeVariableAndAct");
-        //    }
-        //    else
-        //    {
-        //        action();
-        //    }
-        //}
-    }
+        else
+        {
 
-    //}
+            if (objInHand.tag == "Value")
+            {
+                MessageCanvas.SetMessage("Please place the Value in hand back before picking up the Variable");
+            }
+            else if (objInHand.tag == "VariableBox")
+            {
+                //!!!!!!!!!!!!This is up for discussion...whether we get rid of the variable in hand and make copy of the current variable!!!!!!!!!!!
+                MessageCanvas.SetMessage("Can only have one Variable in hand at a time");
+            }
+        }
+    }
 
 
     public void AssignButton()
     {
-        
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
+        currentTime = Time.time;
+        string varBoxType = transform.GetChild(0).tag;
+
         if (objInHand == null)
         {
-            MessageCanvas.SetMessage("CANNOT ASSIGN: No value to assign");
+            MessageCanvas.SetMessage("CANNOT ASSIGN: No Value has been picked up, please pick up a value of type " + varBoxType);
         }
         else
         {
             
-            action();
+            if (boxAssigned)
+            {
+                //Destroy the current variable value
+                variableBoxValue.transform.rotation = Quaternion.identity;
+                Destroy(variableBoxValue.GetComponent<Rigidbody>());
+                destroyValue = true;
+                StartCoroutine("removeVariableAndAct");
+            }
+            else
+            {
+                AssignAction();
+            }
+
         }
-        
+
     }
 
-    void action()
+    void AssignAction()
     {
         string varBoxType = transform.GetChild(0).tag;
         currentTime = Time.time;
-        
+
         if (objInHand.tag == "Value")
         {
             string variableType = objInHand.transform.GetChild(0).tag;
@@ -337,7 +346,7 @@ public class TestVariableBox : MonoBehaviour
                 movingVarToBox = true;
                 variableBoxValue = objInHand;
                 Hand.GetComponent<HandController>().setObjInHand(null); // Object no longer in hand
-                
+
 
                 paramReady = true;
                 options.Select();
@@ -389,7 +398,7 @@ public class TestVariableBox : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        action();
+        AssignAction();
         varRemoved = false;
     }
 
