@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class Status : MonoBehaviour
 {
 
-    //private Image background;
-    private Text messageStatus;
+    //private Text messageStatus;
+    private TextMeshProUGUI messageStatus;
     private GameObject canvas;
 
     // Use this for initialization
     void Start()
     {
-        messageStatus = GameObject.Find("MessageText").GetComponent<Text>();
+        //messageStatus = GameObject.Find("MessageText").GetComponent<Text>();
+        messageStatus = GameObject.Find("MessageText").GetComponent<TextMeshProUGUI>();
         canvas = GameObject.Find("MessageCanvas");
         canvas.GetComponent<CanvasGroup>().alpha = 0;
     }

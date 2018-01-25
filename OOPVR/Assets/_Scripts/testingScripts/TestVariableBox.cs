@@ -12,7 +12,9 @@ public class TestVariableBox : MonoBehaviour
 
     private GameObject variableBoxValue;
     private GameObject newVarBoxValue;
+
     private Status MessageCanvas;
+    private InfoController info;
     private OptionMenu options;
 
     // Only one Ghost Object can exist at a time so all boxes must have a
@@ -37,12 +39,15 @@ public class TestVariableBox : MonoBehaviour
     bool boxAssigned = false;
     bool varRemoved = false;
 
+    bool infoSelected = false;
+
     // Use this for initialization
     void Start()
     {
         Hand = GameObject.FindGameObjectWithTag("Hand");
         variableBoxes = GameObject.FindGameObjectsWithTag("VariableBox");
         MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
+        info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
         options = transform.GetComponent<OptionMenu>();
 
     }
@@ -390,6 +395,28 @@ public class TestVariableBox : MonoBehaviour
                 MessageCanvas.SetMessage("TYPE MISMATCH: Variable Types mismatch");
             }
         }
+    }
+
+    public void InfoButton()
+    {
+        string varBoxType = transform.GetChild(0).tag;
+        string varName = transform.name;
+        info.SetInformation("This is a variable.\n " + varName + " = " + varBoxType + "!!\n  This " +
+            "is just an exampe of showing how info works.\n PLEASE SELECT INFO AGAIN TO DESELECT!");
+
+        if (!infoSelected)
+        {
+            info.ShowInformation();
+            infoSelected = true;
+        }
+        else
+        {
+            info.HideInformation();
+            infoSelected = false;
+        }
+        
+
+        
     }
 
     IEnumerator removeVariableAndAct()
