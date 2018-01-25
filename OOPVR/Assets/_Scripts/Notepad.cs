@@ -9,17 +9,46 @@ public class Notepad : MonoBehaviour {
 	GameObject tracker;
 	GameObject code;
 
+	string mainFilename = "main";
+	string defaultConstructorFilename = "defaultConstructor";
+
+	TextAsset main;
+	TextAsset defaultConstructor;
+
+	string mainText; 
+	string defaultConstructorText;
+
 	void Start() {
 		objectives = GameObject.FindGameObjectsWithTag ("Objective");
 		tracker = GameObject.FindGameObjectWithTag ("Tracker");
 		setObjective (getObjective ("0"));
 		code = this.transform.Find ("Code").gameObject;
+
+		main = Resources.Load (mainFilename) as TextAsset;
+		defaultConstructor = Resources.Load (defaultConstructorFilename) as TextAsset;
+
+		defaultConstructorText = defaultConstructor.text;
+		mainText = main.text;
+
+		setText (mainText);
+		setText (defaultConstructorText);
 	}
 
 	void Update() {
 		
 	}
 
+	public void highlightText(string text, string color) {
+		int startIndex = mainText.IndexOf (text);
+		int	endIndex = startIndex + text.Length;
+
+		mainText = mainText.Insert (endIndex, "</color>");
+		mainText = mainText.Insert (startIndex, "<color=" + color + ">");
+	}
+
+	void setText(string text) {
+		code.GetComponent<Text> ().text = text;
+	}
 	public void updateObjective(string objNumber) {
 		setObjective (getObjective (objNumber));
 	}
