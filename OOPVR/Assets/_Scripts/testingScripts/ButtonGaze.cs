@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonGaze : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler  {
 
-    public float activationTime = 2f;
+    public float activationTime = 1f;
     private Slider gazeProgress;
     private Button button;
 
