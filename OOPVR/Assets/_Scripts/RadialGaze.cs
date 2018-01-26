@@ -55,7 +55,9 @@ public class RadialGaze : MonoBehaviour
                 break;
             case "Value":
                 // Pick up Value
-                obj.GetComponent<ValueController>().ToHands();
+                //obj.GetComponent<ValueController>().ToHands();
+
+                obj.GetComponent<OptionMenu>().ControlMenu();
                 break;
             case "Box":
                 // Place in box

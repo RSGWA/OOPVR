@@ -38,6 +38,7 @@ public class OptionMenu : MonoBehaviour {
         {
             Select();
             //variableBox.enableVariableBox(false);
+            
         }
         else
         {
@@ -52,6 +53,7 @@ public class OptionMenu : MonoBehaviour {
     {
         ShowOptions();
         outline.eraseRenderer = false;
+        outline.enabled = true;
         isSelected = true;
     }
 
@@ -59,6 +61,7 @@ public class OptionMenu : MonoBehaviour {
     {
         HideOptions();
         outline.eraseRenderer = true;
+        outline.enabled = false;
         isSelected = false;
     }
 

@@ -347,7 +347,8 @@ public class TestVariableBox : MonoBehaviour
                 curves = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 3.5f);
 
                 // Remove ghost of variable
-                objInHand.GetComponent<ValueController>().removeGhost();
+                //objInHand.GetComponent<ValueController>().removeGhost();
+                objInHand.GetComponent<TestValueController>().removeGhost();
 
                 movingVarToBox = true;
                 variableBoxValue = objInHand;

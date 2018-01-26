@@ -6,7 +6,6 @@ public class TestValueController : MonoBehaviour {
 
     private GameObject Hand;
     private GameObject[] vars;
-    private GameObject MessageCanvas;
     private GameObject objInHand;
 
     private Transform ghost;
@@ -15,11 +14,16 @@ public class TestValueController : MonoBehaviour {
     private AnimationCurve[] curves;
     private AnimationCurve[] curvesSwap;
 
+    private OptionMenu options;
+    private InfoController info;
+    private Status MessageCanvas;
+
     float currentTime;
 
     bool movingToHand;
     bool inHand = false;
     bool swapping = false;
+    bool infoSelected = false;
 
     void Start()
     {
@@ -27,8 +31,10 @@ public class TestValueController : MonoBehaviour {
         vars = GameObject.FindGameObjectsWithTag("Value");
         movingToHand = false;
         currentTime = 0;
-        MessageCanvas = GameObject.Find("MessageCanvas");
+        MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
         AnimationCurve[] curves = new AnimationCurve[3];
+        options = transform.GetComponent<OptionMenu>();
+        info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
     }
 
     void Update()
@@ -73,15 +79,41 @@ public class TestValueController : MonoBehaviour {
         }
     }
 
+    public void PickUpButton()
+    {
+        options.Deselect();
+        ToHands();
+    }
+
+    public void InfoButton()
+    {
+        string valueType = transform.GetChild(0).tag;
+        string varName = transform.name;
+        info.SetInformation("This is a Value.\n" + varName + " is a" + valueType + " !! \nThis " +
+            "is just an exampe of showing how info works.\n PLEASE SELECT INFO AGAIN TO DESELECT!");
+
+        if (!infoSelected)
+        {
+            info.ShowInformation();
+            infoSelected = true;
+        }
+        else
+        {
+            info.HideInformation();
+            infoSelected = false;
+        }
+    }
+
     public void ToHands()
     {
         currentTime = Time.time;
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
 
+        
         //if hand has no object, Pick up the value
         if (objInHand == null)
         {
-
+            
             // Create Ghost copy to leave behind
             createValueGhost();
 
@@ -107,17 +139,21 @@ public class TestValueController : MonoBehaviour {
         {
             // Swap values
             swap();
+
+            
         }
 
     }
 
     void swap()
     {
+        objInHand = Hand.GetComponent<HandController>().getObjInHand();
+
         if (objInHand.tag == "Value")
         {
-
+           
             // Put value in hand back where it was
-            objInHandGhost = objInHand.GetComponent<ValueController>().getGhost();
+            objInHandGhost = objInHand.GetComponent<TestValueController>().getGhost();
             objInHand.transform.rotation = objInHandGhost.transform.rotation;
             objInHand.transform.parent = objInHandGhost.transform;
 
@@ -137,11 +173,13 @@ public class TestValueController : MonoBehaviour {
             enableVars(true);
             inHand = true;
             swapping = true;
+
         }
         else if (objInHand.tag == "VariableBox")
         {
             // Dont swap if variable box in hand
             // TODO: Show two values cannot be swapped
+            MessageCanvas.SetMessage("CANNOT PICK UP: You are currently holding a Variable.");
         }
     }
 
