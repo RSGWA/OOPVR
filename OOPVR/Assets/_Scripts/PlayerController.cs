@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
 				curves [1].Evaluate (Time.time - currentTime),
 				curves [2].Evaluate (Time.time - currentTime));
 
-			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH) {
+			if (Time.time - currentTime > AnimationUtility.PLAYER_ANIM_LENGTH) {
 				playerMoving = false;
 			}
 		}
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour {
 	public void backToOrigin() {
 		// Animate player moving back to origin
 		currentTime = Time.time;
-		curves = AnimatorController.movePlayer (transform, origin);
+		curves = AnimationUtility.movePlayer (transform, origin);
 		playerMoving = true;
 
 		currentRoom.transform.GetChild (0).GetComponent<Door> ().closeDoor ();
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour {
 		currentTime = Time.time;
 		Transform dest = room.transform.Find("PlayerDest");
 
-		curves = AnimatorController.movePlayer (transform, dest.position);
+		curves = AnimationUtility.movePlayer (transform, dest.position);
 		playerMoving = true;
 
 		inRoom = true;

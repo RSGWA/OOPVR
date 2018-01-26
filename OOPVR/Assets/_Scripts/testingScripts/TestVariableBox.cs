@@ -62,7 +62,7 @@ public class TestVariableBox : MonoBehaviour
                 curves[1].Evaluate(Time.time - currentTime),
                 curves[2].Evaluate(Time.time - currentTime));
 
-            if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 movingVarToBox = false;
                 objInHand.GetComponent<ValueController>().setInHand(false);
@@ -84,7 +84,7 @@ public class TestVariableBox : MonoBehaviour
                 curves[1].Evaluate(Time.time - currentTime),
                 curves[2].Evaluate(Time.time - currentTime));
 
-            if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 movingBoxToHand = false;
             }
@@ -97,7 +97,7 @@ public class TestVariableBox : MonoBehaviour
                 curves[1].Evaluate(Time.time - currentTime),
                 curves[2].Evaluate(Time.time - currentTime));
 
-            if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 movingBoxToBox = false;
                 tipBox = true;
@@ -119,7 +119,7 @@ public class TestVariableBox : MonoBehaviour
         {
             variableBoxValue.transform.Translate(Vector3.up * 0.85f * Time.deltaTime);
 
-            if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 variableBoxValue.transform.parent = null;
                 Destroy(variableBoxValue);
@@ -187,7 +187,7 @@ public class TestVariableBox : MonoBehaviour
 
                 // Set up animation - Ghost Object to Hand
                 //setUpBoxToHandAnimation();
-                curves = AnimatorController.moveToParent(ghostObject.transform, 0, 0, 0);
+                curves = AnimationUtility.moveToParent(ghostObject.transform, 0, 0, 0);
                 movingBoxToHand = true;
             }
             else
@@ -261,7 +261,7 @@ public class TestVariableBox : MonoBehaviour
 
                 // Set up animation - Ghost Object to Hand
                 //setUpBoxToHandAnimation();
-                curves = AnimatorController.moveToParent(ghostObject.transform, 0, 0, 0);
+                curves = AnimationUtility.moveToParent(ghostObject.transform, 0, 0, 0);
                 movingBoxToHand = true;
 
                 //options.Select();
@@ -343,7 +343,7 @@ public class TestVariableBox : MonoBehaviour
 
                 objInHand.transform.parent = this.transform;
 
-                curves = AnimatorController.moveToParent(objInHand.transform, 0, 0, 3.5f);
+                curves = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 3.5f);
 
                 // Remove ghost of variable
                 objInHand.GetComponent<ValueController>().removeGhost();
@@ -373,7 +373,7 @@ public class TestVariableBox : MonoBehaviour
                 // Set up animation
                 objInHand.transform.parent = transform;
                 //setUpBoxToBoxAnimation();
-                curves = AnimatorController.moveToParent(objInHand.transform, 0, 0, 4f);
+                curves = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 4f);
 
                 movingBoxToBox = true;
 

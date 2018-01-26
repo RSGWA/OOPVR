@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class AnimatorController {
+public static class AnimationUtility {
 
 	public static float ANIM_LENGTH = 1.2f;
+
+	public static float PLAYER_ANIM_LENGTH = 2f;
 
 	private static AnimationCurve xCurve;
 	private static AnimationCurve yCurve;
@@ -45,20 +47,20 @@ public static class AnimatorController {
 		ks = new Keyframe[2];
 
 		ks[0] = new Keyframe(0, player.position.x);
-		ks[1] = new Keyframe(ANIM_LENGTH, destination.x);
+		ks[1] = new Keyframe(PLAYER_ANIM_LENGTH, destination.x);
 
 		xCurve = new AnimationCurve(ks);
 		xCurve.postWrapMode = WrapMode.Once;
 
 		// Keep the players 'height'
 		ks[0] = new Keyframe(0, player.position.y);
-		ks[1] = new Keyframe(ANIM_LENGTH, player.position.y);
+		ks[1] = new Keyframe(PLAYER_ANIM_LENGTH, player.position.y);
 
 		yCurve = new AnimationCurve(ks);
 		yCurve.postWrapMode = WrapMode.Once;
 
 		ks[0] = new Keyframe(0, player.position.z);
-		ks[1] = new Keyframe(ANIM_LENGTH, destination.z);
+		ks[1] = new Keyframe(PLAYER_ANIM_LENGTH, destination.z);
 
 		zCurve = new AnimationCurve(ks);
 		zCurve.postWrapMode = WrapMode.Once;

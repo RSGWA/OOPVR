@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using cakeslice;
 
 public class VariableBoxController : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class VariableBoxController : MonoBehaviour
 
     private GameObject variableBoxValue;
     private GameObject newVarBoxValue;
-    private Status MessageCanvas;
+	private Status MessageCanvas;
 
     // Only one Ghost Object can exist at a time so all boxes must have a
     // reference to it and the original
@@ -37,12 +37,15 @@ public class VariableBoxController : MonoBehaviour
 	bool boxAssigned = false;
 	bool varRemoved = false;
 
+	bool selected = false;
+
     // Use this for initialization
     void Start()
     {
         Hand = GameObject.FindGameObjectWithTag("Hand");
         variableBoxes = GameObject.FindGameObjectsWithTag("VariableBox");
         MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
+		GetComponent<Outline> ().enabled = false;
     }
 
     // Update is called once per frame
@@ -55,7 +58,7 @@ public class VariableBoxController : MonoBehaviour
 				curves[1].Evaluate(Time.time - currentTime),
 				curves[2].Evaluate(Time.time - currentTime));
 
-            if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 movingVarToBox = false;
                 objInHand.GetComponent<ValueController>().setInHand(false);
@@ -77,7 +80,7 @@ public class VariableBoxController : MonoBehaviour
 				curves[1].Evaluate(Time.time - currentTime),
 				curves[2].Evaluate(Time.time - currentTime));
 
-			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
+			if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 movingBoxToHand = false;
             }
@@ -90,7 +93,7 @@ public class VariableBoxController : MonoBehaviour
 				curves[1].Evaluate(Time.time - currentTime),
 				curves[2].Evaluate(Time.time - currentTime));
 				
-			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH)
+			if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
 			{
 				movingBoxToBox = false;
 				tipBox = true;
@@ -111,7 +114,7 @@ public class VariableBoxController : MonoBehaviour
         {
 			variableBoxValue.transform.Translate (Vector3.up * 0.85f * Time.deltaTime);
 
-			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH) {
+			if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH) {
 				variableBoxValue.transform.parent = null;
 				Destroy (variableBoxValue);
 				destroyValue = false;
@@ -126,8 +129,19 @@ public class VariableBoxController : MonoBehaviour
             onParameter = false;
             paramReady = false;
         }
-
     }
+
+	public void showMenu() {
+		//unhighlightAllBoxes ();
+		highlight (true);
+		selected = true;
+	}
+
+	void unhighlightAllBoxes() {
+		foreach (GameObject variableBox in variableBoxes) {
+			variableBox.GetComponent<Outline> ().enabled = false;
+		}
+	}
 
 	public void boxAction()
 	{
@@ -177,7 +191,7 @@ public class VariableBoxController : MonoBehaviour
 
 				// Set up animation - Ghost Object to Hand
 				//setUpBoxToHandAnimation();
-				curves = AnimatorController.moveToParent(ghostObject.transform, 0, 0, 0);
+				curves = AnimationUtility.moveToParent(ghostObject.transform, 0, 0, 0);
 				movingBoxToHand = true;
 			}
 			else
@@ -219,7 +233,7 @@ public class VariableBoxController : MonoBehaviour
 			{
 				objInHand.transform.parent = this.transform;
 			
-				curves = AnimatorController.moveToParent(objInHand.transform, 0,0,3.5f);
+				curves = AnimationUtility.moveToParent(objInHand.transform, 0,0,3.5f);
 
 				// Remove ghost of variable
 				objInHand.GetComponent<ValueController>().removeGhost();
@@ -247,7 +261,7 @@ public class VariableBoxController : MonoBehaviour
 				// Set up animation
 				objInHand.transform.parent = transform;
 				//setUpBoxToBoxAnimation();
-				curves = AnimatorController.moveToParent(objInHand.transform, 0, 0, 4f);
+				curves = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 4f);
 
 				movingBoxToBox = true;
 
@@ -299,4 +313,13 @@ public class VariableBoxController : MonoBehaviour
 		}
 	}
 
+	public bool isSelected() {
+		return selected;
+	}
+
+	// Passing true highlights box
+	// Passing false unhighlights box
+	public void highlight(bool b) {
+		GetComponent<Outline> ().enabled = b;
+	}
 }

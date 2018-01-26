@@ -12,11 +12,24 @@ public class DefaultConstructor : MonoBehaviour {
 	bool constructorEntered = false;
 	bool returned = false;
 
-	// Use this for initialization
-	void Start () {
+	List<string> objectives = new List<string>();
+
+	void Awake() {
 		instance = GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ();
 		notepad = GameObject.FindGameObjectWithTag ("Notepad").GetComponent<Notepad> ();
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
+
+
+		objectives.Add ("Person p;");
+		objectives.Add ("Person::Person() {");
+		objectives.Add ("this->age = -1;");
+		objectives.Add ("this->name = \"\";");
+		objectives.Add ("}");
+	}
+
+	// Use this for initialization
+	void Start () {
+		notepad.highlightCurrentObjective (objectives [0]);
 
 		StartCoroutine ("checkInstanceCreated");
 	}
@@ -26,7 +39,8 @@ public class DefaultConstructor : MonoBehaviour {
 			instanceCreated = instance.hasInstanceBeenCreated ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		//notepad.updateObjective ("1");
+		notepad.setActiveText (Notepad.DEFAULT_CONSTRUCTOR);
+		notepad.highlightCurrentObjective (objectives [1]);
 		StartCoroutine ("checkConstructorEntered");
 	}
 
@@ -35,7 +49,7 @@ public class DefaultConstructor : MonoBehaviour {
 			constructorEntered = player.isInRoom ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		//notepad.updateObjective ("2");
+		notepad.highlightCurrentObjective (objectives [2]);
 		StartCoroutine ("checkInstanceVarsSet");
 	}
 
@@ -43,7 +57,7 @@ public class DefaultConstructor : MonoBehaviour {
 		while (!instanceVariablesSet()) {
 			yield return new WaitForSeconds (0.1f);
 		}
-		//notepad.updateObjective ("3");
+		notepad.highlightCurrentObjective (objectives [4]);
 		StartCoroutine ("checkReturn");
 	}
 
@@ -53,11 +67,16 @@ public class DefaultConstructor : MonoBehaviour {
 			yield return new WaitForSeconds (0.1f);
 		}
 		// Activity Finished
+		notepad.endOfActivity();
 	}
 
 	bool instanceVariablesSet() {
-		VariableBoxController ageBox = GameObject.Find ("AgeBox").GetComponent<VariableBoxController> ();
-		VariableBoxController nameBox = GameObject.Find ("NameBox").GetComponent<VariableBoxController> ();
+		VariableBoxController ageBox = GameObject.Find ("Age_InstanceBox").GetComponent<VariableBoxController> ();
+		VariableBoxController nameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
+
+		if (ageBox.isVarInBox ()) {
+			notepad.highlightCurrentObjective (objectives [3]);
+		}
 
 		return (ageBox.isVarInBox() && nameBox.isVarInBox());
 	}

@@ -41,7 +41,7 @@ public class ValueController : MonoBehaviour
 				curves [2].Evaluate (Time.time - currentTime));
 
 			// Signals end of animation
-			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH) {
+			if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH) {
 				movingToHand = false;
 			}
 		} else if (swapping) {
@@ -56,7 +56,7 @@ public class ValueController : MonoBehaviour
 				curvesSwap [2].Evaluate (Time.time - currentTime));
 
 			// Signals end of animation
-			if (Time.time - currentTime > AnimatorController.ANIM_LENGTH) {
+			if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH) {
 				swapping = false;
 				objInHand.transform.parent = objInHandGhost.transform.parent;
 				Destroy (objInHandGhost.gameObject);
@@ -82,7 +82,7 @@ public class ValueController : MonoBehaviour
 
 			// Set up animation
             transform.parent = Hand.transform;
-			curves = AnimatorController.moveToParent(transform, 0, 0, 0);
+			curves = AnimationUtility.moveToParent(transform, 0, 0, 0);
 
             movingToHand = true;
 
@@ -115,7 +115,7 @@ public class ValueController : MonoBehaviour
 			objInHand.transform.parent = objInHandGhost.transform;
 	
 			// Animate moving value in hand back to its original position
-			curvesSwap = AnimatorController.moveToParent (objInHand.transform, 0, 0, 0);
+			curvesSwap = AnimationUtility.moveToParent (objInHand.transform, 0, 0, 0);
 
 			// Create Ghost and place new Value in Hand
 			createValueGhost();
@@ -123,7 +123,7 @@ public class ValueController : MonoBehaviour
 			transform.parent = Hand.transform;
 
 			// Animate value being gazed at being brought to hand
-			curves = AnimatorController.moveToParent (transform, 0, 0, 0);
+			curves = AnimationUtility.moveToParent (transform, 0, 0, 0);
 
 			Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
 
