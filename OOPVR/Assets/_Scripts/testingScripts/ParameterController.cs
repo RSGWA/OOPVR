@@ -58,7 +58,8 @@ public class ParameterController : MonoBehaviour
        
         //Move Player
         GameObject roomObject = transform.parent.gameObject;
-        //GetComponent<Renderer>().material = normalColor;
+        GetComponent<Renderer>().material = normalColor;
+        methodName.GetComponent<Renderer>().material = normalColor;
         Player.GetComponent<PlayerController>().moveIntoRoom(roomObject);
         //GetComponent<Light>().enabled = false;
     }

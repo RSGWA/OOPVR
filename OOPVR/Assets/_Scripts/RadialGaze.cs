@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class RadialGaze : MonoBehaviour
 {
-    public float NumberOfSecondsForSelection = 3f;
+    private float NumberOfSecondsForSelection = 1f;
     public Transform RadialProgress;
-    private float counterTimer = 0;
-    private static string variableType = "";
-    private Transform platformPos;
+    private float counterTimer = 0f;
 
     private GameObject player;
 
@@ -44,36 +42,16 @@ public class RadialGaze : MonoBehaviour
     public void PerformActionOnGameObject()
     {
         GameObject obj = GvrPointerInputModule.CurrentRaycastResult.gameObject;
-        platformPos = obj.transform;
 	
         switch (obj.tag)
         {
-            case "Variable":
-                variableType = obj.transform.GetChild(0).tag;
-                // Pick up variable
-                obj.GetComponent<VariableController>().ToHands();
-                break;
             case "Value":
-                // Pick up Value
-                //obj.GetComponent<ValueController>().ToHands();
-
+                //Bring up options for Value
                 obj.GetComponent<OptionMenu>().ControlMenu();
-                break;
-            case "Box":
-                // Place in box
-                obj.GetComponent<BoxController>().boxAction();
                 break;
             case "VariableBox":
-                // Place in box
-                //obj.GetComponent<VariableBoxController>().boxAction();
-				//obj.GetComponent<VariableBoxController>().showMenu();
-
-                // For testing Control Menu
+                // Bring up Options for VariableBox
                 obj.GetComponent<OptionMenu>().ControlMenu();
-                break;
-            case "Platform":
-                obj.GetComponent<PlatformController>().ToPlatform(platformPos);
-                obj.GetComponent<PlatformController>().ControlPlatform(obj, variableType);
                 break;
             case "Move":
                 player.GetComponent<PlayerController>().moveTo(obj);

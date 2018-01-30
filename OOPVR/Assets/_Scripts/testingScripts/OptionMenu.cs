@@ -6,18 +6,16 @@ using cakeslice;
 
 public class OptionMenu : MonoBehaviour
 {
-
     private CanvasGroup canvasGroup;
+    private VariableBoxController variableBox;
     private Transform optionMenu;
     private GameObject MainCamera;
-    private VariableBoxController variableBox;
 
     private Outline outline;
-
-    bool isSelected;
-
     private Vector3 targetPoint;
     private Quaternion targetRotation;
+
+    bool isSelected;
 
     // Use this for initialization
     void Start()
@@ -25,7 +23,7 @@ public class OptionMenu : MonoBehaviour
         optionMenu = transform.Find("OptionMenu");
         canvasGroup = optionMenu.GetComponent<CanvasGroup>();
         variableBox = transform.GetComponent<VariableBoxController>();
-        outline = this.transform.GetComponent<Outline>();
+        outline = transform.GetComponent<Outline>();
         MainCamera = GameObject.Find("Main Camera");
 
         isSelected = false;
@@ -36,7 +34,6 @@ public class OptionMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         targetPoint = new Vector3(MainCamera.transform.position.x, optionMenu.position.y, MainCamera.transform.position.z) - optionMenu.position;
         targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
         optionMenu.rotation = Quaternion.Slerp(optionMenu.rotation, targetRotation, Time.deltaTime * 2.0f);
