@@ -15,6 +15,7 @@ public class Door : MonoBehaviour {
 		doorOpen = false;
 		animator = GetComponent<Animator>();
         options = transform.GetComponent<OptionMenu>();
+        info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
     }
 
 	private void DoorControl(string direction) {
