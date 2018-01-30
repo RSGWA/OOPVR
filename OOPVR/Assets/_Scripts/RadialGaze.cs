@@ -59,6 +59,9 @@ public class RadialGaze : MonoBehaviour
             case "Door":
                 obj.GetComponent<OptionMenu>().ControlMenu();
                 break;
+            case "Return":
+                obj.GetComponent<OptionMenu>().ControlMenu();
+                break;
             default:
                 break;
         }
