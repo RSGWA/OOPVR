@@ -130,4 +130,9 @@ public class OptionMenu : MonoBehaviour
                 break;
         }
     }
+
+	public bool selected() {
+		return isSelected;
+	}
+
 }
