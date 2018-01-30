@@ -64,15 +64,11 @@ public class OptionMenu : MonoBehaviour
         if (isSelected == false)
         {
             Select();
-            
-
         }
         else
         {
             Deselect();
         }
-
-
 
     }
 

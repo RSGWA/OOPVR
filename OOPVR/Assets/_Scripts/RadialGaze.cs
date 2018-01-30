@@ -86,7 +86,6 @@ public class RadialGaze : MonoBehaviour
         }
         else
         {
-            
                 previousSelectedObj = currentSelectedObj;
                 currentSelectedObj = obj;
 
@@ -95,8 +94,7 @@ public class RadialGaze : MonoBehaviour
 
                 //Select currentSO
                 currentSelectedObj.GetComponent<OptionMenu>().Select();
-           
-            
+
         }
         
         

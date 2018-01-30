@@ -23,11 +23,12 @@ public class Door : MonoBehaviour {
 	}
 
 	public void openDoor() {
-		DoorControl ("Open");
+        
+        DoorControl ("Open");
 		GetComponent<BoxCollider> ().enabled = false;
 		doorOpen = true;
         //Deselect the door outlines before opening
-        options.Deselect();
+        //options.Deselect();
     }
 
 	public void closeDoor() {
