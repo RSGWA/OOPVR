@@ -7,8 +7,14 @@ using cakeslice;
 public class OptionMenu : MonoBehaviour
 {
     private CanvasGroup canvasGroup;
-    private VariableBoxController variableBox;
     private Transform optionMenu;
+    private string selectedObject;
+
+    private VariableBoxController variableBox;
+    private ValueController valueControl;
+    private Door doorControl;
+    private ReturnController returnControl;
+
     private GameObject MainCamera;
 
     private Outline outline;
@@ -20,20 +26,20 @@ public class OptionMenu : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        selectedObject = transform.tag;
+
+        outline = transform.GetComponent<Outline>();
+        
+        
         optionMenu = transform.Find("OptionMenu");
         canvasGroup = optionMenu.GetComponent<CanvasGroup>();
+
         variableBox = transform.GetComponent<VariableBoxController>();
+        valueControl = transform.GetComponent<ValueController>();
         
         MainCamera = GameObject.Find("Main Camera");
 
-        if(transform.GetComponent<Outline>() != null)
-        {
-            outline = transform.GetComponent<Outline>();
-        }
-        else
-        {
-            outline = transform.Find("DoorPanel").GetComponent<Outline>();
-        }
+        
         
 
         isSelected = false;
@@ -53,12 +59,12 @@ public class OptionMenu : MonoBehaviour
     {
         //some way of disabling the optionMenu when another object is selected
 
-
+        print(transform.name + "  this is the NAME");
 
         if (isSelected == false)
         {
             Select();
-            //variableBox.enableVariableBox(false);
+            
 
         }
         else
@@ -72,6 +78,7 @@ public class OptionMenu : MonoBehaviour
 
     public void Select()
     {
+        EnableSelectedObject(false);
         ShowOptions();
         outline.eraseRenderer = false;
         outline.enabled = true;
@@ -82,6 +89,7 @@ public class OptionMenu : MonoBehaviour
 
     public void Deselect()
     {
+        EnableSelectedObject(true);
         HideOptions();
         outline.eraseRenderer = true;
         outline.enabled = false;
@@ -102,4 +110,24 @@ public class OptionMenu : MonoBehaviour
         canvasGroup.alpha = 0;
     }
 
+    void EnableSelectedObject(bool key)
+    {
+        switch (selectedObject)
+        {
+            case "Value":
+                valueControl.enableVars(key);
+                break;
+            case "VariableBox":
+                variableBox.enableVariableBox(key);
+                break;
+            case "Door":
+                transform.GetComponent<Collider>().enabled = key;
+                break;
+            case "Return":
+                transform.GetComponent<Collider>().enabled = key;
+                break;
+            default:
+                break;
+        }
+    }
 }
