@@ -26,6 +26,10 @@ public class Notepad : MonoBehaviour {
 	string mainText; 
 	string defaultConstructorText;
 
+	List<string> pages = new List<string>();
+
+	int currentPage = 0;
+
 	void Awake() {
 		objectives = GameObject.FindGameObjectsWithTag ("Objective");
 		tracker = GameObject.FindGameObjectWithTag ("Tracker");
@@ -33,19 +37,22 @@ public class Notepad : MonoBehaviour {
 		code = this.transform.Find ("Code").gameObject;
 		title = this.transform.Find ("Title").gameObject;
 
+		// Load in text from textfile
 		main = Resources.Load (mainFilename) as TextAsset;
 		defaultConstructor = Resources.Load (defaultConstructorFilename) as TextAsset;
 
 		defaultConstructorText = defaultConstructor.text;
 		mainText = main.text;
 
-		activeText = MAIN;
-		setTitle (activeText);
+		parseText (defaultConstructorText);
+
+		activeText = pages[0]; // Main
+		setTitle ("Main");
 
 		//removeObjectiveMarkers (ref mainText);
 		//removeObjectiveMarkers (ref defaultConstructorText);
 
-		setText (mainText);
+		setText (0);
 		//setText (defaultConstructorText);
 	}
 
@@ -53,27 +60,34 @@ public class Notepad : MonoBehaviour {
 		
 	}
 
-	public void highlightText(string text, string color) {
-		switch (activeText) {
-		case MAIN:
-			int startIndex = mainText.IndexOf (text);
-			int	endIndex = startIndex + text.Length;
+	void parseText(string text) {
 
-			mainText = mainText.Insert (endIndex, "</color></b>");
-			mainText = mainText.Insert (startIndex, "<b><color=" + color + ">");
-			setText (mainText);
-			break;
-		case DEFAULT_CONSTRUCTOR:
-			startIndex = defaultConstructorText.IndexOf (text);
-			endIndex = startIndex + text.Length;
-
-			defaultConstructorText = defaultConstructorText.Insert (endIndex, "</color></b>");
-			defaultConstructorText = defaultConstructorText.Insert (startIndex, "<b><color=" + color + ">");
-			setText (defaultConstructorText);
-			break;
-		default:
-			break;
+		List<int> list = text.AllIndexsOf ("<p>");
+		List<int> startIndices = new List<int>();
+		foreach (int index in list) {
+			startIndices.Add (index + 3);
 		}
+		List<int> endIndices = text.AllIndexsOf ("</p>");
+
+		for (int i = 0; i < startIndices.Count; i++) {
+			pages.Add (text.Substring (startIndices [i], endIndices [i] - startIndices [i]));
+		}
+	}
+
+	public void highlightText(string text, string color) {
+		activeText = pages [currentPage];
+
+		int startIndex = activeText.IndexOf (text);
+		int	endIndex = startIndex + text.Length;
+
+		activeText = activeText.Insert (endIndex, "</color></b>");
+		activeText = activeText.Insert (startIndex, "<b><color=" + color + ">");
+		setText (activeText);
+	}
+
+	void setText(int pageNumber) {
+		code.GetComponent<Text> ().text = pages [pageNumber];
+		currentPage = pageNumber;
 	}
 
 	void setText(string text) {
@@ -93,19 +107,8 @@ public class Notepad : MonoBehaviour {
 	}
 
 	public void resetHighlight() {
-		// Reset color to black
-		switch (activeText) {
-		case MAIN:
-			mainText = main.text;
-			setText (mainText);
-			break;
-		case DEFAULT_CONSTRUCTOR:
-			defaultConstructorText = defaultConstructor.text;
-			setText (defaultConstructor.text);
-			break;
-		default:
-			break;
-		}
+		activeText = pages [currentPage];
+		setText (currentPage);
 	}
 
 	void setObjective(GameObject objective) {
@@ -137,20 +140,9 @@ public class Notepad : MonoBehaviour {
 		}
 	}
 
-	public void setActiveText(string text) {
-		activeText = text;
-		// Change title to match code
-		setTitle(activeText);
-		switch (text) {
-		case MAIN:
-			setText (mainText);
-			break;
-		case DEFAULT_CONSTRUCTOR:
-			setText (defaultConstructorText);
-			break;
-		default:
-			break;
-		}
+	public void setActiveText(int pageNumber) {
+		activeText = pages [pageNumber];
+		setText (pageNumber);
 	}
 
 	public void endOfActivity() {
