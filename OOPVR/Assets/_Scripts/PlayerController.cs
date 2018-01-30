@@ -44,8 +44,10 @@ public class PlayerController : MonoBehaviour {
 		curves = AnimationUtility.movePlayer (transform, origin);
 		playerMoving = true;
 
-		currentRoom.transform.GetChild (0).GetComponent<Door> ().closeDoor ();
-		currentRoom.transform.GetChild (1).GetComponent<Door> ().closeDoor ();
+		Transform doorParent = currentRoom.transform.GetChild (0);
+
+		doorParent.GetChild (0).GetComponent<Door> ().closeDoor ();
+		doorParent.GetChild (1).GetComponent<Door> ().closeDoor ();
 
 		returned = true;
 	}
@@ -69,11 +71,12 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator check() {
 		doorOpen = false;
 
+		Transform doorParent = currentRoom.transform.GetChild (0);
 
 		while (!doorOpen) {
 			yield return null;
 
-			if (currentRoom.transform.GetChild(0).GetComponent<Door>().isDoorFullyOpen()) {
+			if (doorParent.GetComponentInChildren<Door>().isDoorFullyOpen()) {
 				doorOpen = true;
 			}		
 		}

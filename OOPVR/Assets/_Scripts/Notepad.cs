@@ -89,7 +89,10 @@ public class Notepad : MonoBehaviour {
 	}
 
 	public void highlightCurrentObjective(string objective) {
+		highlightText (objective, "white");
+	}
 
+	public void resetHighlight() {
 		// Reset color to black
 		switch (activeText) {
 		case MAIN:
@@ -103,8 +106,6 @@ public class Notepad : MonoBehaviour {
 		default:
 			break;
 		}
-
-		highlightText (objective, "white");
 	}
 
 	void setObjective(GameObject objective) {
