@@ -23,8 +23,18 @@ public class OptionMenu : MonoBehaviour
         optionMenu = transform.Find("OptionMenu");
         canvasGroup = optionMenu.GetComponent<CanvasGroup>();
         variableBox = transform.GetComponent<VariableBoxController>();
-        outline = transform.GetComponent<Outline>();
+        
         MainCamera = GameObject.Find("Main Camera");
+
+        if(transform.GetComponent<Outline>() != null)
+        {
+            outline = transform.GetComponent<Outline>();
+        }
+        else
+        {
+            outline = transform.Find("DoorPanel").GetComponent<Outline>();
+        }
+        
 
         isSelected = false;
         outline.enabled = false;

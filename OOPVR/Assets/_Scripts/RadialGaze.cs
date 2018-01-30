@@ -42,7 +42,7 @@ public class RadialGaze : MonoBehaviour
     public void PerformActionOnGameObject()
     {
         GameObject obj = GvrPointerInputModule.CurrentRaycastResult.gameObject;
-	
+
         switch (obj.tag)
         {
             case "Value":
@@ -55,6 +55,9 @@ public class RadialGaze : MonoBehaviour
                 break;
             case "Move":
                 player.GetComponent<PlayerController>().moveTo(obj);
+                break;
+            case "Door":
+                obj.GetComponent<OptionMenu>().ControlMenu();
                 break;
             default:
                 break;

@@ -5,12 +5,17 @@ using UnityEngine;
 public class Door : MonoBehaviour {
 
 	Animator animator;
-	bool doorOpen;
+    private InfoController info;
+    private OptionMenu options;
+    bool doorOpen;
+    bool infoSelected = false;
+    
 
-	void Start() {
+    void Start() {
 		doorOpen = false;
 		animator = GetComponent<Animator>();
-	}
+        options = transform.GetComponent<OptionMenu>();
+    }
 
 	private void DoorControl(string direction) {
 		animator.SetTrigger(direction);
@@ -20,7 +25,9 @@ public class Door : MonoBehaviour {
 		DoorControl ("Open");
 		GetComponent<BoxCollider> ().enabled = false;
 		doorOpen = true;
-	}
+        //Deselect the door outlines before opening
+        options.Deselect();
+    }
 
 	public void closeDoor() {
 		DoorControl ("Close");
@@ -55,5 +62,21 @@ public class Door : MonoBehaviour {
 	{
 		return doorOpen;
 	}
+
+    public void infoButton()
+    {
+        info.SetInformation("This is a Door.\nIt allows you to 'GO INTO' a method and perform Operations\nPLEASE SELECT INFO AGAIN TO DESELECT!");
+
+        if (!infoSelected)
+        {
+            info.ShowInformation();
+            infoSelected = true;
+        }
+        else
+        {
+            info.HideInformation();
+            infoSelected = false;
+        }
+    }
 		
 }
