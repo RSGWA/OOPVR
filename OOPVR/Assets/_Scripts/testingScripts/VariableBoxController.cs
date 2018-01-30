@@ -321,6 +321,22 @@ public class VariableBoxController : MonoBehaviour
         currentTime = Time.time;
         string varBoxType = transform.GetChild(0).tag;
 
+        //Check whether it is on a Parameter
+        string parent = "";
+        if (transform.parent != null)
+        {
+            parent = transform.parent.tag;
+
+            //VariableBox is OnParameter
+            if (parent == "Parameter")
+            {
+                onParameter = true;
+            }
+
+            //Check for other variableboxes in different methods
+
+        }
+
         if (objInHand == null)
         {
             MessageCanvas.SetMessage("CANNOT ASSIGN: No Value has been picked up, please pick up a value of type " + varBoxType);
