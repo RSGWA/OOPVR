@@ -21,8 +21,8 @@ public class ParameterController : MonoBehaviour
     {
         Player = GameObject.Find("Player");
         methodName = transform.parent.Find("MethodName").gameObject;
-        doorExt = transform.parent.Find("DoorExt").gameObject;
-        doorInt = transform.parent.Find("DoorInt").gameObject;
+        doorExt = transform.parent.Find("Door").Find("DoorExt").gameObject;
+        doorInt = transform.parent.Find("Door").Find("DoorInt").gameObject;
         numOfParams = transform.childCount;
         parameters = new GameObject[numOfParams];
         varBoxes = new Transform[numOfParams];

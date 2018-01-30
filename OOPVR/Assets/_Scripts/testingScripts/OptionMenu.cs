@@ -8,6 +8,7 @@ public class OptionMenu : MonoBehaviour {
 
     private CanvasGroup canvasGroup;
     private VariableBoxController variableBox;
+
     private Outline outline;
 
     bool isSelected;
@@ -17,8 +18,11 @@ public class OptionMenu : MonoBehaviour {
     {
         canvasGroup = transform.Find("OptionMenu").GetComponent<CanvasGroup>();
         variableBox = transform.GetComponent<VariableBoxController>();
-        outline = transform.GetComponent<Outline>();
+        outline = this.transform.GetComponent<Outline>();
+
         isSelected = false;
+        outline.enabled = false;
+
     }
 
     // Update is called once per frame

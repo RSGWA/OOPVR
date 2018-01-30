@@ -229,6 +229,22 @@ public class TestVariableBox : MonoBehaviour
         currentTime = Time.time;
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
 
+        //Check whether it is on a Parameter
+        string parent = "";
+        if (transform.parent != null)
+        {
+            parent = transform.parent.tag;
+
+            //VariableBox is OnParameter
+            if (parent == "Parameter")
+            {
+                onParameter = true;
+            }
+
+            //Check for other variableboxes in different methods
+
+        }
+
 
         if (objInHand == null)
         {
@@ -403,7 +419,7 @@ public class TestVariableBox : MonoBehaviour
     {
         string varBoxType = transform.GetChild(0).tag;
         string varName = transform.name;
-        info.SetInformation("This is a variable.\n " + varName + " = " + varBoxType + "!!\n  This " +
+        info.SetInformation("This is a variable.\n " + varName + " = " + varBoxType + "!!\nThis " +
             "is just an exampe of showing how info works.\n PLEASE SELECT INFO AGAIN TO DESELECT!");
 
         if (!infoSelected)
