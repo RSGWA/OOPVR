@@ -154,7 +154,7 @@ public class ValueController : MonoBehaviour
         {
 
             // Put value in hand back where it was
-            objInHandGhost = objInHand.GetComponent<TestValueController>().getGhost();
+            objInHandGhost = objInHand.GetComponent<ValueController>().getGhost();
             objInHand.transform.rotation = objInHandGhost.transform.rotation;
             objInHand.transform.parent = objInHandGhost.transform;
 

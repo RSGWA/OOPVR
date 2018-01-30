@@ -102,4 +102,7 @@ public class OptionMenu : MonoBehaviour
         canvasGroup.alpha = 0;
     }
 
+	public bool selected() {
+		return isSelected;
+	}
 }
