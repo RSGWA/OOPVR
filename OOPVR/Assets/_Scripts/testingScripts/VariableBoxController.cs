@@ -381,7 +381,6 @@ public class VariableBoxController : MonoBehaviour
                 // Remove ghost of variable
                 objInHand.GetComponent<ValueController>().removeGhost();
                 
-
                 movingVarToBox = true;
                 variableBoxValue = objInHand;
                 Hand.GetComponent<HandController>().setObjInHand(null); // Object no longer in hand

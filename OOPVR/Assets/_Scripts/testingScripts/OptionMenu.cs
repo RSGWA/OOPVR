@@ -4,7 +4,8 @@ using UnityEngine;
 using cakeslice;
 
 
-public class OptionMenu : MonoBehaviour {
+public class OptionMenu : MonoBehaviour
+{
 
     private CanvasGroup canvasGroup;
     private Transform optionMenu;
@@ -14,6 +15,9 @@ public class OptionMenu : MonoBehaviour {
     private Outline outline;
 
     bool isSelected;
+
+    private Vector3 targetPoint;
+    private Quaternion targetRotation;
 
     // Use this for initialization
     void Start()
@@ -32,28 +36,29 @@ public class OptionMenu : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-            optionMenu.rotation = MainCamera.transform.rotation;
-        
 
+        targetPoint = new Vector3(MainCamera.transform.position.x, optionMenu.position.y, MainCamera.transform.position.z) - optionMenu.position;
+        targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
+        optionMenu.rotation = Quaternion.Slerp(optionMenu.rotation, targetRotation, Time.deltaTime * 2.0f);
     }
 
     public void ControlMenu()
     {
         //some way of disabling the optionMenu when another object is selected
 
-        
+
 
         if (isSelected == false)
         {
             Select();
             //variableBox.enableVariableBox(false);
-            
+
         }
         else
         {
             Deselect();
         }
-        
+
 
 
     }
@@ -65,7 +70,7 @@ public class OptionMenu : MonoBehaviour {
         outline.enabled = true;
         isSelected = true;
 
-        
+
     }
 
     public void Deselect()
