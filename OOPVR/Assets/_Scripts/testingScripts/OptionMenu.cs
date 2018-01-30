@@ -7,6 +7,8 @@ using cakeslice;
 public class OptionMenu : MonoBehaviour {
 
     private CanvasGroup canvasGroup;
+    private Transform optionMenu;
+    private GameObject MainCamera;
     private VariableBoxController variableBox;
 
     private Outline outline;
@@ -16,9 +18,11 @@ public class OptionMenu : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        canvasGroup = transform.Find("OptionMenu").GetComponent<CanvasGroup>();
+        optionMenu = transform.Find("OptionMenu");
+        canvasGroup = optionMenu.GetComponent<CanvasGroup>();
         variableBox = transform.GetComponent<VariableBoxController>();
         outline = this.transform.GetComponent<Outline>();
+        MainCamera = GameObject.Find("Main Camera");
 
         isSelected = false;
         outline.enabled = false;
@@ -28,7 +32,8 @@ public class OptionMenu : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+            optionMenu.rotation = MainCamera.transform.rotation;
+        
 
     }
 
@@ -59,6 +64,8 @@ public class OptionMenu : MonoBehaviour {
         outline.eraseRenderer = false;
         outline.enabled = true;
         isSelected = true;
+
+        
     }
 
     public void Deselect()
