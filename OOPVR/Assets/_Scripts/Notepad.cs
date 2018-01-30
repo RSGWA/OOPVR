@@ -11,19 +11,12 @@ public class Notepad : MonoBehaviour {
 	GameObject code;
 	GameObject title;
 
-	string mainFilename = "main";
 	string defaultConstructorFilename = "defaultConstructor";
-
-	public const string MAIN = "Main";
-	public const string DEFAULT_CONSTRUCTOR = "Default Constructor";
-	public const string OBJECTIVE_MARKER = "[";
 
 	string activeText;
 
-	TextAsset main;
 	TextAsset defaultConstructor;
 
-	string mainText; 
 	string defaultConstructorText;
 
 	List<string> pages = new List<string>();
@@ -38,11 +31,9 @@ public class Notepad : MonoBehaviour {
 		title = this.transform.Find ("Title").gameObject;
 
 		// Load in text from textfile
-		main = Resources.Load (mainFilename) as TextAsset;
 		defaultConstructor = Resources.Load (defaultConstructorFilename) as TextAsset;
 
 		defaultConstructorText = defaultConstructor.text;
-		mainText = main.text;
 
 		parseText (defaultConstructorText);
 
@@ -130,7 +121,7 @@ public class Notepad : MonoBehaviour {
 	}
 
 	void removeObjectiveMarkers(ref string text) {
-		List<int> indexes = text.AllIndexsOf (OBJECTIVE_MARKER);
+		List<int> indexes = text.AllIndexsOf ("");
 
 		// Indices reversed so indices of markers remain the same after first removal
 		indexes.Reverse ();
