@@ -28,10 +28,17 @@ public class OptionMenu : MonoBehaviour
     {
         selectedObject = transform.tag;
 
+       if(selectedObject == "Door")
+        {
+            optionMenu = transform.parent.Find("OptionMenu");
+        }
+        else
+        {
+            optionMenu = transform.Find("OptionMenu");
+        }
+        
         outline = transform.GetComponent<Outline>();
-        
-        
-        optionMenu = transform.Find("OptionMenu");
+
         canvasGroup = optionMenu.GetComponent<CanvasGroup>();
 
         variableBox = transform.GetComponent<VariableBoxController>();
@@ -76,7 +83,7 @@ public class OptionMenu : MonoBehaviour
     {
         EnableSelectedObject(false);
         ShowOptions();
-        outline.eraseRenderer = false;
+        //outline.eraseRenderer = false;
         outline.enabled = true;
         isSelected = true;
 
@@ -87,7 +94,7 @@ public class OptionMenu : MonoBehaviour
     {
         EnableSelectedObject(true);
         HideOptions();
-        outline.eraseRenderer = true;
+        //outline.eraseRenderer = true;
         outline.enabled = false;
         isSelected = false;
     }

@@ -14,7 +14,7 @@ public class Door : MonoBehaviour {
     void Start() {
 		doorOpen = false;
 		animator = GetComponent<Animator>();
-        options = transform.GetComponent<OptionMenu>();
+        options = transform.Find("DoorPanel").GetComponent<OptionMenu>();
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
     }
 
@@ -28,7 +28,7 @@ public class Door : MonoBehaviour {
 		GetComponent<BoxCollider> ().enabled = false;
 		doorOpen = true;
         //Deselect the door outlines before opening
-        //options.Deselect();
+        options.Deselect();
     }
 
 	public void closeDoor() {

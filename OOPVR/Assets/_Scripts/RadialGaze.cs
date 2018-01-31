@@ -46,7 +46,7 @@ public class RadialGaze : MonoBehaviour
     public void PerformActionOnGameObject()
     {
         GameObject obj = GvrPointerInputModule.CurrentRaycastResult.gameObject;
-
+        print(obj.name + "   Object Name");
         switch (obj.tag)
         {
             case "Value":
