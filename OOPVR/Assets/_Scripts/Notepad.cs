@@ -85,7 +85,7 @@ public class Notepad : MonoBehaviour {
 		code.GetComponent<Text> ().text = text;
 	}
 
-	void setTitle(string text) {
+	public void setTitle(string text) {
 		title.GetComponent<Text> ().text = text;
 	}
 

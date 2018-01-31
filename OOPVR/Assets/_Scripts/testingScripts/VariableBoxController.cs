@@ -5,6 +5,7 @@ using cakeslice;
 
 public class VariableBoxController : MonoBehaviour
 {
+	public string code;
 
     private GameObject Hand;
     private GameObject[] variableBoxes;
@@ -16,7 +17,7 @@ public class VariableBoxController : MonoBehaviour
 
     private Status MessageCanvas;
     private InfoController info;
-    private OptionMenu options;
+	private OptionMenu options;
 
     // Only one Ghost Object can exist at a time so all boxes must have a
     // reference to it and the original
@@ -50,7 +51,6 @@ public class VariableBoxController : MonoBehaviour
         MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
         options = transform.GetComponent<OptionMenu>();
-
     }
 
     // Update is called once per frame

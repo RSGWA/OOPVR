@@ -12,7 +12,7 @@ public class OptionMenu : MonoBehaviour
 
     private VariableBoxController variableBox;
     private ValueController valueControl;
-    private Door doorControl;
+	private Door door;
     private ReturnController returnControl;
 
     private GameObject MainCamera;
@@ -20,6 +20,8 @@ public class OptionMenu : MonoBehaviour
     private Outline outline;
     private Vector3 targetPoint;
     private Quaternion targetRotation;
+
+	private Notepad notepad;
 
     bool isSelected;
 
@@ -46,8 +48,8 @@ public class OptionMenu : MonoBehaviour
         
         MainCamera = GameObject.Find("Main Camera");
 
-        
-        
+		door = transform.parent.GetComponent<Door> ();
+		notepad = GameObject.FindGameObjectWithTag ("Notepad").GetComponent<Notepad> ();
 
         isSelected = false;
         outline.enabled = false;
@@ -83,7 +85,7 @@ public class OptionMenu : MonoBehaviour
     {
         EnableSelectedObject(false);
         ShowOptions();
-        //outline.eraseRenderer = false;
+        outline.eraseRenderer = false;
         outline.enabled = true;
         isSelected = true;
 
@@ -94,7 +96,7 @@ public class OptionMenu : MonoBehaviour
     {
         EnableSelectedObject(true);
         HideOptions();
-        //outline.eraseRenderer = true;
+        outline.eraseRenderer = true;
         outline.enabled = false;
         isSelected = false;
     }
@@ -120,11 +122,14 @@ public class OptionMenu : MonoBehaviour
             case "Value":
                 valueControl.enableVars(key);
                 break;
-            case "VariableBox":
-                variableBox.enableVariableBox(key);
+			case "VariableBox":
+				variableBox.enableVariableBox (key);
+				notepad.highlightText (variableBox.code, "lime");
                 break;
-            case "Door":
-                transform.GetComponent<Collider>().enabled = key;
+			case "Door":
+				if (!door.isDoorOpen ()) {
+					transform.GetComponent<Collider> ().enabled = key;
+				}
                 break;
             case "Return":
                 transform.GetComponent<Collider>().enabled = key;

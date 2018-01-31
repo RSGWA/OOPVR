@@ -10,8 +10,12 @@ public class Door : MonoBehaviour {
     bool doorOpen;
     bool infoSelected = false;
     
+	Transform DoorPanel;
 
     void Start() {
+
+		DoorPanel = transform.Find ("DoorPanel");
+
 		doorOpen = false;
 		animator = GetComponent<Animator>();
         options = transform.Find("DoorPanel").GetComponent<OptionMenu>();
@@ -25,7 +29,7 @@ public class Door : MonoBehaviour {
 	public void openDoor() {
         
         DoorControl ("Open");
-		GetComponent<BoxCollider> ().enabled = false;
+		DoorPanel.GetComponent<BoxCollider> ().enabled = false;
 		doorOpen = true;
         //Deselect the door outlines before opening
         options.Deselect();
@@ -33,7 +37,7 @@ public class Door : MonoBehaviour {
 
 	public void closeDoor() {
 		DoorControl ("Close");
-		GetComponent<BoxCollider> ().enabled = true;
+		DoorPanel.GetComponent<BoxCollider> ().enabled = true;
 		doorOpen = false;
 	}
 
@@ -48,11 +52,11 @@ public class Door : MonoBehaviour {
 	}
 
 	public void enableDoor() {
-		GetComponent<BoxCollider> ().enabled = true;
+		DoorPanel.GetComponent<BoxCollider> ().enabled = true;
 	}
 
 	public void disableDoor() {
-		GetComponent<BoxCollider> ().enabled = false;
+		DoorPanel.GetComponent<BoxCollider> ().enabled = false;
 	}
 
     public bool isDoorFullyOpen()

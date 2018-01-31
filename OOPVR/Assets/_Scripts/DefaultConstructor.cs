@@ -38,6 +38,7 @@ public class DefaultConstructor : MonoBehaviour {
 			yield return new WaitForSeconds (0.1f);
 		}
 		notepad.setActiveText (1);
+		notepad.setTitle ("DEFAULT CONSTRUCTOR");
 		notepad.highlightCurrentObjective (objectives [1]);
 		StartCoroutine ("checkConstructorEntered");
 	}
