@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 114876967128384526}
   - component: {fileID: 114230507310268142}
   - component: {fileID: 114875054273107198}
+  - component: {fileID: 114580840224339314}
   - component: {fileID: 95284557055116522}
   - component: {fileID: 114433094620441122}
   - component: {fileID: 65925373083773476}
@@ -433,7 +434,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411584614601240}
   m_LocalRotation: {x: -0.70710427, y: -0.0018878396, z: -0.0018878172, w: 0.7071043}
-  m_LocalPosition: {x: -0.021677986, y: 0.008996475, z: -0.010557856}
+  m_LocalPosition: {x: 2.33, y: 0.458, z: 1.38}
   m_LocalScale: {x: 0.30687016, y: 0.4239235, z: 0.15673202}
   m_Children:
   - {fileID: 4333186786839436}
@@ -1401,52 +1402,7 @@ MonoBehaviour:
   m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_MethodName: ResetCounter
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Delegates: []
   delegates: []
 --- !u!114 &114480266631882252
 MonoBehaviour:
@@ -1560,6 +1516,17 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114580840224339314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1411584614601240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9fd6da9f6ea63a46b426b8d9d77f9e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114597509854038922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1571,7 +1538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960736f9cd98c2b459c9e56f05c7ebf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationTime: 2
 --- !u!114 &114704471479090264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1678,7 +1644,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960736f9cd98c2b459c9e56f05c7ebf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationTime: 2
 --- !u!114 &114800303015583350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1690,7 +1655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960736f9cd98c2b459c9e56f05c7ebf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationTime: 2
 --- !u!114 &114805699679366996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1744,6 +1708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6b98cdaef505243a74e21780a759db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  code: 
 --- !u!114 &114948398787571234
 MonoBehaviour:
   m_ObjectHideFlags: 1

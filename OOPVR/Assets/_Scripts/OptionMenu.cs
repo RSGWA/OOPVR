@@ -89,6 +89,7 @@ public class OptionMenu : MonoBehaviour
 
         selectedItem.enabled = false;
         EnableSelectedObject(false);
+
         ShowOptions();
         outline.eraseRenderer = false;
         outline.enabled = true;
@@ -137,6 +138,7 @@ public class OptionMenu : MonoBehaviour
                 if (!door.isDoorOpen())
                 {
                     transform.GetComponent<Collider>().enabled = key;
+                    door.GetComponent<Collider>().enabled = !key;
                 }
                 break;
             case "Return":
