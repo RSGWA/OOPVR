@@ -8,11 +8,13 @@ public class OptionMenu : MonoBehaviour
 {
     private CanvasGroup canvasGroup;
     private Transform optionMenu;
+    private InteractiveItemGaze selectedItem;
+    private static InteractiveItemGaze itemHolder;
     private string selectedObject;
 
     private VariableBoxController variableBox;
     private ValueController valueControl;
-	private Door door;
+    private Door door;
     private ReturnController returnControl;
 
     private GameObject MainCamera;
@@ -21,7 +23,7 @@ public class OptionMenu : MonoBehaviour
     private Vector3 targetPoint;
     private Quaternion targetRotation;
 
-	private Notepad notepad;
+    private Notepad notepad;
 
     bool isSelected;
 
@@ -30,29 +32,31 @@ public class OptionMenu : MonoBehaviour
     {
         selectedObject = transform.tag;
 
-       if(selectedObject == "Door")
+        if (selectedObject == "Door")
         {
             optionMenu = transform.parent.Find("OptionMenu");
+            door = transform.parent.GetComponent<Door>();
         }
         else
         {
             optionMenu = transform.Find("OptionMenu");
         }
-        
-        outline = transform.GetComponent<Outline>();
 
         canvasGroup = optionMenu.GetComponent<CanvasGroup>();
 
+        selectedItem = transform.GetComponent<InteractiveItemGaze>();
+        outline = transform.GetComponent<Outline>();
+        outline.enabled = false;
+
         variableBox = transform.GetComponent<VariableBoxController>();
         valueControl = transform.GetComponent<ValueController>();
-        
+
+
+        notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
+
         MainCamera = GameObject.Find("Main Camera");
 
-		door = transform.parent.GetComponent<Door> ();
-		notepad = GameObject.FindGameObjectWithTag ("Notepad").GetComponent<Notepad> ();
-
         isSelected = false;
-        outline.enabled = false;
 
     }
 
@@ -66,8 +70,6 @@ public class OptionMenu : MonoBehaviour
 
     public void ControlMenu()
     {
-        //some way of disabling the optionMenu when another object is selected
-
         print(transform.name + "  this is the NAME");
 
         if (isSelected == false)
@@ -83,6 +85,9 @@ public class OptionMenu : MonoBehaviour
 
     public void Select()
     {
+        itemHolder = selectedItem;
+
+        selectedItem.enabled = false;
         EnableSelectedObject(false);
         ShowOptions();
         outline.eraseRenderer = false;
@@ -94,7 +99,9 @@ public class OptionMenu : MonoBehaviour
 
     public void Deselect()
     {
+        itemHolder.enabled = true;
         EnableSelectedObject(true);
+
         HideOptions();
         outline.eraseRenderer = true;
         outline.enabled = false;
@@ -120,16 +127,17 @@ public class OptionMenu : MonoBehaviour
         switch (selectedObject)
         {
             case "Value":
-                valueControl.enableVars(key);
+                valueControl.GetComponent<Collider>().enabled = key;
                 break;
-			case "VariableBox":
-				variableBox.enableVariableBox (key);
-				notepad.highlightText (variableBox.code, "lime");
+            case "VariableBox":
+                variableBox.enableVariableBox(key);
+                //notepad.highlightText (variableBox.code, "lime");
                 break;
-			case "Door":
-				if (!door.isDoorOpen ()) {
-					transform.GetComponent<Collider> ().enabled = key;
-				}
+            case "Door":
+                if (!door.isDoorOpen())
+                {
+                    transform.GetComponent<Collider>().enabled = key;
+                }
                 break;
             case "Return":
                 transform.GetComponent<Collider>().enabled = key;
@@ -139,8 +147,9 @@ public class OptionMenu : MonoBehaviour
         }
     }
 
-	public bool selected() {
-		return isSelected;
-	}
+    public bool selected()
+    {
+        return isSelected;
+    }
 
 }
