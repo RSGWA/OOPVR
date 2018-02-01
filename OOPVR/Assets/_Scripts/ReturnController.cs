@@ -6,6 +6,7 @@ public class ReturnController : MonoBehaviour {
 
 	private GameObject hand;
     private InfoController info;
+    private OptionMenu options;
 
     bool infoSelected = false;
 
@@ -13,6 +14,7 @@ public class ReturnController : MonoBehaviour {
     void Start () {
 		hand = GameObject.FindGameObjectWithTag ("Hand");
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
+        options = transform.GetComponent<OptionMenu>();
     }
 
 	public void checkAndReturn() {
@@ -30,6 +32,7 @@ public class ReturnController : MonoBehaviour {
 		if (varType == returnType) {
 			// Exit room
 			GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().backToOrigin();
+            options.Deselect();
 		}
 
 	}
