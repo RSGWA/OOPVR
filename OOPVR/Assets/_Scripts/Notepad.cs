@@ -23,6 +23,8 @@ public class Notepad : MonoBehaviour {
 
 	int currentPage = 0;
 
+	int fontSize = 160;
+
 	void Awake() {
 		objectives = GameObject.FindGameObjectsWithTag ("Objective");
 		tracker = GameObject.FindGameObjectWithTag ("Tracker");
@@ -66,13 +68,20 @@ public class Notepad : MonoBehaviour {
 	}
 
 	public void highlightText(string text, string color) {
-		activeText = pages [currentPage];
-
 		int startIndex = activeText.IndexOf (text);
 		int	endIndex = startIndex + text.Length;
 
 		activeText = activeText.Insert (endIndex, "</color></b>");
 		activeText = activeText.Insert (startIndex, "<b><color=" + color + ">");
+		setText (activeText);
+	}
+
+	public void enlargeText(string text) {
+		int startIndex = activeText.IndexOf (text);
+		int	endIndex = startIndex + text.Length;
+
+		activeText = activeText.Insert (endIndex, "</size></b>");
+		activeText = activeText.Insert (startIndex, "<b><size="+ fontSize +">");
 		setText (activeText);
 	}
 
@@ -97,7 +106,11 @@ public class Notepad : MonoBehaviour {
 		highlightText (objective, "white");
 	}
 
-	public void resetHighlight() {
+	public void enlargeCurrentObjective(string objective) {
+		enlargeText (objective);
+	}
+
+	public void reset() {
 		activeText = pages [currentPage];
 		setText (currentPage);
 	}

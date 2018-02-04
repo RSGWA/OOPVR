@@ -138,7 +138,7 @@ public class OptionMenu : MonoBehaviour
                 if (!door.isDoorOpen())
                 {
                     transform.GetComponent<Collider>().enabled = key;
-                    door.GetComponent<Collider>().enabled = !key;
+                    //door.GetComponent<Collider>().enabled = !key;
                 }
                 break;
             case "Return":
