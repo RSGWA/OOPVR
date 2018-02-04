@@ -28,7 +28,6 @@ public class DefaultConstructor : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//notepad.highlightCurrentObjective (objectives [0]);
 		notepad.enlargeCurrentObjective(objectives[0]);
 		StartCoroutine ("checkInstanceCreated");
 	}
@@ -36,11 +35,13 @@ public class DefaultConstructor : MonoBehaviour {
 	IEnumerator checkInstanceCreated() {
 		while (!instanceCreated) {
 			instanceCreated = instance.hasInstanceBeenCreated ();
+			if (player.isInRoom ()) {
+				instanceCreated = true;
+			}
 			yield return new WaitForSeconds (0.1f);
 		}
 		notepad.setActiveText (1);
 		notepad.setTitle ("DEFAULT CONSTRUCTOR");
-		//notepad.highlightCurrentObjective (objectives [1]);
 		notepad.enlargeCurrentObjective(objectives[1]);
 		StartCoroutine ("checkConstructorEntered");
 	}
@@ -53,8 +54,6 @@ public class DefaultConstructor : MonoBehaviour {
 		notepad.reset ();
 		notepad.enlargeCurrentObjective(objectives[2]);
 		notepad.enlargeCurrentObjective(objectives[3]);
-		//notepad.highlightCurrentObjective (objectives [2]);
-		//notepad.highlightCurrentObjective (objectives [3]);
 		StartCoroutine ("checkInstanceVarsSet");
 	}
 
@@ -63,7 +62,6 @@ public class DefaultConstructor : MonoBehaviour {
 			yield return new WaitForSeconds (0.1f);
 		}
 		notepad.reset ();
-		//notepad.highlightCurrentObjective (objectives [4]);
 		notepad.enlargeCurrentObjective(objectives[4]);
 		StartCoroutine ("checkReturn");
 	}

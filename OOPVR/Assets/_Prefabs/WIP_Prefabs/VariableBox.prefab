@@ -159,8 +159,8 @@ GameObject:
   - component: {fileID: 4290142940852844}
   - component: {fileID: 33986090048616244}
   - component: {fileID: 23473410262187314}
-  - component: {fileID: 114395786266151824}
   - component: {fileID: 114813425676252622}
+  - component: {fileID: 114288951083136932}
   - component: {fileID: 114860575579974714}
   - component: {fileID: 114043890616084858}
   - component: {fileID: 95361798427678662}
@@ -446,16 +446,16 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1356649941157114}
-  m_LocalRotation: {x: -0.7071043, y: -0.0018878281, z: -0.0018878281, w: 0.7071043}
-  m_LocalPosition: {x: -0.9749646, y: 1.239, z: 1.9183455}
-  m_LocalScale: {x: 0.36814016, y: 0.39743048, z: 0.15673012}
+  m_LocalRotation: {x: -0, y: -0, z: 0.74617356, w: 0.66575146}
+  m_LocalPosition: {x: -0.18049996, y: 0.16729999, z: 0.10780007}
+  m_LocalScale: {x: 0.052591987, y: 0.056775913, z: 0.03918305}
   m_Children:
   - {fileID: 4408314217090820}
   - {fileID: 4349379178552474}
   - {fileID: 224519885435267240}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -40.659}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4349379178552474
 Transform:
   m_ObjectHideFlags: 1
@@ -840,7 +840,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114395786266151824}
+      - m_Target: {fileID: 0}
         m_MethodName: AssignButton
         m_Mode: 1
         m_Arguments:
@@ -1238,6 +1238,20 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114288951083136932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1356649941157114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b6b98cdaef505243a74e21780a759db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  code:
+  - string name;
+  - this->name
 --- !u!114 &114315945971242274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1277,7 +1291,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114395786266151824}
+      - m_Target: {fileID: 0}
         m_MethodName: InfoButton
         m_Mode: 1
         m_Arguments:
@@ -1317,18 +1331,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114395786266151824
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1356649941157114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b6b98cdaef505243a74e21780a759db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  code: 
 --- !u!114 &114430577987843402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1654,7 +1656,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114395786266151824}
+      - m_Target: {fileID: 0}
         m_MethodName: CopyButton
         m_Mode: 1
         m_Arguments:
@@ -1716,8 +1718,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 1
-  eraseRenderer: 1
+  color: 0
+  eraseRenderer: 0
   originalLayer: 0
   originalMaterials: []
 --- !u!114 &114875875349333358

@@ -29,7 +29,7 @@ public class ConstructorOneParameter : MonoBehaviour {
             instanceCreated = instance.hasInstanceBeenCreated();
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.updateObjective("1");
+        //notepad.updateObjective("1");
         StartCoroutine("checkConstructorEntered");
     }
 
@@ -40,7 +40,7 @@ public class ConstructorOneParameter : MonoBehaviour {
             constructorEntered = player.isInRoom();
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.updateObjective("2");
+       // notepad.updateObjective("2");
         StartCoroutine("checkInstanceVarsSet");
     }
 
@@ -50,7 +50,7 @@ public class ConstructorOneParameter : MonoBehaviour {
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.updateObjective("3");
+       // notepad.updateObjective("3");
         StartCoroutine("checkReturn");
     }
 

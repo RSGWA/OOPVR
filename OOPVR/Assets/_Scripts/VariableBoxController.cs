@@ -5,7 +5,8 @@ using cakeslice;
 
 public class VariableBoxController : MonoBehaviour
 {
-	public string code;
+
+	public List<string> code;
 
     private GameObject Hand;
     private GameObject[] variableBoxes;
@@ -387,7 +388,6 @@ public class VariableBoxController : MonoBehaviour
                 movingVarToBox = true;
                 variableBoxValue = objInHand;
                 Hand.GetComponent<HandController>().setObjInHand(null); // Object no longer in hand
-
 
                 paramReady = true;
             }

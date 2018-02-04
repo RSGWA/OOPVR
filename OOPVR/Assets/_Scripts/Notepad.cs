@@ -14,6 +14,9 @@ public class Notepad : MonoBehaviour {
 	string defaultConstructorFilename = "defaultConstructor";
 
 	string activeText;
+	string highlightedText;
+
+	string objectivesEnlargedText;
 
 	TextAsset defaultConstructor;
 
@@ -68,11 +71,13 @@ public class Notepad : MonoBehaviour {
 	}
 
 	public void highlightText(string text, string color) {
+		highlightedText = activeText;
+
 		int startIndex = activeText.IndexOf (text);
 		int	endIndex = startIndex + text.Length;
 
-		activeText = activeText.Insert (endIndex, "</color></b>");
-		activeText = activeText.Insert (startIndex, "<b><color=" + color + ">");
+		activeText = activeText.Insert (endIndex, "</color>");
+		activeText = activeText.Insert (startIndex, "<color=" + color + ">");
 		setText (activeText);
 	}
 
@@ -98,10 +103,6 @@ public class Notepad : MonoBehaviour {
 		title.GetComponent<Text> ().text = text;
 	}
 
-	public void updateObjective(string objNumber) {
-		//setObjective (getObjective (objNumber));
-	}
-
 	public void highlightCurrentObjective(string objective) {
 		highlightText (objective, "white");
 	}
@@ -113,15 +114,6 @@ public class Notepad : MonoBehaviour {
 	public void reset() {
 		activeText = pages [currentPage];
 		setText (currentPage);
-	}
-
-	void setObjective(GameObject objective) {
-		/*
-		tracker.transform.localPosition = new Vector3 (
-			tracker.transform.localPosition.x, 
-			objective.transform.localPosition.y,
-			tracker.transform.localPosition.z);
-			*/
 	}
 
 	GameObject getObjective(string number) {
