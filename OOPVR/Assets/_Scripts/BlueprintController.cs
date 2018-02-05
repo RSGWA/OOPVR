@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BlueprintController : MonoBehaviour {
 
-	public GameObject optionsMenu;
+	//public GameObject optionsMenu;
 	public GameObject instance;
 
 	private bool menuOpen;
@@ -24,7 +24,7 @@ public class BlueprintController : MonoBehaviour {
 		originalSize = transform.localScale;
 		highlightedSize = transform.localScale += growth;
 		SetGazedAt (false);
-		optionsMenu.SetActive (false);
+		//optionsMenu.SetActive (false);
 		menuOpen = false;
 		anim = GetComponent<Animator> ();
 	}
@@ -43,12 +43,12 @@ public class BlueprintController : MonoBehaviour {
 	}
 
 	public void OpenMenu() {
-		optionsMenu.SetActive (true);
+		//optionsMenu.SetActive (true);
 		menuOpen = true;
 	}
 
 	public void moveBlueprint() {
-		optionsMenu.SetActive (false);
+		//optionsMenu.SetActive (false);
 		BPControl ("Move");
 		StartCoroutine ("check");
 		StartCoroutine ("createInstance");
