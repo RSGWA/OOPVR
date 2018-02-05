@@ -92,17 +92,19 @@ public class OptionMenu : MonoBehaviour
         outline.enabled = true;
         isSelected = true;
 
-		// Specific actions to do depending on the object selected
-		switch (selectedObject) {
-		case "VariableBox":
-			// Highlight code in notepad representing the selected variable
-			foreach (string text in variableBox.code) {
-				notepad.highlightText (text, "fuchsia"); 
-			}
-			break;
-		default:
-			break;
-		}
+        // Specific actions to do depending on the object selected
+        switch (selectedObject)
+        {
+            case "VariableBox":
+                // Highlight code in notepad representing the selected variable
+                foreach (string text in variableBox.code)
+                {
+                    notepad.highlightText(text, "fuchsia");
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void Deselect()
@@ -115,16 +117,18 @@ public class OptionMenu : MonoBehaviour
         outline.enabled = false;
         isSelected = false;
 
-		// Deselecting actions
-		switch (selectedObject) {
-		case "VariableBox":
-			foreach (string text in variableBox.code) {
-				notepad.highlightText (text, "black"); 
-			}
-			break;
-		default:
-			break;
-		}
+        // Deselecting actions
+        switch (selectedObject)
+        {
+            case "VariableBox":
+                foreach (string text in variableBox.code)
+                {
+                    notepad.highlightText(text, "black");
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     void ShowOptions()
@@ -145,25 +149,27 @@ public class OptionMenu : MonoBehaviour
     {
         switch (selectedObject)
         {
-		case "Value":
-			valueControl.GetComponent<Collider>().enabled = key;
-			break;
-		case "VariableBox":
-			variableBox.enableVariableBox (key);
-			break;
-		case "Door":
-			if (!door.isDoorOpen())
-			{
-				transform.GetComponent<Collider>().enabled = key;
-				door.GetComponent<Collider>().enabled = !key;
-			}
-			break;
-		case "Return":
-			transform.GetComponent<Collider>().enabled = key;
-			break;
-		default:
-			break;
-		}
+            case "Value":
+                valueControl.GetComponent<Collider>().enabled = key;
+                break;
+            case "VariableBox":
+                variableBox.enableVariableBox(key);
+                break;
+            case "Door":
+                if (!door.isDoorOpen())
+                {
+                    transform.GetComponent<Collider>().enabled = key;
+                    door.GetComponent<Collider>().enabled = !key;
+                }
+                
+
+                break;
+            case "Return":
+                transform.GetComponent<Collider>().enabled = key;
+                break;
+            default:
+                break;
+        }
     }
 
     public bool selected()
