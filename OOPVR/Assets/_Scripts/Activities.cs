@@ -80,6 +80,7 @@ public class Activities : MonoBehaviour {
 			SceneManager.LoadScene ("DefaultConstructorScene", LoadSceneMode.Single);
 			break;
 		case "Constructor with Parameters":
+			SceneManager.LoadScene ("2ParameterConstructor", LoadSceneMode.Single);
 			break;
 		case "Get name":
 			break;
