@@ -4087,7 +4087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4332918514969392}
   m_Layer: 0
-  m_Name: Method1
+  m_Name: GetName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8302,7 +8302,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 919dfa11878d40945b63e3d426308eb8, type: 2}
+  - {fileID: 2100000, guid: 4d39b86be36e8ca43abb868d20f3d857, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8370,7 +8370,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 919dfa11878d40945b63e3d426308eb8, type: 2}
+  - {fileID: 2100000, guid: 4d39b86be36e8ca43abb868d20f3d857, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8472,7 +8472,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 919dfa11878d40945b63e3d426308eb8, type: 2}
+  - {fileID: 2100000, guid: 4d39b86be36e8ca43abb868d20f3d857, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10775,7 +10775,7 @@ TextMesh:
   m_FontSize: 100
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: 122934b5180df7b4bb1769f142945aa3, type: 3}
+  m_Font: {fileID: 12800000, guid: 4d39b86be36e8ca43abb868d20f3d857, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
@@ -10912,7 +10912,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643425817408188}
-  m_Text: Person(String)
+  m_Text: Person(String, int)
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -10922,7 +10922,7 @@ TextMesh:
   m_FontSize: 100
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: 122934b5180df7b4bb1769f142945aa3, type: 3}
+  m_Font: {fileID: 12800000, guid: 4d39b86be36e8ca43abb868d20f3d857, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
@@ -11122,7 +11122,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1341417696168988}
-  m_Text: Person(String)
+  m_Text: GetName()
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -11132,7 +11132,7 @@ TextMesh:
   m_FontSize: 100
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: 122934b5180df7b4bb1769f142945aa3, type: 3}
+  m_Font: {fileID: 12800000, guid: 4d39b86be36e8ca43abb868d20f3d857, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
