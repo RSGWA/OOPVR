@@ -14,6 +14,7 @@ public class ButtonGaze : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     float timeElapsed;
 
+	public float extendTime;
 
     // Use this for initialization
     void Start()
@@ -29,8 +30,8 @@ public class ButtonGaze : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (isEntered)
         {
             timeElapsed += Time.deltaTime;
-            gazeProgress.value = Mathf.Clamp(timeElapsed / activationTime, 0, 1);
-            if (timeElapsed >= activationTime)
+			gazeProgress.value = Mathf.Clamp(timeElapsed / (activationTime + extendTime), 0, 1);
+			if (timeElapsed >= (activationTime + extendTime))
             {
                 timeElapsed = 0;
                 button.onClick.Invoke();

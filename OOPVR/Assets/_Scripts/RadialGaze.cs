@@ -15,6 +15,8 @@ public class RadialGaze : MonoBehaviour
     private static GameObject currentSelectedObj;
     private static GameObject previousSelectedObj;
 
+	public float extendTime;
+
     // Use this for initialization
     void Start()
     {
@@ -28,9 +30,9 @@ public class RadialGaze : MonoBehaviour
     {
 
         counterTimer += Time.deltaTime;
-        RadialProgress.GetComponent<Image>().fillAmount = counterTimer / NumberOfSecondsForSelection;
+		RadialProgress.GetComponent<Image>().fillAmount = counterTimer / (NumberOfSecondsForSelection + extendTime);
 
-        if (counterTimer >= NumberOfSecondsForSelection)
+		if (counterTimer >= (NumberOfSecondsForSelection + extendTime))
         {
             PerformActionOnGameObject();
             ResetCounter();
@@ -69,9 +71,18 @@ public class RadialGaze : MonoBehaviour
                 //obj.GetComponent<OptionMenu>().ControlMenu();
                 SetSelectedObject(obj);
                 break;
+			case "Next":
+				obj.GetComponentInParent<Activities> ().nextActiviy ();
+				break;
+			case "Previous":
+				obj.GetComponentInParent<Activities> ().previousActivity ();
+				break;
             default:
                 break;
         }
+
+		// Stops radial gaze restarting timer after an action is started
+		this.enabled = false;
     }
 
     private void SetSelectedObject(GameObject obj)
