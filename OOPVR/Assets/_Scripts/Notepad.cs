@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using OOPVR;
 
 public class Notepad : MonoBehaviour {
@@ -11,8 +12,8 @@ public class Notepad : MonoBehaviour {
 	GameObject code;
 	GameObject title;
 
-	//string defaultConstructorFilename = "defaultConstructor";
-    string defaultConstructorFilename = "constructorWithParameter";
+	string defaultConstructorFilename = "defaultConstructor";
+    string parameterConstructorFilename = "constructorWithParameter";
 
     string activeText;
 	string highlightedText;
@@ -20,8 +21,10 @@ public class Notepad : MonoBehaviour {
 	string objectivesEnlargedText;
 
 	TextAsset defaultConstructor;
+	TextAsset parameterConstructor;
 
 	string defaultConstructorText;
+	string parameterConstructorText;
 
 	List<string> pages = new List<string>();
 
@@ -38,19 +41,27 @@ public class Notepad : MonoBehaviour {
 
 		// Load in text from textfile
 		defaultConstructor = Resources.Load (defaultConstructorFilename) as TextAsset;
+		parameterConstructor = Resources.Load (parameterConstructorFilename) as TextAsset;
 
 		defaultConstructorText = defaultConstructor.text;
+		parameterConstructorText = parameterConstructor.text;
 
-		parseText (defaultConstructorText);
+		// Depending on the current scene, display corresponding code on notepad
+		Scene activeScene = SceneManager.GetActiveScene ();
+
+		switch (activeScene.name) {
+		case "DefaultConstructorScene":
+			parseText (defaultConstructorText);
+			break;
+		case "2ParameterConstructor":
+			parseText (parameterConstructorText);
+			break;
+		}
 
 		activeText = pages[0]; // Main
 		setTitle ("Main");
 
-		//removeObjectiveMarkers (ref mainText);
-		//removeObjectiveMarkers (ref defaultConstructorText);
-
 		setText (0);
-		//setText (defaultConstructorText);
 	}
 
 	void Update() {
