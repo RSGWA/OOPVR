@@ -3,9 +3,9 @@
 	return 0;
 }</p>
 <p>int age;
-int name;
+string name;
 
-Person::Person(string name, int age){
+Person::Person(string name, int age) {
 	this->name = name;
 	this->age = age;
 }</p>

@@ -88,9 +88,6 @@ public class Notepad : MonoBehaviour {
 		int startIndex = activeText.IndexOf (text);
 		int	endIndex = startIndex + text.Length;
 
-        print("startIndex ===  " + startIndex + "  end === " + endIndex);
-
-
         activeText = activeText.Insert (endIndex, "</size></b>");
 		activeText = activeText.Insert (startIndex, "<b><size="+ fontSize +">");
 		setText (activeText);
