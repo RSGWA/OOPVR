@@ -50,9 +50,8 @@ public class ParameterController : MonoBehaviour
         yield return new WaitForSeconds(.5f);
        
        
-        //Open Door
+        //Open Exterior Door
         doorExt.GetComponent<Door>().openDoor();
-        doorInt.GetComponent<Door>().openDoor();
         yield return new WaitForSeconds(1.5f);
 
        

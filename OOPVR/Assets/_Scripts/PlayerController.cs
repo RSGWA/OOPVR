@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	private bool inRoom = false;
 	private bool returned = false;
     private bool inWorkingMethod = false;
+	private GameObject doorInt;
 
     private AnimationCurve[] curves;
 
@@ -100,6 +101,10 @@ public class PlayerController : MonoBehaviour {
 		playerMoving = true;
 
 		inRoom = true;
+
+		yield return new WaitForSeconds(1f);
+		// Open interior door once player has been moved completely into room
+		room.transform.Find ("Door").Find ("DoorInt").gameObject.GetComponent<Door> ().openDoor ();
 	}
 
 	void PlayerControl(string direction) {
