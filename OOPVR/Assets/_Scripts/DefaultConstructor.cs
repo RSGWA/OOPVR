@@ -76,8 +76,8 @@ public class DefaultConstructor : MonoBehaviour {
 	}
 
 	bool instanceVariablesSet() {
-		VariableBoxController ageBox = GameObject.Find ("Age_InstanceBox").GetComponent<VariableBoxController> ();
-		VariableBoxController nameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
+		VariableBoxController ageBox = GameObject.Find ("Age_Instance").GetComponent<VariableBoxController> ();
+		VariableBoxController nameBox = GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ();
 
 		return (ageBox.isVarInBox() && nameBox.isVarInBox());
 	}
