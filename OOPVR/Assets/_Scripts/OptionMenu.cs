@@ -161,8 +161,6 @@ public class OptionMenu : MonoBehaviour
                     transform.GetComponent<Collider>().enabled = key;
                     door.GetComponent<Collider>().enabled = !key;
                 }
-                
-
                 break;
             case "Return":
                 transform.GetComponent<Collider>().enabled = key;

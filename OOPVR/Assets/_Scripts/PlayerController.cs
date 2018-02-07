@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour {
         currentTime = Time.time;
         curves = AnimationUtility.movePlayer(transform, dest.transform.position);
         playerMoving = true;
+        origin = dest.transform.position;
     }
 		
 	public void moveIntoRoom(GameObject room) {

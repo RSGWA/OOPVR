@@ -78,7 +78,7 @@ public class VariableBoxController : MonoBehaviour
                 boxAssigned = true;
                 variableBoxValue = objInHand;
 
-				options.Select ();
+				//options.Select ();
             }
         }
         else if (movingBoxToHand)
@@ -91,7 +91,7 @@ public class VariableBoxController : MonoBehaviour
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 movingBoxToHand = false;
-				options.Select ();
+				//options.Select ();
             }
         }
         else if (movingBoxToBox)
@@ -107,7 +107,7 @@ public class VariableBoxController : MonoBehaviour
                 movingBoxToBox = false;
                 tipBox = true;
 
-				options.Select ();
+				//options.Select ();
             }
         }
         if (tipBox)
