@@ -165,6 +165,9 @@ public class OptionMenu : MonoBehaviour
             case "Return":
                 transform.GetComponent<Collider>().enabled = key;
                 break;
+            case "Blueprint":
+                transform.GetComponent<Collider>().enabled = key;
+                break;
             default:
                 break;
         }

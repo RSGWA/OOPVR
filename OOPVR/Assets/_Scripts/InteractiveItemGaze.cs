@@ -12,8 +12,11 @@ public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private Transform RadialProgress;
     private GameObject player;
+    private GameObject blueprint;
+
     private static GameObject currentSelectedObj;
     private static GameObject previousSelectedObj;
+
 
     private bool isEntered = false;
 
@@ -24,6 +27,7 @@ public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointer
         RadialProgress = GameObject.FindGameObjectWithTag("RadialProgress").transform;
         RadialProgress.GetComponent<Image>().fillAmount = 0;
         player = GameObject.FindGameObjectWithTag("Player");
+        blueprint = GameObject.FindGameObjectWithTag("Blueprint");
     }
 
     // Update is called once per frame
@@ -67,6 +71,9 @@ public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointer
                 break;
             case "Move":
                 player.GetComponent<PlayerController>().moveTo(obj);
+                break;
+            case "Blueprint":
+                SetSelectedObject(obj);
                 break;
             case "Door":
                 SetSelectedObject(obj);

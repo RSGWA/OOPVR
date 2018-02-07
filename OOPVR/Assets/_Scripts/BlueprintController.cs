@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BlueprintController : MonoBehaviour {
 
-	//public GameObject optionsMenu;
+	public OptionMenu optionsMenu;
 	public GameObject instance;
 
 	private bool menuOpen;
@@ -16,36 +16,25 @@ public class BlueprintController : MonoBehaviour {
 	private Vector3 growth = new Vector3 (0.015f, 1, 0.015f);
 
 	private Animator anim;
+    private InfoController info;
+    private bool bpInPosition = false;
+    bool infoSelected = false;
 
-	private bool bpInPosition = false;
+    // Use this for initialization
+    void Start () {
 
-	// Use this for initialization
-	void Start () {
-		originalSize = transform.localScale;
-		highlightedSize = transform.localScale += growth;
-		SetGazedAt (false);
-		//optionsMenu.SetActive (false);
+        optionsMenu = transform.GetComponent<OptionMenu>();
+		
 		menuOpen = false;
 		anim = GetComponent<Animator> ();
-	}
+        info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
+    }
 
-	public void SetGazedAt(bool gazedAt) {
-		if (menuOpen) {
-			transform.localScale = highlightedSize;
-			return;
-		}
-
-		if (gazedAt) {
-			transform.localScale = highlightedSize;
-		} else {
-			transform.localScale = originalSize;
-		}
-	}
-
-	public void OpenMenu() {
-		//optionsMenu.SetActive (true);
-		menuOpen = true;
-	}
+    public void InstantiateButton()
+    {
+        optionsMenu.Deselect();
+        moveBlueprint();
+    }
 
 	public void moveBlueprint() {
 		//optionsMenu.SetActive (false);
@@ -82,4 +71,22 @@ public class BlueprintController : MonoBehaviour {
 		this.gameObject.SetActive (false);
 		BPControl ("Return");
 	}
+
+    public void InfoButton()
+    {
+        string valueType = transform.GetChild(0).tag;
+        string varName = transform.name;
+        info.SetInformation("This is a Blueprint!! \nA blueprint represents a class in the programming context.\n PLEASE SELECT INFO AGAIN TO DESELECT!");
+
+        if (!infoSelected)
+        {
+            info.ShowInformation();
+            infoSelected = true;
+        }
+        else
+        {
+            info.HideInformation();
+            infoSelected = false;
+        }
+    }
 }
