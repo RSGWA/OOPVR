@@ -12,14 +12,17 @@ public class PlayerController : MonoBehaviour {
 	private GameObject currentRoom;
 	private bool inRoom = false;
 	private bool returned = false;
+    private bool inWorkingMethod = false;
 
-	private AnimationCurve[] curves;
+    private AnimationCurve[] curves;
 
 	float currentTime;
 	bool playerMoving = false;
 
-	// Use this for initialization
-	void Start () {
+    private Transform currentWorkingDest = null;
+
+    // Use this for initialization
+    void Start () {
 		origin = transform.position;
 		doorOpen = false;
 		playerAnim = transform.GetChild(0).GetComponent<Animator>();
@@ -54,8 +57,10 @@ public class PlayerController : MonoBehaviour {
 
 	public void moveTo(GameObject dest)
 	{
-		transform.position = new Vector3 (dest.transform.position.x, transform.position.y, dest.transform.position.z);
-	}
+        currentTime = Time.time;
+        curves = AnimationUtility.movePlayer(transform, dest.transform.position);
+        playerMoving = true;
+    }
 		
 	public void moveIntoRoom(GameObject room) {
 		currentRoom = room;
@@ -99,6 +104,16 @@ public class PlayerController : MonoBehaviour {
 	void PlayerControl(string direction) {
 		playerAnim.SetTrigger(direction);
 	}
+
+    public void setCurrentWorkingMethod(GameObject method)
+    {
+        this.currentWorkingDest = method.transform.Find("PlayerDest");
+    }
+
+    public bool isInWorkingMethod()
+    {
+        return inWorkingMethod;
+    }
 
 	public bool isInRoom() {
 		return inRoom;

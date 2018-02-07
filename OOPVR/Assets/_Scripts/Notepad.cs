@@ -11,9 +11,10 @@ public class Notepad : MonoBehaviour {
 	GameObject code;
 	GameObject title;
 
-	string defaultConstructorFilename = "defaultConstructor";
+	//string defaultConstructorFilename = "defaultConstructor";
+    string defaultConstructorFilename = "constructorWithParameter";
 
-	string activeText;
+    string activeText;
 	string highlightedText;
 
 	string objectivesEnlargedText;
@@ -71,6 +72,7 @@ public class Notepad : MonoBehaviour {
 	}
 
 	public void highlightText(string text, string color) {
+
 		highlightedText = activeText;
 
 		int startIndex = activeText.IndexOf (text);
@@ -82,10 +84,14 @@ public class Notepad : MonoBehaviour {
 	}
 
 	public void enlargeText(string text) {
+
 		int startIndex = activeText.IndexOf (text);
 		int	endIndex = startIndex + text.Length;
 
-		activeText = activeText.Insert (endIndex, "</size></b>");
+        print("startIndex ===  " + startIndex + "  end === " + endIndex);
+
+
+        activeText = activeText.Insert (endIndex, "</size></b>");
 		activeText = activeText.Insert (startIndex, "<b><size="+ fontSize +">");
 		setText (activeText);
 	}
