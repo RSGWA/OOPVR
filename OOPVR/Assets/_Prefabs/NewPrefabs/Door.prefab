@@ -633,8 +633,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1895895445642106}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.0000004768371, y: -0.01773124, z: 0.0000002980232, w: -0.9998428}
+  m_LocalPosition: {x: -0.34106123, y: -1.3760128, z: -5.2023435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4976703312414462}
@@ -1331,6 +1331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960736f9cd98c2b459c9e56f05c7ebf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extendTime: 0
 --- !u!114 &114337065897455570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1609,6 +1610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960736f9cd98c2b459c9e56f05c7ebf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extendTime: 0
 --- !u!114 &114493520417844274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1620,6 +1622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960736f9cd98c2b459c9e56f05c7ebf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extendTime: 0
 --- !u!114 &114520659691085828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1936,6 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960736f9cd98c2b459c9e56f05c7ebf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extendTime: 0
 --- !u!114 &114748099557453596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2217,17 +2221,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114404002690358160}
-        m_MethodName: openDoor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

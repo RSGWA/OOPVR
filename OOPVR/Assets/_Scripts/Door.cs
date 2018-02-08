@@ -30,7 +30,7 @@ public class Door : MonoBehaviour {
         
         DoorControl ("Open");
 		DoorPanel.GetComponent<BoxCollider> ().enabled = false;
-        transform.GetComponent<Collider>().enabled = false;
+        transform.GetComponent<BoxCollider>().enabled = false;
 		doorOpen = true;
         //Deselect the door outlines before opening
         options.Deselect();

@@ -70,6 +70,9 @@ public class PlayerController : MonoBehaviour {
         GameObject door = GameObject.FindGameObjectWithTag ("Door");
 		anim = door.GetComponent<Animator> ();
 
+		doorInt = room.transform.Find ("Door").Find ("DoorInt").gameObject;
+		doorInt.transform.Find ("DoorPanel").GetComponent<BoxCollider> ().enabled = false;
+
 		StartCoroutine ("check");
 		StartCoroutine (movePlayer(room));
 	}
@@ -104,7 +107,7 @@ public class PlayerController : MonoBehaviour {
 
 		yield return new WaitForSeconds(1f);
 		// Open interior door once player has been moved completely into room
-		room.transform.Find ("Door").Find ("DoorInt").gameObject.GetComponent<Door> ().openDoor ();
+		doorInt.GetComponent<Door> ().openDoor ();
 	}
 
 	void PlayerControl(string direction) {
