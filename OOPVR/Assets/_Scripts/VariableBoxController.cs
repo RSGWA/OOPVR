@@ -489,4 +489,9 @@ public class VariableBoxController : MonoBehaviour
         }
     }
 
+	// For testing/debugging purposes
+	public void setBoxAssigned(bool b) {
+		boxAssigned = b;
+	}
+
 }

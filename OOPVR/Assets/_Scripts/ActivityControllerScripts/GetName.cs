@@ -27,6 +27,7 @@ public class GetName : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//notepad.enlargeCurrentObjective(objectives[0]);
+		GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ().setBoxAssigned(true);
 		StartCoroutine ("checkMethodEntered");
 	}
 
@@ -40,7 +41,7 @@ public class GetName : MonoBehaviour {
 		}
 		notepad.setActiveText (1);
 		notepad.setTitle ("GET NAME");
-		notepad.enlargeCurrentObjective(objectives[1]);
+		//notepad.enlargeCurrentObjective(objectives[1]);
 		StartCoroutine ("checkConstructorEntered");
 	}
 
@@ -49,9 +50,9 @@ public class GetName : MonoBehaviour {
 			constructorEntered = player.isInRoom ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.reset ();
-		notepad.enlargeCurrentObjective(objectives[2]);
-		notepad.enlargeCurrentObjective(objectives[3]);
+		//notepad.reset ();
+		//notepad.enlargeCurrentObjective(objectives[2]);
+		//notepad.enlargeCurrentObjective(objectives[3]);
 		StartCoroutine ("checkInstanceVarsSet");
 	}
 
@@ -59,8 +60,8 @@ public class GetName : MonoBehaviour {
 		while (!instanceVariablesSet()) {
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.reset ();
-		notepad.enlargeCurrentObjective(objectives[4]);
+		//notepad.reset ();
+		//notepad.enlargeCurrentObjective(objectives[4]);
 		StartCoroutine ("checkReturn");
 	}
 
