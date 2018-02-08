@@ -14,17 +14,15 @@ public class Notepad : MonoBehaviour {
 
 	string defaultConstructorFilename = "defaultConstructor";
     string parameterConstructorFilename = "constructorWithParameter";
+	string getNameFilename = "getName";
 
     string activeText;
 	string highlightedText;
 
 	string objectivesEnlargedText;
 
-	TextAsset defaultConstructor;
-	TextAsset parameterConstructor;
-
-	string defaultConstructorText;
-	string parameterConstructorText;
+	TextAsset textAsset;
+	string textToParse;
 
 	List<string> pages = new List<string>();
 
@@ -39,22 +37,29 @@ public class Notepad : MonoBehaviour {
 		code = this.transform.Find ("Code").gameObject;
 		title = this.transform.Find ("Title").gameObject;
 
-		// Load in text from textfile
-		defaultConstructor = Resources.Load (defaultConstructorFilename) as TextAsset;
-		parameterConstructor = Resources.Load (parameterConstructorFilename) as TextAsset;
-
-		defaultConstructorText = defaultConstructor.text;
-		parameterConstructorText = parameterConstructor.text;
-
 		// Depending on the current scene, display corresponding code on notepad
 		Scene activeScene = SceneManager.GetActiveScene ();
 
 		switch (activeScene.name) {
 		case "DefaultConstructorScene":
-			parseText (defaultConstructorText);
+			Debug.Log ("1");
+			textAsset = Resources.Load (defaultConstructorFilename) as TextAsset;
+			textToParse = textAsset.text;
+			parseText (textToParse);
 			break;
 		case "2ParameterConstructor":
-			parseText (parameterConstructorText);
+			Debug.Log ("2");
+			textAsset = Resources.Load (parameterConstructorFilename) as TextAsset;
+			textToParse = textAsset.text;
+			parseText (textToParse);
+			break;
+		case "GetName":
+			Debug.Log ("3");
+			textAsset = Resources.Load (getNameFilename) as TextAsset;
+			textToParse = textAsset.text;
+			parseText (textToParse);
+			break;
+		default:
 			break;
 		}
 

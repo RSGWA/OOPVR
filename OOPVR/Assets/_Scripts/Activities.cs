@@ -83,6 +83,7 @@ public class Activities : MonoBehaviour {
 			SceneManager.LoadScene ("2ParameterConstructor", LoadSceneMode.Single);
 			break;
 		case "Get name":
+			SceneManager.LoadScene ("GetName", LoadSceneMode.Single);
 			break;
 		default:
 			break;
