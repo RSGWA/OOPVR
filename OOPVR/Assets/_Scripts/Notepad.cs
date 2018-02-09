@@ -5,163 +5,192 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using OOPVR;
 
-public class Notepad : MonoBehaviour {
+public class Notepad : MonoBehaviour
+{
 
-	GameObject[] objectives;
-	GameObject tracker;
-	GameObject code;
-	GameObject title;
+    GameObject[] objectives;
+    GameObject tracker;
+    GameObject code;
+    GameObject title;
 
-	string defaultConstructorFilename = "defaultConstructor";
+    string defaultConstructorFilename = "defaultConstructor";
     string parameterConstructorFilename = "constructorWithParameter";
-	string getNameFilename = "getName";
+    string getNameFilename = "getName";
+    string setNameFilename = "setName";
 
     string activeText;
-	string highlightedText;
+    string highlightedText;
 
-	string objectivesEnlargedText;
+    string objectivesEnlargedText;
 
-	TextAsset textAsset;
-	string textToParse;
+    TextAsset textAsset;
+    string textToParse;
 
-	List<string> pages = new List<string>();
+    List<string> pages = new List<string>();
 
-	int currentPage = 0;
+    int currentPage = 0;
 
-	int fontSize = 160;
+    int fontSize = 160;
 
-	void Awake() {
-		objectives = GameObject.FindGameObjectsWithTag ("Objective");
-		tracker = GameObject.FindGameObjectWithTag ("Tracker");
-		//setObjective (getObjective ("0"));
-		code = this.transform.Find ("Code").gameObject;
-		title = this.transform.Find ("Title").gameObject;
+    void Awake()
+    {
+        objectives = GameObject.FindGameObjectsWithTag("Objective");
+        tracker = GameObject.FindGameObjectWithTag("Tracker");
+        //setObjective (getObjective ("0"));
+        code = this.transform.Find("Code").gameObject;
+        title = this.transform.Find("Title").gameObject;
 
-		// Depending on the current scene, display corresponding code on notepad
-		Scene activeScene = SceneManager.GetActiveScene ();
+        // Depending on the current scene, display corresponding code on notepad
+        Scene activeScene = SceneManager.GetActiveScene();
 
-		switch (activeScene.name) {
-		case "DefaultConstructorScene":
-			Debug.Log ("1");
-			textAsset = Resources.Load (defaultConstructorFilename) as TextAsset;
-			textToParse = textAsset.text;
-			parseText (textToParse);
-			break;
-		case "2ParameterConstructor":
-			Debug.Log ("2");
-			textAsset = Resources.Load (parameterConstructorFilename) as TextAsset;
-			textToParse = textAsset.text;
-			parseText (textToParse);
-			break;
-		case "GetName":
-			Debug.Log ("3");
-			textAsset = Resources.Load (getNameFilename) as TextAsset;
-			textToParse = textAsset.text;
-			parseText (textToParse);
-			break;
-		default:
-			break;
-		}
+        switch (activeScene.name)
+        {
+            case "DefaultConstructorScene":
+                Debug.Log("1");
+                textAsset = Resources.Load(defaultConstructorFilename) as TextAsset;
+                textToParse = textAsset.text;
+                parseText(textToParse);
+                break;
+            case "2ParameterConstructor":
+                Debug.Log("2");
+                textAsset = Resources.Load(parameterConstructorFilename) as TextAsset;
+                textToParse = textAsset.text;
+                parseText(textToParse);
+                break;
+            case "GetName":
+                Debug.Log("3");
+                textAsset = Resources.Load(getNameFilename) as TextAsset;
+                textToParse = textAsset.text;
+                parseText(textToParse);
+                break;
+            case "SetNameActivity":
+                Debug.Log("4");
+                textAsset = Resources.Load(setNameFilename) as TextAsset;
+                textToParse = textAsset.text;
+                parseText(textToParse);
+                break;
+            default:
+                break;
+        }
 
-		activeText = pages[0]; // Main
-		setTitle ("Main");
+        activeText = pages[0]; // Main
+        setTitle("Main");
 
-		setText (0);
-	}
+        setText(0);
+    }
 
-	void Update() {
-		
-	}
+    void Update()
+    {
 
-	void parseText(string text) {
+    }
 
-		List<int> list = text.AllIndexsOf ("<p>");
-		List<int> startIndices = new List<int>();
-		foreach (int index in list) {
-			startIndices.Add (index + 3);
-		}
-		List<int> endIndices = text.AllIndexsOf ("</p>");
+    void parseText(string text)
+    {
 
-		for (int i = 0; i < startIndices.Count; i++) {
-			pages.Add (text.Substring (startIndices [i], endIndices [i] - startIndices [i]));
-		}
-	}
+        List<int> list = text.AllIndexsOf("<p>");
+        List<int> startIndices = new List<int>();
+        foreach (int index in list)
+        {
+            startIndices.Add(index + 3);
+        }
+        List<int> endIndices = text.AllIndexsOf("</p>");
 
-	public void highlightText(string text, string color) {
+        for (int i = 0; i < startIndices.Count; i++)
+        {
+            pages.Add(text.Substring(startIndices[i], endIndices[i] - startIndices[i]));
+        }
+    }
 
-		highlightedText = activeText;
+    public void highlightText(string text, string color)
+    {
 
-		int startIndex = activeText.IndexOf (text);
-		int	endIndex = startIndex + text.Length;
+        highlightedText = activeText;
 
-		activeText = activeText.Insert (endIndex, "</color>");
-		activeText = activeText.Insert (startIndex, "<color=" + color + ">");
-		setText (activeText);
-	}
+        int startIndex = activeText.IndexOf(text);
+        int endIndex = startIndex + text.Length;
 
-	public void enlargeText(string text) {
+        activeText = activeText.Insert(endIndex, "</color>");
+        activeText = activeText.Insert(startIndex, "<color=" + color + ">");
+        setText(activeText);
+    }
 
-		int startIndex = activeText.IndexOf (text);
-		int	endIndex = startIndex + text.Length;
+    public void enlargeText(string text)
+    {
 
-        activeText = activeText.Insert (endIndex, "</size></b>");
-		activeText = activeText.Insert (startIndex, "<b><size="+ fontSize +">");
-		setText (activeText);
-	}
+        int startIndex = activeText.IndexOf(text);
+        int endIndex = startIndex + text.Length;
 
-	void setText(int pageNumber) {
-		code.GetComponent<Text> ().text = pages [pageNumber];
-		currentPage = pageNumber;
-	}
+        activeText = activeText.Insert(endIndex, "</size></b>");
+        activeText = activeText.Insert(startIndex, "<b><size=" + fontSize + ">");
+        setText(activeText);
+    }
 
-	void setText(string text) {
-		code.GetComponent<Text> ().text = text;
-	}
+    void setText(int pageNumber)
+    {
+        code.GetComponent<Text>().text = pages[pageNumber];
+        currentPage = pageNumber;
+    }
 
-	public void setTitle(string text) {
-		title.GetComponent<Text> ().text = text;
-	}
+    void setText(string text)
+    {
+        code.GetComponent<Text>().text = text;
+    }
 
-	public void highlightCurrentObjective(string objective) {
-		highlightText (objective, "white");
-	}
+    public void setTitle(string text)
+    {
+        title.GetComponent<Text>().text = text;
+    }
 
-	public void enlargeCurrentObjective(string objective) {
-		enlargeText (objective);
-	}
+    public void highlightCurrentObjective(string objective)
+    {
+        highlightText(objective, "white");
+    }
 
-	public void reset() {
-		activeText = pages [currentPage];
-		setText (currentPage);
-	}
+    public void enlargeCurrentObjective(string objective)
+    {
+        enlargeText(objective);
+    }
 
-	GameObject getObjective(string number) {
-		foreach (GameObject objective in objectives) {
-			if (objective.name == number) {
-				return objective;
-			}
-		}
-		return null;
-	}
+    public void reset()
+    {
+        activeText = pages[currentPage];
+        setText(currentPage);
+    }
 
-	void removeObjectiveMarkers(ref string text) {
-		List<int> indexes = text.AllIndexsOf ("");
+    GameObject getObjective(string number)
+    {
+        foreach (GameObject objective in objectives)
+        {
+            if (objective.name == number)
+            {
+                return objective;
+            }
+        }
+        return null;
+    }
 
-		// Indices reversed so indices of markers remain the same after first removal
-		indexes.Reverse ();
+    void removeObjectiveMarkers(ref string text)
+    {
+        List<int> indexes = text.AllIndexsOf("");
 
-		foreach (int index in indexes) {
-			text = text.Remove (index,3);
-		}
-	}
+        // Indices reversed so indices of markers remain the same after first removal
+        indexes.Reverse();
 
-	public void setActiveText(int pageNumber) {
-		activeText = pages [pageNumber];
-		setText (pageNumber);
-	}
+        foreach (int index in indexes)
+        {
+            text = text.Remove(index, 3);
+        }
+    }
 
-	public void endOfActivity() {
-		setTitle ("Congratulations");
-		setText ("Activity Completed");
-	}
+    public void setActiveText(int pageNumber)
+    {
+        activeText = pages[pageNumber];
+        setText(pageNumber);
+    }
+
+    public void endOfActivity()
+    {
+        setTitle("Congratulations");
+        setText("Activity Completed");
+    }
 }

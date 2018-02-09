@@ -74,7 +74,7 @@ public class SetName : MonoBehaviour {
         }
         notepad.reset();
         notepad.enlargeCurrentObjective(objectives[2]);
-        StartCoroutine("checkInstanceVarsSet");
+        StartCoroutine("checkInstanceNameAssigned");
     }
 
     IEnumerator checkInstanceNameAssigned()
@@ -88,17 +88,6 @@ public class SetName : MonoBehaviour {
         StartCoroutine("checkReturn");
     }
 
-   /* IEnumerator checkInstanceVarsSet()
-    {
-        while (!instanceVariablesSet())
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-        notepad.reset();
-        notepad.enlargeCurrentObjective(objectives[3]);
-        StartCoroutine("checkReturn");
-    }*/
-
     IEnumerator checkReturn()
     {
         while (!returned)
@@ -109,14 +98,6 @@ public class SetName : MonoBehaviour {
         // Activity Finished
         notepad.endOfActivity();
     }
-
-    /*bool instanceVariablesSet()
-    {
-        VariableBoxController ageBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
-        VariableBoxController nameBox = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
-
-        return (ageBox.isVarInBox() && nameBox.isVarInBox());
-    }*/
 
     bool instanceNameAssigned()
     {
