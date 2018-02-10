@@ -29,8 +29,6 @@ public class TeleportMovePoint : MonoBehaviour {
    
     void EnableMovePoint()
     {
-        print(transform.TransformPoint(transform.position) + "    world space");
-        print(transform.position + "     position");
         //disable selection
         transform.GetComponent<Collider>().enabled = true;
 
@@ -57,4 +55,6 @@ public class TeleportMovePoint : MonoBehaviour {
     {
         this.gameObject.SetActive(false);
     }
+
+
 }

@@ -23,8 +23,8 @@ public class SetName : MonoBehaviour {
 
         objectives.Add("Person p = new Person();");
         //objectives.Add("p.setName(\"Gilbert\");");
-        objectives.Add("void Person::setName(const string& name) {");
-        objectives.Add("this->name = name;");
+        objectives.Add("void Person::setName(const string& myName) {");
+        objectives.Add("this->name = myName ;");
         objectives.Add("}");
     }
 
