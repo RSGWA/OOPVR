@@ -1,0 +1,11 @@
+﻿<p>int main(void) {
+	Person p = new Person("John", 20);
+	p.incrementAge();
+	return 0;
+}</p>
+<p>int age;
+string name;
+
+void Person::incrementAge() {
+	this->age++;
+}</p>

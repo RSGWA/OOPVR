@@ -17,6 +17,7 @@ public class Notepad : MonoBehaviour
     string parameterConstructorFilename = "constructorWithParameter";
     string getNameFilename = "getName";
     string setNameFilename = "setName";
+    string incrementAgeFilename = "incrementAge";
 
     string activeText;
     string highlightedText;
@@ -66,6 +67,12 @@ public class Notepad : MonoBehaviour
             case "SetNameActivity":
                 Debug.Log("4");
                 textAsset = Resources.Load(setNameFilename) as TextAsset;
+                textToParse = textAsset.text;
+                parseText(textToParse);
+                break;
+            case "IncrementAgeActivity":
+                Debug.Log("5");
+                textAsset = Resources.Load(incrementAgeFilename) as TextAsset;
                 textToParse = textAsset.text;
                 parseText(textToParse);
                 break;

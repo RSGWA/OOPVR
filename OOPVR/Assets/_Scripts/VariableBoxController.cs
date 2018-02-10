@@ -16,6 +16,8 @@ public class VariableBoxController : MonoBehaviour
     private GameObject variableBoxValue;
     private GameObject newVarBoxValue;
 
+    private GameObject plusOne;
+
     private Status MessageCanvas;
     private InfoController info;
 	private OptionMenu options;
@@ -43,6 +45,8 @@ public class VariableBoxController : MonoBehaviour
     bool varRemoved = false;
 
     bool infoSelected = false;
+    bool incrementSelected = false;
+    bool incremented = false;
 
     // Use this for initialization
     void Start()
@@ -132,6 +136,20 @@ public class VariableBoxController : MonoBehaviour
                 Destroy(variableBoxValue);
                 destroyValue = false;
                 varRemoved = true;
+            }
+
+        }
+        if (incrementSelected)
+        {
+
+            plusOne.transform.Translate(Vector3.up * 0.85f * Time.deltaTime);
+
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
+            {
+                
+                Destroy(plusOne);
+                incrementSelected = false;
+               
             }
 
         }
@@ -454,6 +472,19 @@ public class VariableBoxController : MonoBehaviour
 
     }
 
+    public void IncrementFunction()
+    {
+        options.Deselect();
+        currentTime = Time.time;
+        //have an animation of +1 that comes out of the box to signify an Increment
+        plusOne = Instantiate((Resources.Load("1increment", typeof(GameObject))as GameObject) , transform.position, Hand.transform.rotation, transform.parent.parent);
+
+        incrementSelected = true;
+        incremented = true;
+
+        //later- get the assigned value to this int variable and increment it
+    }
+
     IEnumerator removeVariableAndAct()
     {
         while (!varRemoved)
@@ -494,4 +525,8 @@ public class VariableBoxController : MonoBehaviour
 		boxAssigned = b;
 	}
 
+    public bool isIncremented()
+    {
+        return incremented;
+    }
 }
