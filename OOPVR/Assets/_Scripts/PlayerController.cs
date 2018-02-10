@@ -48,13 +48,21 @@ public class PlayerController : MonoBehaviour {
 		curves = AnimationUtility.movePlayer (transform, origin);
 		playerMoving = true;
 
-		Transform doorParent = currentRoom.transform.GetChild (0);
-
-		doorParent.GetChild (0).GetComponent<Door> ().closeDoor ();
-		doorParent.GetChild (1).GetComponent<Door> ().closeDoor ();
+        StartCoroutine("closeDoor");
 
 		returned = true;
+
 	}
+
+    IEnumerator closeDoor()
+    {
+        yield return new WaitForSeconds(1f);
+
+        Transform doorParent = currentRoom.transform.GetChild(0);
+
+        doorParent.GetChild(0).GetComponent<Door>().closeDoor();
+        doorParent.GetChild(1).GetComponent<Door>().closeDoor();
+    }
 
 	public void moveTo(GameObject dest)
 	{

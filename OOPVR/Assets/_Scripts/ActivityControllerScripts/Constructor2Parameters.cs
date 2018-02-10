@@ -21,9 +21,9 @@ public class Constructor2Parameters : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         objectives.Add("Person p = new Person(\"John\",20);"); 
-        objectives.Add("Person::Person(string name, int age) {");
-        objectives.Add("this->name = name;");
-        objectives.Add("this->age = age;");
+        objectives.Add("Person::Person(string myName, int myAge) {");
+        objectives.Add("this->name = myName;");
+        objectives.Add("this->age = myAge;");
         objectives.Add("}");
     }
 
