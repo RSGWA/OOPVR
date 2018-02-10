@@ -24,7 +24,7 @@ public class SetName : MonoBehaviour {
         objectives.Add("Person p = new Person();");
         //objectives.Add("p.setName(\"Gilbert\");");
         objectives.Add("void Person::setName(const string& myName) {");
-        objectives.Add("this->name = myName ;");
+        objectives.Add("this->name = myName;");
         objectives.Add("}");
     }
 
@@ -101,8 +101,8 @@ public class SetName : MonoBehaviour {
 
     bool instanceNameAssigned()
     {
-        VariableBoxController nameParameter = GameObject.FindGameObjectWithTag("Parameter").transform.GetChild(1).GetComponent<VariableBoxController>();
+        VariableBoxController nameInstanceVariable = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
 
-        return nameParameter.isVarInBox();
+        return nameInstanceVariable.isVarInBox();
     }
 }
