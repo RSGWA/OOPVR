@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TeleportMovePoint : MonoBehaviour {
+public class TeleportMovePoint : MonoBehaviour
+{
 
     GameObject Player;
     GameObject glow;
 
+    bool playerOnPoint = false;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start()
+    {
         Player = GameObject.Find("Player");
         glow = transform.GetChild(0).gameObject;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(Player.transform.position.x == transform.position.x)
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Player.transform.position.x == transform.position.x)
         {
             DisableMovePoint();
         }
@@ -24,9 +29,10 @@ public class TeleportMovePoint : MonoBehaviour {
         {
             EnableMovePoint();
         }
-	}
 
-   
+    }
+
+
     void EnableMovePoint()
     {
         //disable selection
@@ -37,14 +43,14 @@ public class TeleportMovePoint : MonoBehaviour {
 
     }
 
-    
+
     void DisableMovePoint()
     {
         transform.GetComponent<Collider>().enabled = false; //disable selection
         glow.SetActive(false); //disable glow
     }
 
-    
+
     public void ShowMovePoint()
     {
         this.gameObject.SetActive(true);
@@ -55,6 +61,4 @@ public class TeleportMovePoint : MonoBehaviour {
     {
         this.gameObject.SetActive(false);
     }
-
-
 }

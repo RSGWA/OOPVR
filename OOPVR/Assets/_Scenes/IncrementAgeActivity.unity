@@ -7437,7 +7437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6b98cdaef505243a74e21780a759db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  code: []
+  code:
+  - int age
+  - this->age
 --- !u!65 &407767792
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14733,6 +14735,33 @@ Transform:
   m_Father: {fileID: 1704899921}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &734685672
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 989
+  m_Height: 606
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &740769110
 GameObject:
   m_ObjectHideFlags: 0
@@ -14957,6 +14986,33 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 760623002}
+--- !u!84 &768672797
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 989
+  m_Height: 606
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &769191602
 GameObject:
   m_ObjectHideFlags: 0
@@ -16329,7 +16385,7 @@ Prefab:
     - target: {fileID: 224387764021121654, guid: a3e5f3f7750d93b4e9909c37a4019c06,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 515.5
+      value: 494.5
       objectReference: {fileID: 0}
     - target: {fileID: 224387764021121654, guid: a3e5f3f7750d93b4e9909c37a4019c06,
         type: 2}
@@ -16340,7 +16396,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 959821587}
+      objectReference: {fileID: 768672797}
     m_RemovedComponents:
     - {fileID: 114175199460404718, guid: a3e5f3f7750d93b4e9909c37a4019c06, type: 2}
     - {fileID: 114397121242668300, guid: a3e5f3f7750d93b4e9909c37a4019c06, type: 2}
@@ -19007,33 +19063,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 955403077}
---- !u!84 &959821587
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1031
-  m_Height: 606
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &979343880
 GameObject:
   m_ObjectHideFlags: 0
@@ -20107,7 +20136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6b98cdaef505243a74e21780a759db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  code: []
+  code:
+  - string name
 --- !u!65 &1044706903
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26359,33 +26389,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1389009781}
---- !u!84 &1390006698
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1031
-  m_Height: 606
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1393395792
 GameObject:
   m_ObjectHideFlags: 0
