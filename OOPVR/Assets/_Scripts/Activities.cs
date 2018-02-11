@@ -25,6 +25,7 @@ public class Activities : MonoBehaviour {
 		activityTitles.Add ("Constructor with Parameters");
 		activityTitles.Add ("Get name");
 		activityTitles.Add ("Set name");
+		activityTitles.Add ("Increment age");
 
 		setActivityTitle (currentActivity);
 	}
@@ -88,6 +89,9 @@ public class Activities : MonoBehaviour {
 			break;
 		case "Set name":
 			SceneManager.LoadScene ("SetNameActivity", LoadSceneMode.Single);
+			break;
+		case "Increment age":
+			SceneManager.LoadScene ("IncrementAgeActivity", LoadSceneMode.Single);
 			break;
 		default:
 			break;

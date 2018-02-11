@@ -197,6 +197,13 @@ public class Notepad : MonoBehaviour
     public void endOfActivity()
     {
         setTitle("Congratulations");
-        setText("Activity Completed");
+        setText("Activity Completed" +
+        	"Returning to Main Menu");
+
+		Invoke ("returnToMenu", 5f);
     }
+
+	void returnToMenu() {
+		SceneManager.LoadScene ("Menu", LoadSceneMode.Single);
+	}
 }
