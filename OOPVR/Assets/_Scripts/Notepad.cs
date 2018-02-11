@@ -109,12 +109,16 @@ public class Notepad : MonoBehaviour
     }
 
     public void highlightText(string text, string color)
-    {
-
+	{
         highlightedText = activeText;
 
         int startIndex = activeText.IndexOf(text);
         int endIndex = startIndex + text.Length;
+
+		// If code to highlight is not on current page
+		if (startIndex == -1) {
+			return;
+		}
 
         activeText = activeText.Insert(endIndex, "</color>");
         activeText = activeText.Insert(startIndex, "<color=" + color + ">");
@@ -146,11 +150,6 @@ public class Notepad : MonoBehaviour
     public void setTitle(string text)
     {
         title.GetComponent<Text>().text = text;
-    }
-
-    public void highlightCurrentObjective(string objective)
-    {
-        highlightText(objective, "white");
     }
 
     public void enlargeCurrentObjective(string objective)
