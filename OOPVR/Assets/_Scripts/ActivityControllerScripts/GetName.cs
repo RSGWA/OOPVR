@@ -9,7 +9,7 @@ public class GetName : MonoBehaviour {
 	PlayerController player;
 
 	bool instanceCreated = false;
-	bool constructorEntered = false;
+	bool methodEntered = false;
 	bool returned = false;
 
 	List<string> objectives = new List<string>();
@@ -19,19 +19,20 @@ public class GetName : MonoBehaviour {
 		notepad = GameObject.FindGameObjectWithTag ("Notepad").GetComponent<Notepad> ();
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
 
-		objectives.Add ("string Person::getName() {");
+		objectives.Add ("Person p = new Person(\"Gilbert\", 14)");
+		objectives.Add ("string Person::getName()");
 		objectives.Add ("return this->name;");
-		objectives.Add ("string name = p.getName();");
+		objectives.Add ("string pName = p.getName();");
 	}
 
 	// Use this for initialization
 	void Start () {
-		//notepad.enlargeCurrentObjective(objectives[0]);
+		notepad.enlargeCurrentObjective(objectives[0]);
 		GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ().setBoxAssigned(true);
-		StartCoroutine ("checkMethodEntered");
+		StartCoroutine ("checkInstanceCreated");
 	}
 
-	IEnumerator checkMethodEntered() {
+	IEnumerator checkInstanceCreated() {
 		while (!instanceCreated) {
 			instanceCreated = instance.hasInstanceBeenCreated ();
 			if (player.isInRoom ()) {
@@ -41,43 +42,43 @@ public class GetName : MonoBehaviour {
 		}
 		notepad.setActiveText (1);
 		notepad.setTitle ("GET NAME");
-		//notepad.enlargeCurrentObjective(objectives[1]);
-		StartCoroutine ("checkConstructorEntered");
+		notepad.enlargeCurrentObjective(objectives[1]);
+		StartCoroutine ("checkMethodEntered");
 	}
 
-	IEnumerator checkConstructorEntered() {
-		while (!constructorEntered) {
-			constructorEntered = player.isInRoom ();
+	IEnumerator checkMethodEntered() {
+		while (!methodEntered) {
+			methodEntered = player.isInRoom ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		//notepad.reset ();
-		//notepad.enlargeCurrentObjective(objectives[2]);
-		//notepad.enlargeCurrentObjective(objectives[3]);
-		StartCoroutine ("checkInstanceVarsSet");
+		notepad.reset ();
+		notepad.enlargeCurrentObjective(objectives[2]);
+		StartCoroutine ("checkReturned");
 	}
 
-	IEnumerator checkInstanceVarsSet() {
-		while (!instanceVariablesSet()) {
-			yield return new WaitForSeconds (0.1f);
-		}
-		//notepad.reset ();
-		//notepad.enlargeCurrentObjective(objectives[4]);
-		StartCoroutine ("checkReturn");
-	}
-
-	IEnumerator checkReturn() {
+	IEnumerator checkReturned() {
 		while (!returned) {
 			returned = player.hasReturned ();
+			yield return new WaitForSeconds (0.1f);
+		}
+		notepad.setActiveText (0);
+		notepad.setTitle ("Main");
+		notepad.reset ();
+		notepad.enlargeCurrentObjective(objectives[3]);
+		StartCoroutine ("checkNameAssigned");
+	}
+
+	IEnumerator checkNameAssigned() {
+		while (!nameAssigned()) {
 			yield return new WaitForSeconds (0.1f);
 		}
 		// Activity Finished
 		notepad.endOfActivity();
 	}
 
-	bool instanceVariablesSet() {
-		VariableBoxController ageBox = GameObject.Find ("Age_Instance").GetComponent<VariableBoxController> ();
-		VariableBoxController nameBox = GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ();
+	bool nameAssigned() {
+		VariableBoxController nameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
 
-		return (ageBox.isVarInBox() && nameBox.isVarInBox());
+		return nameBox.isVarInBox ();
 	}
 }

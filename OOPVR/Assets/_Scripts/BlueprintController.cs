@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BlueprintController : MonoBehaviour {
 
-	public OptionMenu optionsMenu;
+	private OptionMenu optionsMenu;
 	public GameObject instance;
 
 	private bool menuOpen;
@@ -38,6 +38,10 @@ public class BlueprintController : MonoBehaviour {
 
 	public void moveBlueprint() {
 		//optionsMenu.SetActive (false);
+
+		// Disable collider so gaze timer doesnt activate
+		GetComponent<BoxCollider>().enabled = false;
+
 		BPControl ("Move");
 		StartCoroutine ("check");
 		StartCoroutine ("createInstance");
