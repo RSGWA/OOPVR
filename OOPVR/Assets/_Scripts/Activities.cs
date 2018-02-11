@@ -24,6 +24,7 @@ public class Activities : MonoBehaviour {
 		activityTitles.Add ("Default Constructor");
 		activityTitles.Add ("Constructor with Parameters");
 		activityTitles.Add ("Get name");
+		activityTitles.Add ("Set name");
 
 		setActivityTitle (currentActivity);
 	}
@@ -84,6 +85,9 @@ public class Activities : MonoBehaviour {
 			break;
 		case "Get name":
 			SceneManager.LoadScene ("GetName", LoadSceneMode.Single);
+			break;
+		case "Set name":
+			SceneManager.LoadScene ("SetNameActivity", LoadSceneMode.Single);
 			break;
 		default:
 			break;
