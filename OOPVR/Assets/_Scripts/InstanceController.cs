@@ -82,7 +82,7 @@ public class InstanceController : MonoBehaviour {
 
 	void movePointVisible(bool b) {
 		foreach (GameObject movePoint in movePoints) {
-			movePoint.SetActive (b);
+			movePoint.GetComponent<TeleportMovePoint> ().ShowMovePoint (b);
 		}
 	}
 }

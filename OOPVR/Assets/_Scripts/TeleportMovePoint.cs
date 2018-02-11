@@ -21,6 +21,15 @@ public class TeleportMovePoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if ((Player.transform.position.x >= transform.position.x - 0.5) &&
+			(Player.transform.position.x <= transform.position.x + 0.5)) {
+			DisableMovePoint();
+		} 
+		else
+		{
+			EnableMovePoint();
+		}
+		/*
         if (Player.transform.position.x == transform.position.x)
         {
             DisableMovePoint();
@@ -29,6 +38,7 @@ public class TeleportMovePoint : MonoBehaviour
         {
             EnableMovePoint();
         }
+        */
 
     }
 
@@ -47,18 +57,13 @@ public class TeleportMovePoint : MonoBehaviour
     void DisableMovePoint()
     {
         transform.GetComponent<Collider>().enabled = false; //disable selection
+
         glow.SetActive(false); //disable glow
     }
 
 
-    public void ShowMovePoint()
+	public void ShowMovePoint(bool b)
     {
-        this.gameObject.SetActive(true);
-    }
-
-    //hide the movepoints - when instantiating an object
-    public void HideMovePoint()
-    {
-        this.gameObject.SetActive(false);
+        this.gameObject.SetActive(b);
     }
 }

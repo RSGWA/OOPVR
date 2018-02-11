@@ -1778,7 +1778,7 @@ Transform:
   m_GameObject: {fileID: 83969138}
   m_LocalRotation: {x: 0.00000028125933, y: -0.99999785, z: 0.00000077486015, w: 0.0020867288}
   m_LocalPosition: {x: -0.010881536, y: -0.020375162, z: 0.41366813}
-  m_LocalScale: {x: 0.011040047, y: 0.007840002, z: 0}
+  m_LocalScale: {x: 0.009, y: 0.007840002, z: 0}
   m_Children: []
   m_Father: {fileID: 689598993}
   m_RootOrder: 1
@@ -1791,7 +1791,7 @@ TextMesh:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 83969138}
-  m_Text: name:string
+  m_Text: myName:string
   m_OffsetZ: 0
   m_CharacterSize: 2
   m_LineSpacing: 1
@@ -2983,6 +2983,33 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 134606102}
+--- !u!84 &135397741
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1240
+  m_Height: 642
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &137128096
 GameObject:
   m_ObjectHideFlags: 0
@@ -6380,7 +6407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542e5df5237ce64458663f5b316a8d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  code: 
+  code: Person::setName(const string& myName)
 --- !u!65 &383709011
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9273,7 +9300,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 603351956}
-  m_LocalRotation: {x: -0.546914, y: -0.4482021, z: -0.4482021, w: 0.546914}
+  m_LocalRotation: {x: -0.5495252, y: -0.44499677, z: -0.44499677, w: 0.5495252}
   m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 7, y: 7, z: 4}
   m_Children:
@@ -9289,7 +9316,7 @@ Transform:
   - {fileID: 2057856198}
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -78.67}
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -78}
 --- !u!1 &603682688
 GameObject:
   m_ObjectHideFlags: 0
@@ -9591,6 +9618,33 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!84 &612486590
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1240
+  m_Height: 642
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &612796507
 GameObject:
   m_ObjectHideFlags: 0
@@ -13383,7 +13437,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1155443773}
+      objectReference: {fileID: 612486590}
     m_RemovedComponents:
     - {fileID: 114175199460404718, guid: a3e5f3f7750d93b4e9909c37a4019c06, type: 2}
     - {fileID: 114397121242668300, guid: a3e5f3f7750d93b4e9909c37a4019c06, type: 2}
@@ -18727,33 +18781,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1142890267}
---- !u!84 &1155443773
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1240
-  m_Height: 642
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1176426308
 GameObject:
   m_ObjectHideFlags: 0
@@ -18887,7 +18914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542e5df5237ce64458663f5b316a8d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  code: 
+  code: Person::setName(const string& myName)
 --- !u!65 &1177847102
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27330,33 +27357,6 @@ Transform:
   m_Father: {fileID: 1412831479}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &1737567215
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1240
-  m_Height: 642
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1749719445
 GameObject:
   m_ObjectHideFlags: 0
@@ -31785,7 +31785,7 @@ Transform:
   m_GameObject: {fileID: 2110236938}
   m_LocalRotation: {x: -0, y: -0.0026698108, z: 0.000000024548873, w: 0.9999965}
   m_LocalPosition: {x: 0.011540998, y: -0.020531865, z: -0.39816403}
-  m_LocalScale: {x: 0.011044364, y: 0.007836605, z: 0}
+  m_LocalScale: {x: 0.009, y: 0.007836605, z: 0}
   m_Children: []
   m_Father: {fileID: 689598993}
   m_RootOrder: 0
@@ -31798,7 +31798,7 @@ TextMesh:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2110236938}
-  m_Text: name:string
+  m_Text: myName:string
   m_OffsetZ: 0
   m_CharacterSize: 2
   m_LineSpacing: 1
