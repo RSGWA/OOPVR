@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GetName : MonoBehaviour {
 
+	public GameObject name;
+
 	InstanceController instance;
 	Notepad notepad;
 	PlayerController player;
@@ -20,7 +22,7 @@ public class GetName : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
 
 		objectives.Add ("Person p = new Person(\"Gilbert\", 14)");
-		objectives.Add ("string Person::getName()");
+		objectives.Add ("string Person::getName() {");
 		objectives.Add ("return this->name;");
 		objectives.Add ("string pName = p.getName();");
 	}
@@ -29,6 +31,7 @@ public class GetName : MonoBehaviour {
 	void Start () {
 		notepad.enlargeCurrentObjective(objectives[0]);
 		GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ().setBoxAssigned(true);
+		GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ().setVariableBoxValue (name);
 		StartCoroutine ("checkInstanceCreated");
 	}
 

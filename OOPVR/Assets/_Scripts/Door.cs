@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
 
+	public string code;
+
 	Animator animator;
     private InfoController info;
     private OptionMenu options;

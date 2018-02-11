@@ -95,15 +95,18 @@ public class OptionMenu : MonoBehaviour
         // Specific actions to do depending on the object selected
         switch (selectedObject)
         {
-            case "VariableBox":
-                // Highlight code in notepad representing the selected variable
-                foreach (string text in variableBox.code)
-                {
-                    notepad.highlightText(text, "fuchsia");
-                }
-                break;
-            default:
-                break;
+		case "VariableBox":
+			// Highlight code in notepad representing the selected variable
+			foreach (string text in variableBox.code)
+			{
+				notepad.highlightText(text, "lime");
+			}
+			break;
+		case "Door":
+			notepad.highlightText (door.code, "magenta");
+			break;
+		default:
+			break;
         }
     }
 
@@ -120,14 +123,17 @@ public class OptionMenu : MonoBehaviour
         // Deselecting actions
         switch (selectedObject)
         {
-            case "VariableBox":
-                foreach (string text in variableBox.code)
-                {
-                    notepad.highlightText(text, "black");
-                }
-                break;
-            default:
-                break;
+		case "VariableBox":
+			foreach (string text in variableBox.code)
+			{
+				notepad.highlightText(text, "black");
+			}
+			break;
+		case "Door":
+			notepad.highlightText(door.code, "black");
+			break;
+		default:
+			break;
         }
     }
 
