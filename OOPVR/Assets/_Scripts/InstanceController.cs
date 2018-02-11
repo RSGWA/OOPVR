@@ -7,6 +7,7 @@ public class InstanceController : MonoBehaviour {
 	
 	public GameObject player;
 
+	private GameObject[] movePoints;
 	private Animator anim;
 
 	bool instanceCreated = false;
@@ -14,8 +15,8 @@ public class InstanceController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//gameObject.SetActive (false);
 		anim = GetComponent<Animator> ();
+		movePoints = GameObject.FindGameObjectsWithTag ("Move");
 	}
 	
 	// Update is called once per frame
@@ -25,12 +26,12 @@ public class InstanceController : MonoBehaviour {
 
 	public void createInstance() {
 		this.gameObject.SetActive (true);
+		movePointVisible (false);
 		InstanceControl ("Create");
 		InstanceControl ("Lower");
 		StartCoroutine ("checkInstanceCreated");
 		StartCoroutine ("returnBlueprint");
 		StartCoroutine ("checkInstanceLowered");
-		StartCoroutine ("updateObjective");
 	}
 
 	// Checks if instance has finished being created so blueprint can be returned
@@ -57,6 +58,9 @@ public class InstanceController : MonoBehaviour {
 				instanceLowered = true;
 			}	
 		}
+
+		// Instance animation completed
+		movePointVisible(true);
 	}
 
 	IEnumerator returnBlueprint() {
@@ -68,20 +72,17 @@ public class InstanceController : MonoBehaviour {
 
 	}
 
-	IEnumerator updateObjective() {
-		while (!instanceLowered) {
-			yield return new WaitForSeconds (0.1f);
-		}
-
-		// Update objectives if necessary
-
-	}
-
 	void InstanceControl(string direction) {
 		anim.SetTrigger(direction);
 	}
 
 	public bool hasInstanceBeenCreated() {
 		return instanceLowered;
+	}
+
+	void movePointVisible(bool b) {
+		foreach (GameObject movePoint in movePoints) {
+			movePoint.SetActive (b);
+		}
 	}
 }
