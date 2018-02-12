@@ -20,9 +20,12 @@ public class ParameterController : MonoBehaviour
     void Start()
     {
         Player = GameObject.Find("Player");
+
         methodName = transform.parent.Find("MethodName").gameObject;
+
         doorExt = transform.parent.Find("Door").Find("DoorExt").gameObject;
         doorInt = transform.parent.Find("Door").Find("DoorInt").gameObject;
+
         numOfParams = transform.childCount;
         parameters = new GameObject[numOfParams];
         varBoxes = new Transform[numOfParams];
@@ -80,5 +83,10 @@ public class ParameterController : MonoBehaviour
             }
         }
     }
+
+    //Get the parameters
+
+    //Get parameters OptionMenu
+
 
 }

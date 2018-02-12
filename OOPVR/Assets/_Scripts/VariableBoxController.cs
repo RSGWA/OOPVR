@@ -483,6 +483,8 @@ public class VariableBoxController : MonoBehaviour
         incremented = true;
 
         //later- get the assigned value to this int variable and increment it
+        GameObject intValue = transform.GetChild(3).gameObject;
+
     }
 
     IEnumerator removeVariableAndAct()
