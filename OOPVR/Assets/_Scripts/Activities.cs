@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class Activities : MonoBehaviour {
 	
@@ -15,9 +18,21 @@ public class Activities : MonoBehaviour {
 	int currentActivity;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+
+		/*
+		if (PlayerPrefs.GetInt ("ActivityMenuActive") == 1) {
+			this.gameObject.SetActive (true);
+			currentActivity = PlayerPrefs.GetInt ("CurrentActivity");
+		} else {
+			this.gameObject.SetActive (false);
+			currentActivity = 0;
+		}
+		*/
+
 		this.gameObject.SetActive (false);
-		currentActivity = 0;
+
+		Load ();
 
 		activityTitles = new List<string> ();
 
@@ -35,9 +50,13 @@ public class Activities : MonoBehaviour {
 
 	}
 
-	public void showActivityMenu() {
+	public void showActivityMenu() 
+	{
+		currentActivity = 0;
+		setActivityTitle (currentActivity);
 		this.gameObject.SetActive (true);
 		Previous.SetActive (false);
+		Next.SetActive (true);
 	}
 
 	public void nextActiviy() {
@@ -77,6 +96,8 @@ public class Activities : MonoBehaviour {
 
 	public void playActivity() {
 		
+		SaveScene ();
+
 		switch (activityTitles [currentActivity]) {
 		case "Default Constructor":
 			SceneManager.LoadScene ("DefaultConstructorScene", LoadSceneMode.Single);
@@ -96,6 +117,60 @@ public class Activities : MonoBehaviour {
 		default:
 			break;
 		}
+	}
+
+	public void SaveScene() {
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Create (Application.persistentDataPath + "/mainMenuScene.dat");
+
+		SceneData data = new SceneData ();
+		data.activityMenuOpen = this.gameObject.activeSelf;
+		data.currentActivity = currentActivity;
+		data.prevActive = Previous.activeSelf;
+		data.nextActive = Next.activeSelf;
+
+		bf.Serialize (file, data);
+		file.Close ();
+	}
+
+	public void Load() {
+		if (File.Exists (Application.persistentDataPath + "/mainMenuScene.dat")) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Open (Application.persistentDataPath + "/mainMenuScene.dat", FileMode.Open);
+			SceneData data = (SceneData)bf.Deserialize (file);
+			file.Close ();
+
+			this.gameObject.SetActive (data.activityMenuOpen);
+			currentActivity = data.currentActivity;
+			Previous.SetActive (data.prevActive);
+			Next.SetActive (data.nextActive);
+		}
+	}
+		
+	void OnApplicationQuit() {
+		resetScene ();
+	}
+
+	// Reset scene to initial values - used when application has quit
+	void resetScene() {
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Create (Application.persistentDataPath + "/mainMenuScene.dat");
+
+		SceneData data = new SceneData ();
+		data.activityMenuOpen = false;
+		data.currentActivity = 0;
+
+		bf.Serialize (file, data);
+		file.Close ();
+	}
+
+	[Serializable]
+	class SceneData
+	{
+		public bool activityMenuOpen;
+		public int currentActivity;
+		public bool prevActive;
+		public bool nextActive;
 	}
 
 }

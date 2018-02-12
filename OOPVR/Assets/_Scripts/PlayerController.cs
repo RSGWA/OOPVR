@@ -113,6 +113,12 @@ public class PlayerController : MonoBehaviour {
 
 		inRoom = true;
 
+		// Removes glow of movepoint outside room so player cannot leave using it
+		GameObject[] movePoints = GameObject.FindGameObjectsWithTag("Move");
+		foreach (GameObject movePoint in movePoints) {
+			movePoint.GetComponent<TeleportMovePoint> ().ShowMovePoint (false);
+		}
+
 		yield return new WaitForSeconds(1f);
 		// Open interior door once player has been moved completely into room
 		doorInt.GetComponent<Door> ().openDoor ();
