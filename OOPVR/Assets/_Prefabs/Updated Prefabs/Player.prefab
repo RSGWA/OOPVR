@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 114584402822008416}
   - component: {fileID: 114397121242668300}
   - component: {fileID: 95152631490189000}
+  - component: {fileID: 114179257950692902}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -774,6 +775,17 @@ MonoBehaviour:
   outlineShaderMaterial: {fileID: 0}
   renderTexture: {fileID: 0}
   extraRenderTexture: {fileID: 0}
+--- !u!114 &114179257950692902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1192538891273054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc7a7b5bcec50b4a876c4e57defa800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114182555889618350
 MonoBehaviour:
   m_ObjectHideFlags: 1
