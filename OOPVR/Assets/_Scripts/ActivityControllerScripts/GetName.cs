@@ -30,8 +30,8 @@ public class GetName : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		notepad.enlargeCurrentObjective(objectives[0]);
-		GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ().setBoxAssigned(true);
-		GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ().setVariableBoxValue (name);
+		GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ().setBoxAssigned(true);
+		GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ().setVariableBoxValue (name);
 		StartCoroutine ("checkInstanceCreated");
 	}
 
