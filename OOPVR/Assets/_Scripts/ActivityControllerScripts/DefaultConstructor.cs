@@ -28,7 +28,7 @@ public class DefaultConstructor : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		notepad.enlargeCurrentObjective(objectives[0]);
+		notepad.blinkObjective (objectives [0]);
 		StartCoroutine ("checkInstanceCreated");
 	}
 
@@ -42,7 +42,7 @@ public class DefaultConstructor : MonoBehaviour {
 		}
 		notepad.setActiveText (1);
 		notepad.setTitle ("DEFAULT CONSTRUCTOR");
-		notepad.enlargeCurrentObjective(objectives[1]);
+		notepad.blinkObjective (objectives [1]);
 		StartCoroutine ("checkConstructorEntered");
 	}
 
@@ -51,18 +51,23 @@ public class DefaultConstructor : MonoBehaviour {
 			constructorEntered = player.isInRoom ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.reset ();
-		notepad.enlargeCurrentObjective(objectives[2]);
-		notepad.enlargeCurrentObjective(objectives[3]);
-		StartCoroutine ("checkInstanceVarsSet");
+		notepad.blinkObjective (objectives [2]);
+		StartCoroutine ("checkAgeSet");
 	}
 
-	IEnumerator checkInstanceVarsSet() {
-		while (!instanceVariablesSet()) {
+	IEnumerator checkAgeSet() {
+		while (!ageSet()) {
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.reset ();
-		notepad.enlargeCurrentObjective(objectives[4]);
+		notepad.blinkObjective (objectives [3]);
+		StartCoroutine ("checkNameSet");
+	}
+
+	IEnumerator checkNameSet() {
+		while (!nameSet()) {
+			yield return new WaitForSeconds (0.1f);
+		}
+		notepad.blinkObjective (objectives [4]);
 		StartCoroutine ("checkReturn");
 	}
 
@@ -75,10 +80,15 @@ public class DefaultConstructor : MonoBehaviour {
 		notepad.endOfActivity();
 	}
 
-	bool instanceVariablesSet() {
+	bool ageSet() {
 		VariableBoxController ageBox = GameObject.Find ("Age_Instance").GetComponent<VariableBoxController> ();
+
+		return ageBox.isVarInBox();
+	}
+
+	bool nameSet() {
 		VariableBoxController nameBox = GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ();
 
-		return (ageBox.isVarInBox() && nameBox.isVarInBox());
+		return nameBox.isVarInBox();
 	}
 }

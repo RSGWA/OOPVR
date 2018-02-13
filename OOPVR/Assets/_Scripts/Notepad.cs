@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using OOPVR;
+using TMPro;
 
 public class Notepad : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class Notepad : MonoBehaviour
     string incrementAgeFilename = "incrementAge";
 
     string activeText;
-    string highlightedText;
+	string blinkedText;
+	string originalBlinkedText;
 
     string objectivesEnlargedText;
 
@@ -31,7 +33,9 @@ public class Notepad : MonoBehaviour
 
     int currentPage = 0;
 
-    int fontSize = 160;
+    int fontSize = 105;
+
+	IEnumerator coroutine;
 
     void Awake()
     {
@@ -84,6 +88,9 @@ public class Notepad : MonoBehaviour
         setTitle("Main");
 
         setText(0);
+
+		// Keep a copy of executing coroutine so it can be stopped
+		coroutine = blink ();
     }
 
     void Update()
@@ -93,7 +100,6 @@ public class Notepad : MonoBehaviour
 
     void parseText(string text)
     {
-
         List<int> list = text.AllIndexsOf("<p>");
         List<int> startIndices = new List<int>();
         foreach (int index in list)
@@ -108,10 +114,8 @@ public class Notepad : MonoBehaviour
         }
     }
 
-    public void highlightText(string text, string color)
+	public void highlightText(string text, string color)
 	{
-        highlightedText = activeText;
-
         int startIndex = activeText.IndexOf(text);
         int endIndex = startIndex + text.Length;
 
@@ -120,14 +124,72 @@ public class Notepad : MonoBehaviour
 			return;
 		}
 
-        activeText = activeText.Insert(endIndex, "</color>");
-        activeText = activeText.Insert(startIndex, "<color=" + color + ">");
-        setText(activeText);
+		activeText = activeText.Insert(endIndex, "</color>");
+		activeText = activeText.Insert(startIndex, "<color=" + color + ">");
+
+		startIndex = blinkedText.IndexOf(text);
+		endIndex = startIndex + text.Length;
+
+		blinkedText = blinkedText.Insert(endIndex, "</color>");
+		blinkedText = blinkedText.Insert(startIndex, "<color=" + color + ">");
+
+		setText (activeText);
     }
+
+	public void unhighlightText(string text)
+	{
+		int startIndex = activeText.IndexOf(text);
+		int endIndex = startIndex + text.Length;
+
+		// If code to highlight is not on current page
+		if (startIndex == -1) {
+			return;
+		}
+
+		activeText = activeText.Insert(endIndex, "</color>");
+		activeText = activeText.Insert(startIndex, "<color=black>");
+
+		blinkedText = originalBlinkedText;
+
+		setText (activeText);
+	}
+
+	public void blinkText(string text, string color) {
+		blinkedText = activeText;
+
+		int startIndex = blinkedText.IndexOf (text);
+		int endIndex = startIndex + text.Length;
+
+		// If code to highlight is not on current page
+		if (startIndex == -1) {
+			return;
+		}
+
+		blinkedText = blinkedText.Insert(endIndex, "</color>");
+		blinkedText = blinkedText.Insert(startIndex, "<color=" + color + ">");
+
+		// store original blinked text state
+		originalBlinkedText = blinkedText;
+
+		StopCoroutine (coroutine);
+		StartCoroutine (coroutine);
+	}
+
+	IEnumerator blink() {
+		
+		while (true) {
+			
+			// Highlight
+			setText(blinkedText);
+			yield return new WaitForSeconds (0.25f);
+			// Unhighlight
+			setText(activeText);
+			yield return new WaitForSeconds (0.25f);
+		}
+	}
 
     public void enlargeText(string text)
     {
-
         int startIndex = activeText.IndexOf(text);
         int endIndex = startIndex + text.Length;
 
@@ -138,24 +200,29 @@ public class Notepad : MonoBehaviour
 
     void setText(int pageNumber)
     {
-        code.GetComponent<Text>().text = pages[pageNumber];
+		code.GetComponent<TextMeshProUGUI>().text = pages[pageNumber];
         currentPage = pageNumber;
     }
 
     void setText(string text)
     {
-        code.GetComponent<Text>().text = text;
+		code.GetComponent<TextMeshProUGUI>().text = text;
     }
 
     public void setTitle(string text)
     {
-        title.GetComponent<Text>().text = text;
+		title.GetComponent<TextMeshProUGUI>().text = text;
     }
 
     public void enlargeCurrentObjective(string objective)
     {
         enlargeText(objective);
     }
+
+	public void blinkObjective(string objective) {
+		reset ();
+		blinkText (objective, "white");
+	}
 
     public void reset()
     {
@@ -196,8 +263,9 @@ public class Notepad : MonoBehaviour
 
     public void endOfActivity()
     {
+		StopCoroutine (coroutine);
         setTitle("Congratulations");
-        setText("Activity Completed" +
+		setText("Activity Completed" + System.Environment.NewLine +
         	"Returning to Main Menu");
 
 		Invoke ("returnToMenu", 5f);

@@ -97,13 +97,12 @@ public class OptionMenu : MonoBehaviour
         {
 		case "VariableBox":
 			// Highlight code in notepad representing the selected variable
-			foreach (string text in variableBox.code)
-			{
-				notepad.highlightText(text, "lime");
+			foreach (string code in variableBox.code) {
+				notepad.highlightText (code, "green");
 			}
 			break;
 		case "Door":
-			notepad.highlightText (door.code, "magenta");
+			notepad.highlightText (door.code, "purple");
 			break;
 		default:
 			break;
@@ -126,11 +125,11 @@ public class OptionMenu : MonoBehaviour
 		case "VariableBox":
 			foreach (string text in variableBox.code)
 			{
-				notepad.highlightText(text, "black");
+				notepad.unhighlightText(text);
 			}
 			break;
 		case "Door":
-			notepad.highlightText(door.code, "black");
+			notepad.unhighlightText(door.code);
 			break;
 		default:
 			break;
