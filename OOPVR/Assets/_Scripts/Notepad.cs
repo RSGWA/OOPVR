@@ -257,7 +257,6 @@ public class Notepad : MonoBehaviour
 
     public void setActiveText(int pageNumber)
     {
-        activeText = pages[pageNumber];
         setText(pageNumber);
     }
 

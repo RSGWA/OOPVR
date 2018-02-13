@@ -14,10 +14,15 @@ public class DefaultConstructor : MonoBehaviour {
 
 	List<string> objectives = new List<string>();
 
+	VariableBoxController ageBox, nameBox;
+
 	void Awake() {
 		instance = GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ();
 		notepad = GameObject.FindGameObjectWithTag ("Notepad").GetComponent<Notepad> ();
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
+
+		ageBox = GameObject.Find ("Age_InstanceBox").GetComponent<VariableBoxController> ();
+		nameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
 
 		objectives.Add ("Person p;");
 		objectives.Add ("Person::Person() {");
@@ -41,7 +46,7 @@ public class DefaultConstructor : MonoBehaviour {
 			yield return new WaitForSeconds (0.1f);
 		}
 		notepad.setActiveText (1);
-		notepad.setTitle ("DEFAULT CONSTRUCTOR");
+		notepad.setTitle ("CONSTRUCTOR");
 		notepad.blinkObjective (objectives [1]);
 		StartCoroutine ("checkConstructorEntered");
 	}
@@ -81,14 +86,10 @@ public class DefaultConstructor : MonoBehaviour {
 	}
 
 	bool ageSet() {
-		VariableBoxController ageBox = GameObject.Find ("Age_Instance").GetComponent<VariableBoxController> ();
-
 		return ageBox.isVarInBox();
 	}
 
 	bool nameSet() {
-		VariableBoxController nameBox = GameObject.Find ("Name_Instance").GetComponent<VariableBoxController> ();
-
 		return nameBox.isVarInBox();
 	}
 }

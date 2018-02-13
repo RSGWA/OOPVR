@@ -30,9 +30,9 @@ public class Activities : MonoBehaviour {
 		}
 		*/
 
-		this.gameObject.SetActive (false);
+		//this.gameObject.SetActive (false);
 
-		Load ();
+		//Load ();
 
 		activityTitles = new List<string> ();
 

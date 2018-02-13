@@ -12,6 +12,8 @@ public class Constructor2Parameters : MonoBehaviour {
     bool constructorEntered = false;
     bool returned = false;
 
+	VariableBoxController nameParameterBox, ageParameterBox, nameBox, ageBox;
+
     List<string> objectives = new List<string>();
 
     void Awake()
@@ -20,17 +22,26 @@ public class Constructor2Parameters : MonoBehaviour {
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
-        objectives.Add("Person p = new Person(\"John\",20);"); 
-        objectives.Add("Person::Person(string myName, int myAge) {");
-        objectives.Add("this->name = myName;");
-        objectives.Add("this->age = myAge;");
-        objectives.Add("}");
+		Transform parameterPlatform = GameObject.FindGameObjectWithTag ("ConstructorWithParameters").transform.Find ("ParametersPlatform");
+
+		nameParameterBox = parameterPlatform.Find ("NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
+		ageParameterBox = parameterPlatform.Find ("AgeParameter/AgeParameterBox").GetComponent<VariableBoxController>();
+
+		ageBox = GameObject.Find ("Age_InstanceBox").GetComponent<VariableBoxController> ();
+		nameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
+
+        objectives.Add("new Person"); 
+        objectives.Add("\"John\"");
+        objectives.Add("20");
+		objectives.Add("this->name = name;");
+		objectives.Add("this->age = age;");
+		objectives.Add ("}");
     }
 
     // Use this for initialization
     void Start()
     {
-        notepad.enlargeCurrentObjective(objectives[0]);
+		notepad.blinkObjective (objectives [0]);
         StartCoroutine("checkInstanceCreated");
     }
 
@@ -39,41 +50,53 @@ public class Constructor2Parameters : MonoBehaviour {
         while (!instanceCreated)
         {
             instanceCreated = instance.hasInstanceBeenCreated();
-            if (player.isInRoom())
-            {
-                instanceCreated = true;
-            }
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.setActiveText(1);
-        notepad.setTitle("CONSTRUCTOR");
-        notepad.enlargeCurrentObjective(objectives[1]);
-        StartCoroutine("checkConstructorEntered");
+		notepad.blinkObjective (objectives [1]);
+        StartCoroutine("checkNameParameterSet");
     }
 
-    IEnumerator checkConstructorEntered()
-    {
-        while (!constructorEntered)
-        {
-            constructorEntered = player.isInRoom();
-            yield return new WaitForSeconds(0.1f);
-        }
-        notepad.reset();
-        notepad.enlargeCurrentObjective(objectives[2]);
-        notepad.enlargeCurrentObjective(objectives[3]);
-        StartCoroutine("checkInstanceVarsSet");
-    }
+	IEnumerator checkNameParameterSet()
+	{
+		while (!nameParameterSet())
+		{
+			yield return new WaitForSeconds(0.1f);
+		}
+		notepad.blinkObjective (objectives [2]);
+		StartCoroutine("checkAgeParameterSet");
+	}
 
-    IEnumerator checkInstanceVarsSet()
-    {
-        while (!instanceVariablesSet())
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-        notepad.reset();
-        notepad.enlargeCurrentObjective(objectives[4]);
-        StartCoroutine("checkReturn");
-    }
+	IEnumerator checkAgeParameterSet()
+	{
+		while (!ageParameterSet())
+		{
+			yield return new WaitForSeconds(0.1f);
+		}
+		notepad.setActiveText (1);
+		notepad.setTitle ("CONSTRUCTOR");
+		notepad.blinkObjective (objectives [3]);
+		StartCoroutine("checkNameSet");
+	}
+
+	IEnumerator checkNameSet()
+	{
+		while (!nameSet())
+		{
+			yield return new WaitForSeconds(0.1f);
+		}
+		notepad.blinkObjective (objectives [4]);
+		StartCoroutine("checkAgeSet");
+	}
+
+	IEnumerator checkAgeSet()
+	{
+		while (!ageSet())
+		{
+			yield return new WaitForSeconds(0.1f);
+		}
+		notepad.blinkObjective (objectives [5]);
+		StartCoroutine("checkReturn");
+	}
 
     IEnumerator checkReturn()
     {
@@ -86,11 +109,19 @@ public class Constructor2Parameters : MonoBehaviour {
         notepad.endOfActivity();
     }
 
-    bool instanceVariablesSet()
-    {
-        VariableBoxController ageBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
-        VariableBoxController nameBox = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
+	bool nameParameterSet() {
+		return nameParameterBox.isVarInBox ();
+	}
 
-        return (ageBox.isVarInBox() && nameBox.isVarInBox());
-    }
+	bool ageParameterSet() {
+		return ageParameterBox.isVarInBox ();
+	}
+
+	bool nameSet() {
+		return nameBox.isVarInBox ();
+	}
+
+	bool ageSet() {
+		return ageBox.isVarInBox ();
+	}
 }
