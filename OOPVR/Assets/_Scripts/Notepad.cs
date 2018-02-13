@@ -51,31 +51,26 @@ public class Notepad : MonoBehaviour
         switch (activeScene.name)
         {
             case "DefaultConstructorScene":
-                Debug.Log("1");
                 textAsset = Resources.Load(defaultConstructorFilename) as TextAsset;
                 textToParse = textAsset.text;
                 parseText(textToParse);
                 break;
             case "2ParameterConstructor":
-                Debug.Log("2");
                 textAsset = Resources.Load(parameterConstructorFilename) as TextAsset;
                 textToParse = textAsset.text;
                 parseText(textToParse);
                 break;
             case "GetName":
-                Debug.Log("3");
                 textAsset = Resources.Load(getNameFilename) as TextAsset;
                 textToParse = textAsset.text;
                 parseText(textToParse);
                 break;
             case "SetNameActivity":
-                Debug.Log("4");
                 textAsset = Resources.Load(setNameFilename) as TextAsset;
                 textToParse = textAsset.text;
                 parseText(textToParse);
                 break;
             case "IncrementAgeActivity":
-                Debug.Log("5");
                 textAsset = Resources.Load(incrementAgeFilename) as TextAsset;
                 textToParse = textAsset.text;
                 parseText(textToParse);

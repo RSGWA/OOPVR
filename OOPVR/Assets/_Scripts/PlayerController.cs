@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour {
         StartCoroutine("closeDoor");
 
 		returned = true;
+		inRoom = false;
 
 	}
 

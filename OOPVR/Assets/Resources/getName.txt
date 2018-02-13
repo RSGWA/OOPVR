@@ -1,5 +1,6 @@
 ﻿<p>int main(void) {
-	Person p = new Person("Gilbert", 14);
+	Person p = new Person("John", 20);
+	p.setName("Gilbert");
 	string pName = p.getName();
 	return 0;
 }</p>

@@ -13,6 +13,9 @@ public class SetName : MonoBehaviour {
     bool nameAssigned = false;
     bool returned = false;
 
+	GameObject setNameRoom;
+	VariableBoxController nameParameterBox, nameBox;
+
     List<string> objectives = new List<string>();
 
     void Awake()
@@ -21,73 +24,50 @@ public class SetName : MonoBehaviour {
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
-        objectives.Add("Person p = new Person();");
-        //objectives.Add("p.setName(\"Gilbert\");");
-        objectives.Add("void Person::setName(const string& myName) {");
-        objectives.Add("this->name = myName;");
+		setNameRoom = GameObject.FindGameObjectWithTag ("SetName");
+		Transform parameterPlatform = setNameRoom.transform.Find ("ParametersPlatform");
+		nameParameterBox = parameterPlatform.Find ("NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
+		nameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
+
+        objectives.Add("setName");
+        objectives.Add("\"Gilbert\"");
+        objectives.Add("this->name = name;");
         objectives.Add("}");
     }
 
     // Use this for initialization
     void Start()
     {
-        notepad.enlargeCurrentObjective(objectives[0]);
-        StartCoroutine("checkInstanceCreated");
+		notepad.blinkObjective(objectives[0]);
+        StartCoroutine("checkPlayerInFrontOfMethod");
     }
 
-    IEnumerator checkInstanceCreated()
-    {
-        while (!instanceCreated)
-        {
-            instanceCreated = instance.hasInstanceBeenCreated();
-            if (player.isInRoom())
-            {
-                instanceCreated = true;
-            }
-            yield return new WaitForSeconds(0.1f);
-        }
-        notepad.setActiveText(1);
-        notepad.setTitle("SetName");
-        notepad.enlargeCurrentObjective(objectives[1]);
-        StartCoroutine("checkMethodEntered");
-    }
+	IEnumerator checkPlayerInFrontOfMethod() {
+		while (!playerInFrontOfMethod ()) {
+			yield return new WaitForSeconds (0.1f);
+		}
+		notepad.blinkObjective (objectives [1]);
+		StartCoroutine ("checkNameParameterSet");
+	}
 
-   /* IEnumerator checkNameAssigned()
-    {
-        while (!checkNameAssigned)
-        {
-            //constructorEntered = player.isInRoom();
-            yield return new WaitForSeconds(0.1f);
-        }
-        notepad.reset();
-        notepad.enlargeCurrentObjective(objectives[2]);
-        notepad.enlargeCurrentObjective(objectives[3]);
-        StartCoroutine("checkInstanceVarsSet");
-    }*/
+	IEnumerator checkNameParameterSet() {
+		while (!nameParameterSet ()) {
+			yield return new WaitForSeconds (0.1f);
+		}
+		notepad.setActiveText (1);
+		notepad.setTitle ("Set name");
+		notepad.blinkObjective (objectives [2]);
+		StartCoroutine ("checkNameSet");
+	}
 
-    IEnumerator checkMethodEntered()
-    {
-        while (!methodEntered)
-        {
-            methodEntered = player.isInRoom();
-            yield return new WaitForSeconds(0.1f);
-        }
-        notepad.reset();
-        notepad.enlargeCurrentObjective(objectives[2]);
-        StartCoroutine("checkInstanceNameAssigned");
-    }
-
-    IEnumerator checkInstanceNameAssigned()
-    {
-        while (!instanceNameAssigned())
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-        notepad.reset();
-        notepad.enlargeCurrentObjective(objectives[3]);
-        StartCoroutine("checkReturn");
-    }
-
+	IEnumerator checkNameSet() {
+		while (!nameSet ()) {
+			yield return new WaitForSeconds (0.1f);
+		}
+		notepad.blinkObjective (objectives [3]);
+		StartCoroutine ("checkReturn");
+	}
+		
     IEnumerator checkReturn()
     {
         while (!returned)
@@ -99,10 +79,18 @@ public class SetName : MonoBehaviour {
         notepad.endOfActivity();
     }
 
-    bool instanceNameAssigned()
-    {
-        VariableBoxController nameInstanceVariable = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
+	bool playerInFrontOfMethod() {
+		Transform roomMovePoint = setNameRoom.transform.Find ("MovePoint");
 
-        return nameInstanceVariable.isVarInBox();
-    }
+		return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
+
+	}
+
+	bool nameParameterSet() {
+		return nameParameterBox.isVarInBox ();
+	}
+
+	bool nameSet() {
+		return nameBox.isVarInBox ();
+	}
 }

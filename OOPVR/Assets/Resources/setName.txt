@@ -1,11 +1,11 @@
 ﻿<p>int main(void) {
-	Person p = new Person();
+	Person p = new Person("John",20);
 	p.setName("Gilbert");
 	return 0;
 }</p>
 <p>int age;
 string name;
 
-void Person::setName(const string& myName) {
-	this->name = myName;
+void Person::setName(string name) {
+	this->name = name;
 }</p>

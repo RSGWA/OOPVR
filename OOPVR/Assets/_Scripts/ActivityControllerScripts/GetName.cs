@@ -9,6 +9,10 @@ public class GetName : MonoBehaviour {
 	InstanceController instance;
 	Notepad notepad;
 	PlayerController player;
+	HandController hand;
+
+	GameObject getNameRoom;
+	VariableBoxController instanceNameBox, mainNameBox;
 
 	bool instanceCreated = false;
 	bool methodEntered = false;
@@ -20,42 +24,42 @@ public class GetName : MonoBehaviour {
 		instance = GameObject.FindGameObjectWithTag ("Instance").GetComponent<InstanceController> ();
 		notepad = GameObject.FindGameObjectWithTag ("Notepad").GetComponent<Notepad> ();
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
+		hand = GameObject.FindGameObjectWithTag ("Hand").GetComponent<HandController> ();
 
-		objectives.Add ("Person p = new Person(\"Gilbert\", 14)");
-		objectives.Add ("string Person::getName() {");
-		objectives.Add ("return this->name;");
+		getNameRoom = GameObject.FindGameObjectWithTag ("GetName");
+		instanceNameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
+		instanceNameBox.setBoxAssigned (true);
+		instanceNameBox.setVariableBoxValue (name);
+
+		mainNameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
+
+		objectives.Add ("getName()");
+		objectives.Add ("this->name");
+		objectives.Add ("return");
 		objectives.Add ("string pName = p.getName();");
 	}
 
 	// Use this for initialization
 	void Start () {
-		notepad.enlargeCurrentObjective(objectives[0]);
-		GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ().setBoxAssigned(true);
-		GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ().setVariableBoxValue (name);
-		StartCoroutine ("checkInstanceCreated");
-	}
-
-	IEnumerator checkInstanceCreated() {
-		while (!instanceCreated) {
-			instanceCreated = instance.hasInstanceBeenCreated ();
-			if (player.isInRoom ()) {
-				instanceCreated = true;
-			}
-			yield return new WaitForSeconds (0.1f);
-		}
-		notepad.setActiveText (1);
-		notepad.setTitle ("GET NAME");
-		notepad.enlargeCurrentObjective(objectives[1]);
+		notepad.blinkObjective(objectives[0]);
 		StartCoroutine ("checkMethodEntered");
 	}
 
 	IEnumerator checkMethodEntered() {
-		while (!methodEntered) {
-			methodEntered = player.isInRoom ();
+		while (!player.isInRoom ()) {
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.reset ();
-		notepad.enlargeCurrentObjective(objectives[2]);
+		notepad.setActiveText (1);
+		notepad.setTitle ("Get name");
+		notepad.blinkObjective (objectives [1]);
+		StartCoroutine ("checkNameInHand");
+	}
+
+	IEnumerator checkNameInHand() {
+		while (!nameInHand ()) {
+			yield return new WaitForSeconds (0.1f);
+		}
+		notepad.blinkObjective (objectives [2]);
 		StartCoroutine ("checkReturned");
 	}
 
@@ -66,8 +70,7 @@ public class GetName : MonoBehaviour {
 		}
 		notepad.setActiveText (0);
 		notepad.setTitle ("Main");
-		notepad.reset ();
-		notepad.enlargeCurrentObjective(objectives[3]);
+		notepad.blinkObjective (objectives [3]);
 		StartCoroutine ("checkNameAssigned");
 	}
 
@@ -80,8 +83,19 @@ public class GetName : MonoBehaviour {
 	}
 
 	bool nameAssigned() {
-		VariableBoxController nameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
+		return mainNameBox.isVarInBox ();
+	}
 
-		return nameBox.isVarInBox ();
+	bool playerInFrontOfMethod() {
+		Transform roomMovePoint = getNameRoom.transform.Find ("MovePoint");
+
+		return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
+	}
+
+	bool nameInHand() {
+		if (hand.getObjInHand () != null) {
+			return hand.getObjInHand ().name == "Name_InstanceBox(Clone)";
+		}
+		return false;
 	}
 }
