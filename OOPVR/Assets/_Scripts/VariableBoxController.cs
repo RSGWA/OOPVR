@@ -49,7 +49,7 @@ public class VariableBoxController : MonoBehaviour
     bool preIncrementSelection = false;
     bool incrementSelected = false;
     bool postIncrementSelection = false;
-    bool incremented = true;
+    bool incremented = false;
 
 
     // Use this for initialization
@@ -504,6 +504,7 @@ public class VariableBoxController : MonoBehaviour
         currentTime = Time.time;
 
         StartCoroutine("AnimateIncrement");
+        incremented = true;
 
     }
 
