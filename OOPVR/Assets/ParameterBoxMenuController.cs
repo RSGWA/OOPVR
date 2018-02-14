@@ -6,8 +6,10 @@ public class ParameterBoxMenuController : MonoBehaviour {
 
     GameObject OptionMenuPanel;
 
+    GameObject CopyButton, AssignButton, InfoButton;
+
     Transform Player;
-    Transform methodMovePoint;
+    Transform outsideMethodPoint;
     Transform insideMethodPoint;
 
     private GameObject hiddenButton;
@@ -18,67 +20,58 @@ public class ParameterBoxMenuController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        OptionMenuPanel = transform.Find("ParameterVariableBox").Find("OptionMenu").Find("Panel").gameObject;
+        OptionMenuPanel = transform.GetChild(1).Find("OptionMenu").Find("Panel").gameObject;
+        CopyButton = OptionMenuPanel.transform.Find("CopyButton").gameObject;
+        AssignButton = OptionMenuPanel.transform.Find("AssignButton").gameObject;
+        InfoButton = OptionMenuPanel.transform.Find("InfoButton").gameObject;
+
         Player = GameObject.Find("Player").transform;
+        CopyButton.SetActive(false);
 
         insideMethodPoint = transform.parent.parent.Find("PlayerDest");
-        methodMovePoint = transform.parent.parent.Find("MovePoint");
+        outsideMethodPoint = transform.parent.parent.Find("MovePoint");
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if ((Player.position.x >= methodMovePoint.position.x - 0.5) &&
-            (Player.position.x <= methodMovePoint.position.x + 0.5))
+        if (Player.position.x == outsideMethodPoint.position.x)
         {
+            print("Player outside method MOVEPOINT");
+            PlayerOnMovePoint();
 
-            playerOnMovePoint = true;
 
-        }
-        else
-        {
-            playerOnMovePoint = false;
         }
 
         if (Player.position.x == insideMethodPoint.position.x )
         {
+            print("Player inside method PLAYERDES");
+            PlayerInsideMethod();
 
-            playerInsideMethod = true;
-
-        }
-        else
-        {
-            playerInsideMethod = false;
-        }
-
-
-        if (playerInsideMethod)
-        {
-            ShowButton(hiddenButton);
-            //HideButton("AssignButton");
-            
-            
-        }
-
-        if (playerOnMovePoint)
-        {
-            HideButton("CopyButton");
-            //ShowButton(hiddenButton);
         }
     }
 
-    void HideButton(string button)
+    void ShowButton(GameObject button, bool key)
     {
-        hiddenButton = OptionMenuPanel.transform.Find(button).gameObject;
-        OptionMenuPanel.transform.Find(button).gameObject.SetActive(false);
+        button.SetActive(key);
     }
 
-    void ShowButton(GameObject button)
+    void PlayerOnMovePoint()
     {
-        button.SetActive(true);
+        ShowButton(CopyButton, false);
+        ShowButton(AssignButton, true);
+        ShowButton(InfoButton, true);
     }
 
-    
+    void PlayerInsideMethod()
+    {
+        ShowButton(CopyButton, true);
+        ShowButton(AssignButton, false);
+        ShowButton(InfoButton, true);
+    }
+
+
+
 
 }
