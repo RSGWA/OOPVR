@@ -12,6 +12,8 @@ public class ParameterBoxMenuController : MonoBehaviour {
     Transform outsideMethodPoint;
     Transform insideMethodPoint;
 
+    
+
     private GameObject hiddenButton;
 
     bool playerInsideMethod = false;
@@ -26,7 +28,6 @@ public class ParameterBoxMenuController : MonoBehaviour {
         InfoButton = OptionMenuPanel.transform.Find("InfoButton").gameObject;
 
         Player = GameObject.Find("Player").transform;
-        CopyButton.SetActive(false);
 
         insideMethodPoint = transform.parent.parent.Find("PlayerDest");
         outsideMethodPoint = transform.parent.parent.Find("MovePoint");
@@ -38,7 +39,6 @@ public class ParameterBoxMenuController : MonoBehaviour {
 
         if (Player.position.x == outsideMethodPoint.position.x)
         {
-            print("Player outside method MOVEPOINT");
             PlayerOnMovePoint();
 
 
@@ -46,7 +46,6 @@ public class ParameterBoxMenuController : MonoBehaviour {
 
         if (Player.position.x == insideMethodPoint.position.x )
         {
-            print("Player inside method PLAYERDES");
             PlayerInsideMethod();
 
         }
