@@ -17,6 +17,7 @@ public class VariableBoxController : MonoBehaviour
     private GameObject newVarBoxValue;
 
     private GameObject plusOne;
+    private GameObject valueToIncrement;
 
     private Status MessageCanvas;
     private InfoController info;
@@ -45,8 +46,11 @@ public class VariableBoxController : MonoBehaviour
     bool varRemoved = false;
 
     bool infoSelected = false;
+    bool preIncrementSelection = false;
     bool incrementSelected = false;
-    bool incremented = false;
+    bool postIncrementSelection = false;
+    bool incremented = true;
+
 
     // Use this for initialization
     void Start()
@@ -139,20 +143,42 @@ public class VariableBoxController : MonoBehaviour
             }
 
         }
+        if (preIncrementSelection)
+        {
+            valueToIncrement.transform.Translate(Vector3.up * 0.6f * Time.deltaTime);
+
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
+            {
+                preIncrementSelection = false;
+
+            }
+        }
         if (incrementSelected)
         {
 
-            plusOne.transform.Translate(Vector3.up * 0.85f * Time.deltaTime);
+            plusOne.transform.Translate(Vector3.up * 0.5f * Time.deltaTime);
+            
 
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 
                 Destroy(plusOne);
                 incrementSelected = false;
-               
             }
 
         }
+        if (postIncrementSelection)
+        {
+            valueToIncrement.transform.Translate(Vector3.down * 0.6f * Time.deltaTime);
+
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
+            {
+                postIncrementSelection = false;
+
+            }
+        }
+
+
         if (onParameter && paramReady)
         {
             //Control Platform
@@ -476,15 +502,34 @@ public class VariableBoxController : MonoBehaviour
     {
         options.Deselect();
         currentTime = Time.time;
-        //have an animation of +1 that comes out of the box to signify an Increment
-        plusOne = Instantiate((Resources.Load("1increment", typeof(GameObject))as GameObject) , transform.position, Hand.transform.rotation, transform.parent.parent);
+
+        StartCoroutine("AnimateIncrement");
+
+    }
+
+    IEnumerator AnimateIncrement()
+    {
+        currentTime = Time.time;
+        valueToIncrement = transform.GetChild(3).gameObject;
+        preIncrementSelection = true;
+
+        yield return new WaitForSeconds(1.5f);
+
+        currentTime = Time.time;
+        Vector3 pos = transform.position + Vector3.up * 0.8f;
+        plusOne = Instantiate((Resources.Load("1increment", typeof(GameObject)) as GameObject), pos, Hand.transform.rotation, transform.parent.parent);
+
+        string value = valueToIncrement.GetComponent<TextMesh>().text;
+        int oldValue = int.Parse(value);
+        int newValue = oldValue + 1;
+        valueToIncrement.GetComponent<TextMesh>().text = newValue.ToString();
 
         incrementSelected = true;
-        incremented = true;
 
-        //later- get the assigned value to this int variable and increment it
-        GameObject intValue = transform.GetChild(3).gameObject;
+        yield return new WaitForSeconds(1.5f);
 
+        currentTime = Time.time;
+        postIncrementSelection = true;
     }
 
     IEnumerator removeVariableAndAct()
