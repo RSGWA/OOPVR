@@ -25,13 +25,13 @@ public class InfoController : MonoBehaviour {
     public void SetInformation(string msg)
     {
         infoStatus.text = msg;
-       // StartCoroutine(UpdateMessage());
+        StartCoroutine(UpdateMessage());
     }
 
     private IEnumerator UpdateMessage()
     {
         ShowInformation();
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(4.5f);
         HideInformation();
     }
 
