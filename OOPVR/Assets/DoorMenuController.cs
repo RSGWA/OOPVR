@@ -13,14 +13,15 @@ public class DoorMenuController : MonoBehaviour
     Transform activeDoorOptionMenuPanel;
     GameObject GoIntoButton, InfoButton, activeGoInto, activeInfo;
 
+    void Awake()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        GetActiveDoor(scene.name);
+        GetAllDoors();
+    }
     // Use this for initialization
     void Start()
     {
-
-        Scene scene = SceneManager.GetActiveScene();
-
-        GetActiveDoor(scene.name);
-        GetAllDoors();
 
         foreach (GameObject method in inactiveDoors)
         {
@@ -35,17 +36,31 @@ public class DoorMenuController : MonoBehaviour
             SetInteractive(doorIntDoorPanel, false);
         }
 
-
         GameObject activityMethod = GameObject.Find(ActivityName);
         activeDoorOptionMenuPanel = activityMethod.transform.Find("Door").GetChild(0).Find("OptionMenu").Find("Panel");
         activeGoInto = activeDoorOptionMenuPanel.Find("GoIntoButton").gameObject;
         activeInfo = activeDoorOptionMenuPanel.Find("InfoButton").gameObject;
 
-        ShowButton(activeGoInto, true);
-        ShowButton(activeInfo, true);
-
         GameObject activeIntDoorPanel = activityMethod.transform.Find("Door").transform.GetChild(1).Find("DoorPanel").gameObject;
-        SetInteractive(activeIntDoorPanel, false);
+
+
+        if (ActivityName == "Constructor" || ActivityName == "SetName")
+        {
+            ShowButton(activeGoInto, false);
+            ShowButton(activeInfo, true);
+            SetInteractive(activeIntDoorPanel, false);
+
+        }
+        else
+        {
+            ShowButton(activeGoInto, true);
+            ShowButton(activeInfo, true);
+            SetInteractive(activeIntDoorPanel, false);
+        }
+
+        
+
+        
     }
 
     void GetActiveDoor(string activityName)
