@@ -439,7 +439,7 @@ public class VariableBoxController : MonoBehaviour
             {
                 //A visual effect to denote that the value's type inHand does not match variableBox Type
                 print("Value and VariableBox TYPES Mismatch");
-                MessageCanvas.SetMessage("TYPE MISMATCH: Cannot assign a Value of type " + variableType + " to variable of type " + varBoxType);
+                MessageCanvas.SetMessage("TYPE MISMATCH: Cannot assign a value of type " + variableType + " to variable of type " + varBoxType);
             }
         }
         else if (objInHand.tag == "VariableBox")

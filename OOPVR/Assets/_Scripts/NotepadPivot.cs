@@ -11,6 +11,7 @@ public class NotepadPivot : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.rotation = Quaternion.Euler (0, Camera.main.transform.rotation.eulerAngles.y, 0);
-	}
+        transform.rotation = Quaternion.Euler (-30, Camera.main.transform.rotation.eulerAngles.y, 0);
+        
+    }
 }
