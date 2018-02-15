@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class IncrementAge : MonoBehaviour {
 
-    //public GameObject IntValue;
+    public GameObject AgeInstanceValue, NameInstanceValue;
+
     InstanceController instance;
     Notepad notepad;
     PlayerController player;
@@ -15,7 +16,7 @@ public class IncrementAge : MonoBehaviour {
     bool returned = false;
 
     GameObject incrementAgeRoom;
-    VariableBoxController instanceAgeBox;
+    VariableBoxController instanceAgeBox, instanceNameBox;
 
     List<string> objectives = new List<string>();
 
@@ -28,11 +29,15 @@ public class IncrementAge : MonoBehaviour {
         incrementAgeRoom = GameObject.FindGameObjectWithTag("IncrementAge");
         instanceAgeBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
         instanceAgeBox.setBoxAssigned(true);
-        //instanceAgeBox.setVariableBoxValue(IntValue);
+        instanceAgeBox.setVariableBoxValue(AgeInstanceValue);
+
+        instanceNameBox = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
+        instanceNameBox.setBoxAssigned(true);
+        instanceNameBox.setVariableBoxValue(NameInstanceValue);
 
         objectives.Add("p.incrementAge();");
-        //objectives.Add("incrementAge();");
-        objectives.Add("void Person::incrementAge() {");
+        objectives.Add("incrementAge();");
+       // objectives.Add("void Person::incrementAge() {");
         objectives.Add("this->age++;");
         objectives.Add("}");
     }
@@ -51,9 +56,10 @@ public class IncrementAge : MonoBehaviour {
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.setActiveText(1);
-        notepad.setTitle("IncrementAge");
-       // notepad.enlargeCurrentObjective(objectives[1]);
+        //notepad.setActiveText(1);
+        //notepad.setTitle("IncrementAge");
+        // notepad.enlargeCurrentObjective(objectives[1]);
+        notepad.reset();
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkMethodEntered");
     }
@@ -78,7 +84,9 @@ public class IncrementAge : MonoBehaviour {
             methodEntered = player.isInRoom();
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.reset();
+        notepad.setActiveText(1);
+        notepad.setTitle("IncrementAge");
+        //notepad.reset();
         //notepad.enlargeCurrentObjective(objectives[2]);
         notepad.blinkObjective(objectives[2]);
         StartCoroutine("checkAgeInstanceIncrement");

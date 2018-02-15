@@ -479,21 +479,18 @@ public class VariableBoxController : MonoBehaviour
     public void InfoButton()
     {
         string varBoxType = transform.GetChild(0).tag;
-        string varName = transform.name;
-        info.SetInformation("This is a variable.\n " + varName + " = " + varBoxType + "!!\nThis " +
-            "is just an exampe of showing how info works.\n PLEASE SELECT INFO AGAIN TO DESELECT!");
+        string varName = transform.Find("Labels").GetChild(0).GetComponent<TextMesh>().text;
 
-        if (!infoSelected)
+        if (isVarInBox())
         {
-            info.ShowInformation();
-            infoSelected = true;
+            string value = variableBoxValue.GetComponent<TextMesh>().text;
+            info.SetInformation(varName + " = " + value + "\nThis is a variable container of type " + varBoxType + ".\nIt has a value of " + value );
         }
         else
         {
-            info.HideInformation();
-            infoSelected = false;
+            info.SetInformation(varName + "\nThis is a variable container of type " + varBoxType + ".\nPlease assign a value of type " + varBoxType + "to this variable.");
         }
-
+        
 
 
     }
