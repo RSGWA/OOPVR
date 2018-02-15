@@ -535,6 +535,7 @@ public class VariableBoxController : MonoBehaviour
 
     IEnumerator removeVariableAndAct()
     {
+        options.Deselect();
         while (!varRemoved)
         {
             yield return new WaitForSeconds(0.1f);
