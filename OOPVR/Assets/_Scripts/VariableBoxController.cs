@@ -500,11 +500,19 @@ public class VariableBoxController : MonoBehaviour
 
     public void IncrementFunction()
     {
-        options.Deselect();
-        currentTime = Time.time;
+        if (!incremented)
+        {
+            options.Deselect();
+            currentTime = Time.time;
 
-        StartCoroutine("AnimateIncrement");
-        incremented = true;
+            StartCoroutine("AnimateIncrement");
+            incremented = true;
+        }
+        else
+        {
+            MessageCanvas.SetMessage("CANNOT PERFORM ACTION: Increment++ can only be called once when inside the method!");
+        }
+        
 
     }
 
