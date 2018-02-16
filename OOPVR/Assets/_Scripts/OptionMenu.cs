@@ -100,6 +100,7 @@ public class OptionMenu : MonoBehaviour
 			foreach (string code in variableBox.code) {
 				notepad.highlightText (code, "green");
 			}
+                variableBox.peekValue(true);
 			break;
 		case "Door":
 			notepad.highlightText (door.code, "purple");
@@ -127,7 +128,8 @@ public class OptionMenu : MonoBehaviour
 			{
 				notepad.unhighlightText(text);
 			}
-			break;
+                variableBox.peekValue(false);
+                break;
 		case "Door":
 			notepad.unhighlightText(door.code);
 			break;

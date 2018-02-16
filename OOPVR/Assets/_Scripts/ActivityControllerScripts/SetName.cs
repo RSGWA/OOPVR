@@ -5,7 +5,7 @@ using UnityEngine;
 public class SetName : MonoBehaviour
 {
 
-    public GameObject name;
+    public GameObject NameInstanceValue , AgeInstanceValue;
 
     InstanceController instance;
     Notepad notepad;
@@ -17,7 +17,7 @@ public class SetName : MonoBehaviour
     bool returned = false;
 
     GameObject setNameRoom;
-    VariableBoxController nameParameterBox, nameInstanceBox;
+    VariableBoxController nameParameterBox, nameInstanceBox, ageInstanceBox;
 
     List<string> objectives = new List<string>();
 
@@ -32,7 +32,11 @@ public class SetName : MonoBehaviour
         nameParameterBox = parameterPlatform.Find("NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
         nameInstanceBox = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
         nameInstanceBox.setBoxAssigned(true);
-        nameInstanceBox.setVariableBoxValue(name);
+        nameInstanceBox.setVariableBoxValue(NameInstanceValue);
+
+        ageInstanceBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
+        ageInstanceBox.setBoxAssigned(true);
+        ageInstanceBox.setVariableBoxValue(AgeInstanceValue);
 
         objectives.Add("setName");
         objectives.Add("\"Gilbert\"");

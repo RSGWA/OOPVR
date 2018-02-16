@@ -51,6 +51,9 @@ public class VariableBoxController : MonoBehaviour
     bool postIncrementSelection = false;
     bool incremented = false;
     bool isParameter = false;
+    bool animatePeekUp = false;
+    bool animatePeekDown = false;
+
 
 
     // Use this for initialization
@@ -86,10 +89,13 @@ public class VariableBoxController : MonoBehaviour
                 objInHand.GetComponent<BoxCollider>().enabled = true;
                 objInHand.AddComponent<Rigidbody>();
 
+                
+                
+                
                 boxAssigned = true;
                 variableBoxValue = objInHand;
-
-				//options.Select ();
+                objInHand.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                //options.Select ();
             }
         }
         else if (movingBoxToHand)
@@ -181,6 +187,27 @@ public class VariableBoxController : MonoBehaviour
             }
         }
 
+        if (animatePeekUp)
+        {
+            variableBoxValue.transform.Translate(Vector3.up * 0.4f * Time.deltaTime);
+
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
+            {
+                animatePeekUp = false;
+
+            }
+        }
+        if (animatePeekDown)
+        {
+            variableBoxValue.transform.Translate(Vector3.down * 0.4f * Time.deltaTime);
+
+            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
+            {
+                animatePeekDown = false;
+
+            }
+        }
+
 
         if (onParameter && paramReady)
         {
@@ -236,7 +263,7 @@ public class VariableBoxController : MonoBehaviour
 
                 if (ghostObj.getVariableBoxValue().GetComponent<Rigidbody>() != null)
                 {
-                    Destroy(ghostObj.getVariableBoxValue().GetComponent<Rigidbody>());
+                    //Destroy(ghostObj.getVariableBoxValue().GetComponent<Rigidbody>());
                 }
 
                 // Disable ghost object in hand
@@ -269,7 +296,7 @@ public class VariableBoxController : MonoBehaviour
             {
                 // Rotate variable in box upright for animation
                 variableBoxValue.transform.rotation = Quaternion.identity;
-                Destroy(variableBoxValue.GetComponent<Rigidbody>());
+               // Destroy(variableBoxValue.GetComponent<Rigidbody>());
                 destroyValue = true;
                 StartCoroutine("removeVariableAndAct");
             }
@@ -309,7 +336,7 @@ public class VariableBoxController : MonoBehaviour
 
                 if (ghostObj.getVariableBoxValue().GetComponent<Rigidbody>() != null)
                 {
-                    Destroy(ghostObj.getVariableBoxValue().GetComponent<Rigidbody>());
+                    //Destroy(ghostObj.getVariableBoxValue().GetComponent<Rigidbody>());
                 }
 
                 // Disable ghost object in hand
@@ -369,7 +396,7 @@ public class VariableBoxController : MonoBehaviour
             {
                 //Destroy the current variable value
                 variableBoxValue.transform.rotation = Quaternion.identity;
-                Destroy(variableBoxValue.GetComponent<Rigidbody>());
+                //Destroy(variableBoxValue.GetComponent<Rigidbody>());
                 destroyValue = true;
                 StartCoroutine("removeVariableAndAct");
             }
@@ -519,6 +546,24 @@ public class VariableBoxController : MonoBehaviour
 
         currentTime = Time.time;
         postIncrementSelection = true;
+    }
+
+    public void peekValue(bool key)
+    {
+        currentTime = Time.time;
+        if (boxAssigned)
+        {
+            if (key)
+            {
+                animatePeekUp = true;
+            }
+            else
+            {
+                animatePeekDown = true;
+            }
+            
+        }
+
     }
 
     IEnumerator removeVariableAndAct()
