@@ -31,7 +31,7 @@ public class InfoController : MonoBehaviour {
     private IEnumerator UpdateMessage()
     {
         ShowInformation();
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(5.5f);
         HideInformation();
     }
 

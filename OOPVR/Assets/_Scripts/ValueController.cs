@@ -89,20 +89,9 @@ public class ValueController : MonoBehaviour
     public void InfoButton()
     {
         string valueType = transform.GetChild(0).tag;
-        string varName = transform.name;
-        info.SetInformation("This is a Value.\n" + varName + " is a" + valueType + " !! \nThis " +
-            "is just an exampe of showing how info works.\n PLEASE SELECT INFO AGAIN TO DESELECT!");
+        string varName = transform.GetComponent<TextMesh>().text;
+        info.SetInformation(varName + "\nThis is a Value of Type " + valueType + ".\nYou may assign it to a variable or parameter container of type "+ valueType);
 
-        if (!infoSelected)
-        {
-            info.ShowInformation();
-            infoSelected = true;
-        }
-        else
-        {
-            info.HideInformation();
-            infoSelected = false;
-        }
     }
 
     public void ToHands()

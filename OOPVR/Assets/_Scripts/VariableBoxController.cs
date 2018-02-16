@@ -50,6 +50,7 @@ public class VariableBoxController : MonoBehaviour
     bool incrementSelected = false;
     bool postIncrementSelection = false;
     bool incremented = false;
+    bool isParameter = false;
 
 
     // Use this for initialization
@@ -60,6 +61,8 @@ public class VariableBoxController : MonoBehaviour
         MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
         options = transform.GetComponent<OptionMenu>();
+
+        checkVariableBoxKind();
     }
 
     // Update is called once per frame
@@ -188,11 +191,8 @@ public class VariableBoxController : MonoBehaviour
         }
     }
 
-    public void boxAction()
+    void checkVariableBoxKind()
     {
-        currentTime = Time.time;
-        objInHand = Hand.GetComponent<HandController>().getObjInHand();
-
         string parent = "";
         if (transform.parent != null)
         {
@@ -202,11 +202,17 @@ public class VariableBoxController : MonoBehaviour
             if (parent == "Parameter")
             {
                 onParameter = true;
+                isParameter = true;
             }
 
-            //Check for other variableboxes in different methods
+            //Check for other variableboxes in different areas of an Instance or Main
 
         }
+    }
+    public void boxAction()
+    {
+        currentTime = Time.time;
+        objInHand = Hand.GetComponent<HandController>().getObjInHand();
 
         if (objInHand == null)
         {
@@ -278,23 +284,6 @@ public class VariableBoxController : MonoBehaviour
     {
         currentTime = Time.time;
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
-
-        //Check whether it is on a Parameter
-        string parent = "";
-        if (transform.parent != null)
-        {
-            parent = transform.parent.tag;
-
-            //VariableBox is OnParameter
-            if (parent == "Parameter")
-            {
-                onParameter = true;
-            }
-
-            //Check for other variableboxes in different methods
-
-        }
-
 
         if (objInHand == null)
         {
@@ -368,22 +357,6 @@ public class VariableBoxController : MonoBehaviour
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
         currentTime = Time.time;
         string varBoxType = transform.GetChild(0).tag;
-
-        //Check whether it is on a Parameter
-        string parent = "";
-        if (transform.parent != null)
-        {
-            parent = transform.parent.tag;
-
-            //VariableBox is OnParameter
-            if (parent == "Parameter")
-            {
-                onParameter = true;
-            }
-
-            //Check for other variableboxes in different methods
-
-        }
 
         if (objInHand == null)
         {
@@ -484,15 +457,27 @@ public class VariableBoxController : MonoBehaviour
         if (isVarInBox())
         {
             string value = variableBoxValue.GetComponent<TextMesh>().text;
-            info.SetInformation(varName + " = " + value + "\nThis is a variable container of type " + varBoxType + ".\nIt has a value of " + value );
+
+            if (isParameter)
+            {
+                info.SetInformation(varName + " = " + value + "\nThis is a Parameter Variable Container which take values of type " + varBoxType + ".\nCurrent value is " + value);
+            }
+            else
+            {
+                info.SetInformation(varName + " = " + value + "\nThis is a Variable Container of type " + varBoxType + ".\nCurrent value is " + value);
+            }
         }
         else
         {
-            info.SetInformation(varName + "\nThis is a variable container of type " + varBoxType + ".\nPlease assign a value of type " + varBoxType + "to this variable.");
+            if (isParameter)
+            {
+                info.SetInformation(varName + "\nThis is a Parameter Variable Container of type " + varBoxType + ".\nPlease assign a value of type " + varBoxType + " to this Parameter.");
+            }
+            else
+            {
+                info.SetInformation(varName + "\nThis is a Variable Container of type " + varBoxType + ".\nPlease assign a value of type " + varBoxType + " to this variable.");
+            }
         }
-        
-
-
     }
 
     public void IncrementFunction()
@@ -509,8 +494,6 @@ public class VariableBoxController : MonoBehaviour
         {
             MessageCanvas.SetMessage("CANNOT PERFORM ACTION: Increment++ can only be called once when inside the method!");
         }
-        
-
     }
 
     IEnumerator AnimateIncrement()
