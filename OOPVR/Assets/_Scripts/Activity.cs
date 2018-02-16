@@ -6,14 +6,16 @@ using UnityEngine.SceneManagement;
 public class Activity : MonoBehaviour {
 
 	private string activityTitle;
+	private GameObject codePanel;
 
 	// Use this for initialization
 	void Awake () {
 		activityTitle = this.name;
+		codePanel = transform.Find ("CodePanel").gameObject;
 	}
 
 	void Start() {
-
+		codePanel.SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -43,7 +45,7 @@ public class Activity : MonoBehaviour {
 		}
 	}
 
-	public void showCodeOrDescription() {
-
+	public void showCode() {
+		codePanel.SetActive (!codePanel.activeSelf);
 	}
 }
