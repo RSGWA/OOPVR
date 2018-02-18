@@ -9,6 +9,7 @@ public class VariableBoxController : MonoBehaviour
 	public List<string> code;
 
     private GameObject Hand;
+    public GameObject MainCamera;
     private GameObject[] variableBoxes;
     private GameObject objInHand;
     private GameObject parameter;
@@ -22,6 +23,7 @@ public class VariableBoxController : MonoBehaviour
     private Status MessageCanvas;
     private InfoController info;
 	private OptionMenu options;
+
 
     // Only one Ghost Object can exist at a time so all boxes must have a
     // reference to it and the original
@@ -64,6 +66,7 @@ public class VariableBoxController : MonoBehaviour
         MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
         options = transform.GetComponent<OptionMenu>();
+        MainCamera = GameObject.Find("Main Camera");
 
         checkVariableBoxKind();
     }
@@ -89,12 +92,10 @@ public class VariableBoxController : MonoBehaviour
                 objInHand.GetComponent<BoxCollider>().enabled = true;
                 objInHand.AddComponent<Rigidbody>();
 
-                
-                
-                
                 boxAssigned = true;
                 variableBoxValue = objInHand;
-                objInHand.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                
+                variableBoxValue.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 //options.Select ();
             }
         }
@@ -132,6 +133,9 @@ public class VariableBoxController : MonoBehaviour
             if (variableBoxValue.GetComponent<Rigidbody>() == null)
             {
                 variableBoxValue.AddComponent<Rigidbody>();
+               
+                variableBoxValue.transform.rotation = Quaternion.identity;
+                variableBoxValue.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             }
 
             objInHand.transform.Rotate(Vector3.down * 180);
@@ -189,20 +193,42 @@ public class VariableBoxController : MonoBehaviour
 
         if (animatePeekUp)
         {
-            variableBoxValue.transform.Translate(Vector3.up * 0.4f * Time.deltaTime);
+            if(variableBoxValue.GetComponent<Rigidbody>() != null)
+            {
+                variableBoxValue.transform.GetComponent<Rigidbody>().useGravity = false;
+            }
+            
+            //Rotate the Value to face the player
+            Vector3 targetPoint = new Vector3(MainCamera.transform.position.x, variableBoxValue.transform.position.y, MainCamera.transform.position.z) - variableBoxValue.transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
+            variableBoxValue.transform.rotation = Quaternion.Slerp(variableBoxValue.transform.rotation, targetRotation, Time.deltaTime * 2.0f);
+
+
+            variableBoxValue.transform.Translate(Vector3.up * 0.1f * Time.deltaTime);
+            
 
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
+                //variableBoxValue.transform.localPosition = new Vector3(0, 0, 0);
+                //variableBoxValue.transform.rotation.y = Hand.transform.rotation.y;
                 animatePeekUp = false;
 
             }
         }
         if (animatePeekDown)
         {
-            variableBoxValue.transform.Translate(Vector3.down * 0.4f * Time.deltaTime);
+            if (variableBoxValue.GetComponent<Rigidbody>() != null)
+            {
+                variableBoxValue.transform.GetComponent<Rigidbody>().useGravity = false;
+            }
+                       
+            variableBoxValue.transform.Translate(Vector3.down * 0.1f * Time.deltaTime);
+            
 
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
+                variableBoxValue.transform.rotation = Quaternion.identity;
+                variableBoxValue.transform.localPosition = new Vector3(0, 0, 0);
                 animatePeekDown = false;
 
             }
@@ -263,7 +289,7 @@ public class VariableBoxController : MonoBehaviour
 
                 if (ghostObj.getVariableBoxValue().GetComponent<Rigidbody>() != null)
                 {
-                    //Destroy(ghostObj.getVariableBoxValue().GetComponent<Rigidbody>());
+                    Destroy(ghostObj.getVariableBoxValue().GetComponent<Rigidbody>());
                 }
 
                 // Disable ghost object in hand
@@ -296,7 +322,7 @@ public class VariableBoxController : MonoBehaviour
             {
                 // Rotate variable in box upright for animation
                 variableBoxValue.transform.rotation = Quaternion.identity;
-               // Destroy(variableBoxValue.GetComponent<Rigidbody>());
+               Destroy(variableBoxValue.GetComponent<Rigidbody>());
                 destroyValue = true;
                 StartCoroutine("removeVariableAndAct");
             }
@@ -315,9 +341,11 @@ public class VariableBoxController : MonoBehaviour
         if (objInHand == null)
         {
             //Check whether the variabeBox contains a value, only then it could be picked up
-            if (boxAssigned) //&& !onParameter)
+            if (boxAssigned)
             {
                 options.Deselect(); //Deselecting the optionsMenu
+
+                variableBoxValue.transform.localPosition = new Vector3(0, 0, 0);
 
                 originalObject = transform;
 
@@ -336,7 +364,7 @@ public class VariableBoxController : MonoBehaviour
 
                 if (ghostObj.getVariableBoxValue().GetComponent<Rigidbody>() != null)
                 {
-                    //Destroy(ghostObj.getVariableBoxValue().GetComponent<Rigidbody>());
+                    Destroy(ghostObj.getVariableBoxValue().GetComponent<Rigidbody>());
                 }
 
                 // Disable ghost object in hand
@@ -396,7 +424,7 @@ public class VariableBoxController : MonoBehaviour
             {
                 //Destroy the current variable value
                 variableBoxValue.transform.rotation = Quaternion.identity;
-                //Destroy(variableBoxValue.GetComponent<Rigidbody>());
+                Destroy(variableBoxValue.GetComponent<Rigidbody>());
                 destroyValue = true;
                 StartCoroutine("removeVariableAndAct");
             }
