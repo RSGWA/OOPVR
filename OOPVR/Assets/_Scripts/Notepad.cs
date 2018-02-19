@@ -22,6 +22,7 @@ public class Notepad : MonoBehaviour
 
     string activeText;
 	string blinkedText;
+	string originalUnhighlightedText;
 	string originalBlinkedText;
 
     string objectivesEnlargedText;
@@ -111,6 +112,8 @@ public class Notepad : MonoBehaviour
 
 	public void highlightText(string text, string color)
 	{
+		originalUnhighlightedText = activeText;
+
         int startIndex = activeText.IndexOf(text);
         int endIndex = startIndex + text.Length;
 
@@ -141,9 +144,7 @@ public class Notepad : MonoBehaviour
 			return;
 		}
 
-		activeText = activeText.Insert(endIndex, "</color>");
-		activeText = activeText.Insert(startIndex, "<color=black>");
-
+		activeText = originalUnhighlightedText;
 		blinkedText = originalBlinkedText;
 
 		setText (activeText);
@@ -183,16 +184,6 @@ public class Notepad : MonoBehaviour
 		}
 	}
 
-    public void enlargeText(string text)
-    {
-        int startIndex = activeText.IndexOf(text);
-        int endIndex = startIndex + text.Length;
-
-        activeText = activeText.Insert(endIndex, "</size></b>");
-        activeText = activeText.Insert(startIndex, "<b><size=" + fontSize + ">");
-        setText(activeText);
-    }
-
     void setText(int pageNumber)
     {
 		code.GetComponent<TextMeshProUGUI>().text = pages[pageNumber];
@@ -209,11 +200,6 @@ public class Notepad : MonoBehaviour
 		title.GetComponent<TextMeshProUGUI>().text = text;
     }
 
-    public void enlargeCurrentObjective(string objective)
-    {
-        enlargeText(objective);
-    }
-
 	public void blinkObjective(string objective) {
 		reset ();
 		blinkText (objective, "white");
@@ -225,31 +211,6 @@ public class Notepad : MonoBehaviour
         setText(currentPage);
     }
 
-    GameObject getObjective(string number)
-    {
-        foreach (GameObject objective in objectives)
-        {
-            if (objective.name == number)
-            {
-                return objective;
-            }
-        }
-        return null;
-    }
-
-    void removeObjectiveMarkers(ref string text)
-    {
-        List<int> indexes = text.AllIndexsOf("");
-
-        // Indices reversed so indices of markers remain the same after first removal
-        indexes.Reverse();
-
-        foreach (int index in indexes)
-        {
-            text = text.Remove(index, 3);
-        }
-    }
-
     public void setActiveText(int pageNumber)
     {
         setText(pageNumber);
@@ -258,12 +219,17 @@ public class Notepad : MonoBehaviour
     public void endOfActivity()
     {
 		StopCoroutine (coroutine);
-        setTitle("Congratulations");
-		setText("Activity Completed" + System.Environment.NewLine +
-        	"Returning to Main Menu");
-
+        //setTitle("Congratulations");
+		//setText("Activity Completed" + System.Environment.NewLine +
+        	//"Returning to Main Menu");
+		appendText(System.Environment.NewLine + "RETURNING TO MAIN MENU");
 		Invoke ("returnToMenu", 5f);
     }
+
+	void appendText(string text)
+	{
+		code.GetComponent<TextMeshProUGUI> ().text = code.GetComponent<TextMeshProUGUI> ().text + text;
+	}
 
 	void returnToMenu() {
 		SceneManager.LoadScene ("Menu", LoadSceneMode.Single);

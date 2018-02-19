@@ -37,7 +37,6 @@ public class IncrementAge : MonoBehaviour {
 
         objectives.Add("p.incrementAge();");
         objectives.Add("incrementAge();");
-       // objectives.Add("void Person::incrementAge() {");
         objectives.Add("this->age++;");
         objectives.Add("}");
     }
@@ -45,7 +44,6 @@ public class IncrementAge : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        // notepad.enlargeCurrentObjective(objectives[0]);
         notepad.blinkObjective(objectives[0]);
         StartCoroutine("checkPlayerInFrontOfMethod");
     }
@@ -56,26 +54,10 @@ public class IncrementAge : MonoBehaviour {
         {
             yield return new WaitForSeconds(0.1f);
         }
-        //notepad.setActiveText(1);
-        //notepad.setTitle("IncrementAge");
-        // notepad.enlargeCurrentObjective(objectives[1]);
         notepad.reset();
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkMethodEntered");
     }
-
-   /* IEnumerator checkNameAssigned()
-    {
-        while (!checkNameAssigned)
-        {
-            //constructorEntered = player.isInRoom();
-            yield return new WaitForSeconds(0.1f);
-        }
-        notepad.reset();
-        notepad.enlargeCurrentObjective(objectives[2]);
-        notepad.enlargeCurrentObjective(objectives[3]);
-        StartCoroutine("checkInstanceVarsSet");
-    }*/
 
     IEnumerator checkMethodEntered()
     {
@@ -86,8 +68,6 @@ public class IncrementAge : MonoBehaviour {
         }
         notepad.setActiveText(1);
         notepad.setTitle("IncrementAge");
-        //notepad.reset();
-        //notepad.enlargeCurrentObjective(objectives[2]);
         notepad.blinkObjective(objectives[2]);
         StartCoroutine("checkAgeInstanceIncrement");
     }
@@ -99,7 +79,6 @@ public class IncrementAge : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
         notepad.reset();
-        notepad.enlargeCurrentObjective(objectives[3]);
         notepad.blinkObjective(objectives[3]);
         StartCoroutine("checkReturn");
     }
