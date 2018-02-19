@@ -547,7 +547,7 @@ public class VariableBoxController : MonoBehaviour
             currentTime = Time.time;
 
             StartCoroutine("AnimateIncrement");
-            //incremented = true;
+            incremented = true;
         }
         else
         {
