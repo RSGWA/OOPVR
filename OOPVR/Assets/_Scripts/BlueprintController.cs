@@ -17,8 +17,10 @@ public class BlueprintController : MonoBehaviour {
 
 	private Animator anim;
     private InfoController info;
+    private Status MessageCanvas;
     private bool bpInPosition = false;
     bool infoSelected = false;
+    bool alreadyInstantiated = false;
 
     // Use this for initialization
     void Start () {
@@ -28,17 +30,25 @@ public class BlueprintController : MonoBehaviour {
 		menuOpen = false;
 		anim = GetComponent<Animator> ();
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
+        MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
     }
 
     public void InstantiateButton()
     {
-        optionsMenu.Deselect();
-        moveBlueprint();
+        if (alreadyInstantiated)
+        {
+            MessageCanvas.SetMessage("CANNOT PERFORM ACTION : This Activity only allows you to instantiate ONE instance from the blueprint");
+        }
+        else
+        {
+            optionsMenu.Deselect();
+            moveBlueprint();
+        }
+        
     }
 
 	public void moveBlueprint() {
-		//optionsMenu.SetActive (false);
-
+		
 		// Disable collider so gaze timer doesnt activate
 		GetComponent<BoxCollider>().enabled = false;
 
@@ -80,17 +90,6 @@ public class BlueprintController : MonoBehaviour {
     {
         string valueType = transform.GetChild(0).tag;
         string varName = transform.name;
-        info.SetInformation("This is a Blueprint!! \nA blueprint represents a class in the programming context.\n PLEASE SELECT INFO AGAIN TO DESELECT!");
-
-        if (!infoSelected)
-        {
-            info.ShowInformation();
-            infoSelected = true;
-        }
-        else
-        {
-            info.HideInformation();
-            infoSelected = false;
-        }
+        info.SetInformation("This is a BLUEPRINT, a representation of a CLASS in the programming context!! \nThis Blueprint allow you to INSTANTIATE an INSTANCE of the class it represents.\n ");
     }
 }

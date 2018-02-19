@@ -158,6 +158,12 @@ public class VariableBoxController : MonoBehaviour
         }
         if (preIncrementSelection)
         {
+            
+
+            Vector3 targetPoint = new Vector3(MainCamera.transform.position.x, valueToIncrement.transform.position.y, MainCamera.transform.position.z) - valueToIncrement.transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
+            valueToIncrement.transform.rotation = Quaternion.Slerp(valueToIncrement.transform.rotation, targetRotation, Time.deltaTime * 2.0f);
+
             valueToIncrement.transform.Translate(Vector3.up * 0.6f * Time.deltaTime);
 
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
@@ -209,8 +215,6 @@ public class VariableBoxController : MonoBehaviour
 
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
-                //variableBoxValue.transform.localPosition = new Vector3(0, 0, 0);
-                //variableBoxValue.transform.rotation.y = Hand.transform.rotation.y;
                 animatePeekUp = false;
 
             }
@@ -553,6 +557,10 @@ public class VariableBoxController : MonoBehaviour
 
     IEnumerator AnimateIncrement()
     {
+        currentTime = Time.time;
+        variableBoxValue.transform.localPosition = new Vector3(0, 0, 0);
+        yield return new WaitForSeconds(2.0f);
+
         currentTime = Time.time;
         valueToIncrement = transform.GetChild(3).gameObject;
         preIncrementSelection = true;
