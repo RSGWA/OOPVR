@@ -44,19 +44,10 @@ public class ReturnController : MonoBehaviour {
 
     public void InfoButton()
     {
-        info.SetInformation("This is a Return.\n" + "Imagine it like a return in a method/nIf void, you may return without a variable./n" +
-           "PLEASE SELECT INFO AGAIN TO DESELECT!");
+        info.SetInformation("This is a <i>return</i> which is the exit point of a method or instance.\n" + 
+            "It is usually represented in code by \"}\" meaning void or \"return\" meaning having the required object in Hand before returning.\n");
 
-        if (!infoSelected)
-        {
-            info.ShowInformation();
-            infoSelected = true;
-        }
-        else
-        {
-            info.HideInformation();
-            infoSelected = false;
-        }
+        
 
     }
 }
