@@ -31,7 +31,7 @@ public class GetName : MonoBehaviour {
 		instanceNameBox.setBoxAssigned (true);
 		instanceNameBox.setVariableBoxValue (nameInstanceValue);
 
-        instanceAgeBox = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
+        instanceAgeBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
         instanceAgeBox.setBoxAssigned(true);
         instanceAgeBox.setVariableBoxValue(ageInstanceValue);
 
