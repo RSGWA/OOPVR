@@ -112,8 +112,6 @@ public class Notepad : MonoBehaviour
 
 	public void highlightText(string text, string color)
 	{
-		originalUnhighlightedText = activeText;
-
         int startIndex = activeText.IndexOf(text);
         int endIndex = startIndex + text.Length;
 
@@ -144,7 +142,9 @@ public class Notepad : MonoBehaviour
 			return;
 		}
 
-		activeText = originalUnhighlightedText;
+		activeText = activeText.Insert(endIndex, "</color>");
+		activeText = activeText.Insert(startIndex, "<color=black>");
+
 		blinkedText = originalBlinkedText;
 
 		setText (activeText);
