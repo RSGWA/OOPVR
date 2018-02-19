@@ -358,6 +358,16 @@ public class VariableBoxController : MonoBehaviour
                 Renderer rend = ghostObject.GetComponent<Renderer>();
                 rend.material = Resources.Load("HologramMaterial") as Material;
 
+
+                if (isParameter)
+                {
+                    ghostObject.Find("Labels").GetChild(0).gameObject.SetActive(false);
+                }
+                else
+                {
+                    ghostObject.Find("Labels").GetChild(1).gameObject.SetActive(false);
+                }
+
                 //set parent of Ghost VariableBox to be Hand
                 ghostObject.parent = Hand.transform;
                 Hand.GetComponent<HandController>().setObjInHand(ghostObject.gameObject);
