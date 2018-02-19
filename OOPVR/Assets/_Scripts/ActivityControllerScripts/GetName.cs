@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GetName : MonoBehaviour {
 
-	public GameObject name;
+	public GameObject nameInstanceValue, ageInstanceValue;
 
 	InstanceController instance;
 	Notepad notepad;
@@ -12,7 +12,7 @@ public class GetName : MonoBehaviour {
 	HandController hand;
 
 	GameObject getNameRoom;
-	VariableBoxController instanceNameBox, mainNameBox;
+	VariableBoxController instanceNameBox, instanceAgeBox, mainNameBox;
 
 	bool instanceCreated = false;
 	bool methodEntered = false;
@@ -29,9 +29,13 @@ public class GetName : MonoBehaviour {
 		getNameRoom = GameObject.FindGameObjectWithTag ("GetName");
 		instanceNameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
 		instanceNameBox.setBoxAssigned (true);
-		instanceNameBox.setVariableBoxValue (name);
+		instanceNameBox.setVariableBoxValue (nameInstanceValue);
 
-		mainNameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
+        instanceAgeBox = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
+        instanceAgeBox.setBoxAssigned(true);
+        instanceAgeBox.setVariableBoxValue(ageInstanceValue);
+
+        mainNameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
 
 		objectives.Add ("getName()");
 		objectives.Add ("this->name");
