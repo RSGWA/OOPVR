@@ -67,7 +67,7 @@ public class DoorMenuController : MonoBehaviour
     {
         switch (activityName)
         {
-            case "DefaultConstructorActivity":
+            case "DefaultConstructorScene":
                 ActivityName = "DefaultConstructor";
                 break;
             case "2ParameterConstructor":
