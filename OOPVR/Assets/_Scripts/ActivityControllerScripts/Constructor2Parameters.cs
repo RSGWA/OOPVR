@@ -106,6 +106,8 @@ public class Constructor2Parameters : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
         // Activity Finished
+		PlayerPrefs.SetInt("ConstructorWithParametersComplete",1);
+		PlayerPrefs.Save ();
         notepad.endOfActivity();
     }
 

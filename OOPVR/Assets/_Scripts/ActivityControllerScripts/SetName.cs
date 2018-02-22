@@ -91,6 +91,8 @@ public class SetName : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         // Activity Finished
+		PlayerPrefs.SetInt("SetNameComplete",1);
+		PlayerPrefs.Save ();
         notepad.endOfActivity();
     }
 

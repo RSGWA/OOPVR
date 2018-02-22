@@ -83,6 +83,8 @@ public class GetName : MonoBehaviour {
 			yield return new WaitForSeconds (0.1f);
 		}
 		// Activity Finished
+		PlayerPrefs.SetInt("GetNameComplete",1);
+		PlayerPrefs.Save ();
 		notepad.endOfActivity();
 	}
 

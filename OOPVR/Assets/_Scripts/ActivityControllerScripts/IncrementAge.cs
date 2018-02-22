@@ -91,6 +91,8 @@ public class IncrementAge : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
         // Activity Finished
+		PlayerPrefs.SetInt("IncrementAgeComplete",1);
+		PlayerPrefs.Save ();
         notepad.endOfActivity();
     }
 
