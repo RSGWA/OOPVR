@@ -242,6 +242,33 @@ MonoBehaviour:
   reticleSegments: 20
   reticleGrowthSpeed: 8
   reticleSortingOrder: 32767
+--- !u!84 &116263665
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1125
+  m_Height: 633
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &289745469
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +464,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &699308957
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1125
+  m_Height: 633
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &724580580
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,7 +713,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 974715997}
+  m_TargetTexture: {fileID: 699308957}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -668,33 +722,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!84 &974715997
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1125
-  m_Height: 633
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1006966068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,12 +1131,12 @@ Prefab:
     - target: {fileID: 224380296485777090, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -35.636997
+      value: 0.12000275
       objectReference: {fileID: 0}
     - target: {fileID: 224994695679269552, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -35.636997
+      value: 0.12000275
       objectReference: {fileID: 0}
     - target: {fileID: 114335933700884130, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
@@ -1143,8 +1170,8 @@ Prefab:
     - target: {fileID: 114550855185773936, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_Text
-      value: Using the created object from the previous activity, retrieve its name
-        variable and copy it to another variable.
+      value: Given a created object, retrieve its name variable and copy it to another
+        variable.
       objectReference: {fileID: 0}
     - target: {fileID: 114335933700884130, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
@@ -1159,14 +1186,14 @@ Prefab:
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_text
-      value: "int main() {\n\tPerson p = new Person(\"John\",20);\n\tstring pName
+      value: "int main() {\n\tPerson *p = new Person(\"John\",20);\n\tstring pName
         = p.getName();\n\treturn 0;\n}\n\nint age;\nstring name;\n\npublic string
         getName() {\n\treturn this->name;\n}"
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 161
+      value: 162
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
@@ -1367,8 +1394,8 @@ MonoBehaviour:
   sourceCamera: {fileID: 1404868087}
   outlineCamera: {fileID: 797534461}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 974715997}
-  extraRenderTexture: {fileID: 2035238652}
+  renderTexture: {fileID: 699308957}
+  extraRenderTexture: {fileID: 116263665}
 --- !u!114 &1404868083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1646,14 +1673,14 @@ Prefab:
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_text
-      value: "int main() {\n\tPerson p = new Person(\"John\", 20);\n\treturn 0;\n}\n\nint
+      value: "int main() {\n\tPerson *p = new Person(\"John\", 20);\n\treturn 0;\n}\n\nint
         age;\nstring name;\n\npublic Person::Person(string name, int age) {\n\tthis->name
         = name;\n\tthis->age = age;\n}"
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 171
+      value: 172
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
@@ -1664,6 +1691,16 @@ Prefab:
         type: 2}
       propertyPath: m_textInfo.wordCount
       value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a0d18f9fec8aa24bafa0641c397fdc7, type: 2}
@@ -1816,12 +1853,12 @@ Prefab:
     - target: {fileID: 224380296485777090, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -35.636997
+      value: 0.12000275
       objectReference: {fileID: 0}
     - target: {fileID: 224994695679269552, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -35.636997
+      value: 0.12000275
       objectReference: {fileID: 0}
     - target: {fileID: 114335933700884130, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
@@ -1870,13 +1907,13 @@ Prefab:
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_text
-      value: "int main() {\r\n\tPerson p = new Person(\"John\", 20);\r\n\tp.incrementAge();\r\n\treturn
+      value: "int main() {\r\n\tPerson *p = new Person(\"John\", 20);\r\n\tp.incrementAge();\r\n\treturn
         0;\r\n}\n\nint age;\r\nstring name;\r\n\r\nvoid incrementAge() {\r\n\tthis->age++;\r\n}"
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 151
+      value: 152
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
@@ -2056,8 +2093,7 @@ Prefab:
     - target: {fileID: 114550855185773936, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_Text
-      value: Using the created object from the previous activity, set its name variable
-        to another value.
+      value: Given a created object, set its name variable to another value.
       objectReference: {fileID: 0}
     - target: {fileID: 114335933700884130, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
@@ -2072,14 +2108,14 @@ Prefab:
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_text
-      value: "int main() {\n\tPerson p = new Person(\"John\",20);\n\tp.setName(\"Gilbert\");\n\treturn
+      value: "int main() {\n\tPerson *p = new Person(\"John\",20);\n\tp.setName(\"Gilbert\");\n\treturn
         0;\n}\n\nint age;\nstring name;\n\npublic void setName(string name) {\n\tthis->name
         = name;\n}"
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 164
+      value: 165
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
@@ -2100,6 +2136,16 @@ Prefab:
         type: 2}
       propertyPath: m_textInfo.lineCount
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a0d18f9fec8aa24bafa0641c397fdc7, type: 2}
@@ -2296,33 +2342,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5ca80f4596fa44b87912a0592346d260, type: 2}
   m_IsPrefabParent: 0
---- !u!84 &2035238652
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1125
-  m_Height: 633
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &2045422309 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1473778217973156, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
@@ -2546,12 +2565,12 @@ Prefab:
     - target: {fileID: 224380296485777090, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -35.636997
+      value: 0.12000275
       objectReference: {fileID: 0}
     - target: {fileID: 224994695679269552, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -35.636997
+      value: 0.12000275
       objectReference: {fileID: 0}
     - target: {fileID: 1473778217973156, guid: 5a0d18f9fec8aa24bafa0641c397fdc7, type: 2}
       propertyPath: m_Name
@@ -2566,6 +2585,27 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_text
+      value: "int main() {\n\tPerson *p = new Person();\n\treturn 0;\n}\n\nint age;\nstring
+        name;\n\npublic Person::Person() {\n\tthis->age = -1;\n\tthis->name = \"\";\n}"
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_textInfo.characterCount
+      value: 139
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_textInfo.spaceCount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_textInfo.wordCount
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a0d18f9fec8aa24bafa0641c397fdc7, type: 2}
