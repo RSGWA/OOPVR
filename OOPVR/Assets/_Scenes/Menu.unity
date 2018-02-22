@@ -286,33 +286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1419743b9d5f349418f9d806cd8ffb61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!84 &407306666
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1125
-  m_Height: 633
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &494018457
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +659,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 407306666}
+  m_TargetTexture: {fileID: 974715997}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -695,7 +668,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!84 &957230424
+--- !u!84 &974715997
 RenderTexture:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -715,7 +688,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -1186,34 +1159,34 @@ Prefab:
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_text
-      value: "int main() {\n\tPerson p = new Person(\"John\",20);\n\tp.setName(\"Gilbert\");\n\tstring
-        pName = p.getName();\n\treturn 0;\n}\n\nint age;\nstring name;\n\npublic string
+      value: "int main() {\n\tPerson p = new Person(\"John\",20);\n\tstring pName
+        = p.getName();\n\treturn 0;\n}\n\nint age;\nstring name;\n\npublic string
         getName() {\n\treturn this->name;\n}"
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 184
+      value: 161
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_textInfo.spaceCount
-      value: 33
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_textInfo.wordCount
-      value: 27
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_firstOverflowCharacterIndex
-      value: 183
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 114193873297063086, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
         type: 2}
       propertyPath: m_textInfo.lineCount
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a0d18f9fec8aa24bafa0641c397fdc7, type: 2}
@@ -1394,8 +1367,8 @@ MonoBehaviour:
   sourceCamera: {fileID: 1404868087}
   outlineCamera: {fileID: 797534461}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 407306666}
-  extraRenderTexture: {fileID: 957230424}
+  renderTexture: {fileID: 974715997}
+  extraRenderTexture: {fileID: 2035238652}
 --- !u!114 &1404868083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2323,6 +2296,33 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5ca80f4596fa44b87912a0592346d260, type: 2}
   m_IsPrefabParent: 0
+--- !u!84 &2035238652
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1125
+  m_Height: 633
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &2045422309 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1473778217973156, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
@@ -2556,6 +2556,16 @@ Prefab:
     - target: {fileID: 1473778217973156, guid: 5a0d18f9fec8aa24bafa0641c397fdc7, type: 2}
       propertyPath: m_Name
       value: ConstructorNoParameters
+      objectReference: {fileID: 0}
+    - target: {fileID: 114335933700884130, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114092594771553090, guid: 5a0d18f9fec8aa24bafa0641c397fdc7,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a0d18f9fec8aa24bafa0641c397fdc7, type: 2}
