@@ -3,86 +3,103 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class InstanceController : MonoBehaviour {
-	
-	public GameObject player;
+public class InstanceController : MonoBehaviour
+{
 
-	private GameObject[] movePoints;
-	private Animator anim;
+    public GameObject player;
 
-	bool instanceCreated = false;
-	bool instanceLowered = false;
+    private GameObject[] movePoints;
+    private Animator anim;
 
-	// Use this for initialization
-	void Start () {
-		anim = GetComponent<Animator> ();
-		movePoints = GameObject.FindGameObjectsWithTag ("Move");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    bool instanceCreated = false;
+    bool instanceLowered = false;
 
-	public void createInstance() {
-		this.gameObject.SetActive (true);
-		movePointVisible (false);
-		InstanceControl ("Create");
-		InstanceControl ("Lower");
-		StartCoroutine ("checkInstanceCreated");
-		StartCoroutine ("returnBlueprint");
-		StartCoroutine ("checkInstanceLowered");
-	}
+    // Use this for initialization
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+        movePoints = GameObject.FindGameObjectsWithTag("Move"); //this also need changes for multiple instances
+    }
 
-	// Checks if instance has finished being created so blueprint can be returned
-	// to its original position
-	IEnumerator checkInstanceCreated() {
-		instanceCreated = false;
+    // Update is called once per frame
+    void Update()
+    {
 
-		while (!instanceCreated) {
-			yield return null;
+    }
 
-			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("InstanceCreated")) {
-				instanceCreated = true;
-			}	
-		}
-	}
+    public void createInstance()
+    {
+        this.gameObject.SetActive(true);
+        movePointVisible(false);
+        InstanceControl("Create");
+        InstanceControl("Lower");
+        StartCoroutine("checkInstanceCreated");
+        StartCoroutine("returnBlueprint");
+        StartCoroutine("checkInstanceLowered");
+    }
 
-	IEnumerator checkInstanceLowered() {
-		instanceLowered = false;
+    // Checks if instance has finished being created so blueprint can be returned
+    // to its original position
+    IEnumerator checkInstanceCreated()
+    {
+        instanceCreated = false;
 
-		while (!instanceLowered) {
-			yield return null;
+        while (!instanceCreated)
+        {
+            yield return null;
 
-			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("InstanceCreatedIdle")) {
-				instanceLowered = true;
-			}	
-		}
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("InstanceCreated"))
+            {
+                instanceCreated = true;
+            }
+        }
+    }
 
-		// Instance animation completed
-		movePointVisible(true);
-	}
+    IEnumerator checkInstanceLowered()
+    {
+        instanceLowered = false;
 
-	IEnumerator returnBlueprint() {
-		while (!instanceCreated) {
-			yield return new WaitForSeconds (0.1f);
-		}
+        while (!instanceLowered)
+        {
+            yield return null;
 
-		GameObject.FindGameObjectWithTag ("Blueprint").GetComponent<BlueprintController> ().returnToOrigin ();
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("InstanceCreatedIdle"))
+            {
+                instanceLowered = true;
+            }
+        }
 
-	}
+        // Instance animation completed
+        movePointVisible(true);
+    }
 
-	void InstanceControl(string direction) {
-		anim.SetTrigger(direction);
-	}
+    IEnumerator returnBlueprint()
+    {
+        while (!instanceCreated)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
 
-	public bool hasInstanceBeenCreated() {
-		return instanceLowered;
-	}
+        //Note: Need change, two or more blueprints can exist at one time
+        GameObject.FindGameObjectWithTag("Blueprint").GetComponent<BlueprintController>().returnToOrigin();
 
-	void movePointVisible(bool b) {
-		foreach (GameObject movePoint in movePoints) {
-			movePoint.GetComponent<TeleportMovePoint> ().ShowMovePoint (b);
-		}
-	}
+    }
+
+    void InstanceControl(string direction)
+    {
+        anim.SetTrigger(direction);
+    }
+
+    public bool hasInstanceBeenCreated()
+    {
+        return instanceLowered;
+    }
+
+    void movePointVisible(bool b)
+    {
+        foreach (GameObject movePoint in movePoints)
+        {
+            movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(b);
+        }
+    }
 }
