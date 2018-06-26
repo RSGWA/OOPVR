@@ -10,9 +10,7 @@ public class IncrementAge : MonoBehaviour {
     Notepad notepad;
     PlayerController player;
 
-    bool instanceCreated = false;
     bool methodEntered = false;
-    bool nameAssigned = false;
     bool returned = false;
 
     GameObject incrementAgeRoom;
@@ -35,8 +33,11 @@ public class IncrementAge : MonoBehaviour {
         instanceNameBox.setBoxAssigned(true);
         instanceNameBox.setVariableBoxValue(NameInstanceValue);
 
-        objectives.Add("p.incrementAge();");
+        objectives.Add("john.incrementAge();");
         objectives.Add("incrementAge();");
+        objectives.Add("this->age++;");
+        objectives.Add("}");
+        objectives.Add("john.incrementAge();");
         objectives.Add("this->age++;");
         objectives.Add("}");
     }
@@ -80,6 +81,45 @@ public class IncrementAge : MonoBehaviour {
         }
         notepad.reset();
         notepad.blinkObjective(objectives[3]);
+        StartCoroutine("checkFirstIncrementReturn");
+    }
+
+    IEnumerator checkFirstIncrementReturn()
+    {
+        while (!playerInFrontOfMethod())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        resetIncrement(); //resets the isIncremented when player exits
+        player.resetInRoom(); //resets isInRoom to false as player exits
+
+        notepad.setActiveText(0);
+        notepad.setTitle("MAIN");
+        notepad.blinkObjective(objectives[4]);
+        StartCoroutine("methodEnteredTwice");
+    }
+
+    IEnumerator methodEnteredTwice()
+    {
+        while (!methodEntered)
+        {
+            methodEntered = player.isInRoom();
+            yield return new WaitForSeconds(0.1f);
+        }
+        notepad.setActiveText(1);
+        notepad.setTitle("IncrementAge");
+        notepad.blinkObjective(objectives[5]);
+        StartCoroutine("checkSecondIncrement");
+    }
+
+    IEnumerator checkSecondIncrement()
+    {
+        while (!isAgeInstanceIncremented())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        notepad.reset();
+        notepad.blinkObjective(objectives[6]);
         StartCoroutine("checkReturn");
     }
 
@@ -108,5 +148,10 @@ public class IncrementAge : MonoBehaviour {
         VariableBoxController ageInstanceVariable = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
 
         return ageInstanceVariable.isIncremented();
+    }
+    void resetIncrement()
+    {
+        VariableBoxController ageInstanceVariable = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
+        ageInstanceVariable.resetIncrement();
     }
 }

@@ -657,4 +657,9 @@ public class VariableBoxController : MonoBehaviour
     {
         return incremented;
     }
+
+    public void resetIncrement()
+    {
+        incremented = false;
+    }
 }

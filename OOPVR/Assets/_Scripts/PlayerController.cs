@@ -143,6 +143,11 @@ public class PlayerController : MonoBehaviour {
 		return inRoom;
 	}
 
+    public void resetInRoom()
+    {
+        inRoom = false;
+    }
+
 	public bool hasReturned() {
 		return returned;
 	}
