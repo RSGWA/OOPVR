@@ -49,8 +49,8 @@ public class MultipleInstances : MonoBehaviour
         nameParameterBox1 = parameterPlatform1.Find("NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
         ageParameterBox1 = parameterPlatform1.Find("AgeParameter/AgeParameterBox").GetComponent<VariableBoxController>();
 
-        nameParameterBox2 = parameterPlatform1.Find("NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
-        ageParameterBox2 = parameterPlatform1.Find("AgeParameter/AgeParameterBox").GetComponent<VariableBoxController>();
+        nameParameterBox2 = parameterPlatform2.Find("NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
+        ageParameterBox2 = parameterPlatform2.Find("AgeParameter/AgeParameterBox").GetComponent<VariableBoxController>();
 
 
         objectives.Add("new Person");
@@ -103,6 +103,8 @@ public class MultipleInstances : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
+        //enableMovePoints(false);
+
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[3]);
@@ -135,6 +137,9 @@ public class MultipleInstances : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
+        //Enable movepoints when player leaves the method
+        //enableMovePoints(true);
+
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
         notepad.blinkObjective(objectives[6]);
@@ -274,4 +279,13 @@ public class MultipleInstances : MonoBehaviour
             return ageBox2.isVarInBox();
         }
     }
+
+    //void enableMovePoints(bool trigger)
+    //{
+    //    GameObject[] movePoints = GameObject.FindGameObjectsWithTag("Move");
+    //    foreach (GameObject movePoint in movePoints)
+    //    {
+    //        movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(trigger);
+    //    }
+    //}
 }

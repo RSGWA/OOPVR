@@ -8,12 +8,12 @@ public class ParameterController : MonoBehaviour
     public Material activeColor;
     private GameObject doorExt, doorInt;
     private GameObject Player;
-    private GameObject[] parameters;
+    //private GameObject[] parameters;
     private GameObject methodName;
     private Transform[] varBoxes;
     private int numOfParams;
     private Material normalColor;
-    private static int count = 0;
+    private int count = 0;
 
 
     // Use this for initialization
@@ -27,7 +27,7 @@ public class ParameterController : MonoBehaviour
         doorInt = transform.parent.Find("Door").Find("DoorInt").gameObject;
 
         numOfParams = transform.childCount;
-        parameters = new GameObject[numOfParams];
+        //parameters = new GameObject[numOfParams];
         varBoxes = new Transform[numOfParams];
         normalColor = GetComponent<Renderer>().material;
     }

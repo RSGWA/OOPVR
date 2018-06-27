@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class InstanceController : MonoBehaviour
 {
 
-    public GameObject player;
+    public PlayerController player;
 
     private GameObject[] movePoints;
     private Animator anim;
@@ -19,6 +19,7 @@ public class InstanceController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         movePoints = GameObject.FindGameObjectsWithTag("Move"); //this also need changes for multiple instances
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -97,9 +98,17 @@ public class InstanceController : MonoBehaviour
 
     void movePointVisible(bool b)
     {
-        foreach (GameObject movePoint in movePoints)
+        //foreach (GameObject movePoint in movePoints)
+        //{
+        //    movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(b);
+        //}
+        if (!b)
         {
-            movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(b);
+            player.setInRoom(true);
+        }
+        else
+        {
+            player.setInRoom(false);
         }
     }
 }

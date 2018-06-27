@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ReturnController : MonoBehaviour {
 
-	private GameObject hand;
+    private GameObject hand;
+    private PlayerController player;
     private InfoController info;
     private OptionMenu options;
 
@@ -15,6 +16,7 @@ public class ReturnController : MonoBehaviour {
 		hand = GameObject.FindGameObjectWithTag ("Hand");
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
         options = transform.GetComponent<OptionMenu>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
 	public void checkAndReturn() {
@@ -35,12 +37,24 @@ public class ReturnController : MonoBehaviour {
             options.Deselect();
 		}
 
-	}
+        player.setInRoom(false);
+        
+
+    }
 
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    void enableMovePoints(bool trigger)
+    {
+        GameObject[] movePoints = GameObject.FindGameObjectsWithTag("Move");
+        foreach (GameObject movePoint in movePoints)
+        {
+            movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(trigger);
+        }
+    }
 
     public void InfoButton()
     {

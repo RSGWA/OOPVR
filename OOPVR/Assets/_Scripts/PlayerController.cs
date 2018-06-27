@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour {
 	Animator playerAnim;
 	private bool doorOpen;
 	private GameObject currentRoom;
-	private bool inRoom = false;
+    GameObject[] movePoints;
+
+    private bool inRoom = false;
 	private bool returned = false;
     private bool inWorkingMethod = false;
 	private GameObject doorInt;
@@ -27,7 +29,8 @@ public class PlayerController : MonoBehaviour {
 		origin = transform.position;
 		doorOpen = false;
 		playerAnim = transform.GetChild(0).GetComponent<Animator>();
-	}
+        movePoints = GameObject.FindGameObjectsWithTag("Move");
+    }
 
 	void Update() {
 		if (playerMoving) {
@@ -40,6 +43,15 @@ public class PlayerController : MonoBehaviour {
 				playerMoving = false;
 			}
 		}
+        if (inRoom)
+        {
+            enableMovePoints(false);
+        }
+        else
+        {
+            enableMovePoints(true);
+        }
+        
 	}
 
 	public void backToOrigin() {
@@ -114,18 +126,26 @@ public class PlayerController : MonoBehaviour {
 
 		inRoom = true;
 
-		// Removes glow of movepoint outside room so player cannot leave using it
-		GameObject[] movePoints = GameObject.FindGameObjectsWithTag("Move");
-		foreach (GameObject movePoint in movePoints) {
-			movePoint.GetComponent<TeleportMovePoint> ().ShowMovePoint (false);
-		}
+        // Removes glow of movepoint outside room so player cannot leave using it
+        //GameObject[] movePoints = GameObject.FindGameObjectsWithTag("Move");
+        //foreach (GameObject movePoint in movePoints) {
+        //	movePoint.GetComponent<TeleportMovePoint> ().ShowMovePoint (false);
+        //}
 
-		yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
 		// Open interior door once player has been moved completely into room
 		doorInt.GetComponent<Door> ().openDoor ();
 	}
 
-	void PlayerControl(string direction) {
+    void enableMovePoints(bool trigger)
+    {
+        foreach (GameObject movePoint in movePoints)
+        {
+            movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(trigger);
+        }
+    }
+
+    void PlayerControl(string direction) {
 		playerAnim.SetTrigger(direction);
 	}
 
@@ -143,9 +163,9 @@ public class PlayerController : MonoBehaviour {
 		return inRoom;
 	}
 
-    public void resetInRoom()
+    public void setInRoom(bool b)
     {
-        inRoom = false;
+        inRoom = b;
     }
 
 	public bool hasReturned() {

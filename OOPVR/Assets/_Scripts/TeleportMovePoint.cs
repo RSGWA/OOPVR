@@ -45,10 +45,10 @@ public class TeleportMovePoint : MonoBehaviour
 
     void EnableMovePoint()
     {
-        //disable selection
+        //enable selection
         transform.GetComponent<Collider>().enabled = true;
 
-        //disable glow
+        //enable glow
         glow.SetActive(true);
 
     }

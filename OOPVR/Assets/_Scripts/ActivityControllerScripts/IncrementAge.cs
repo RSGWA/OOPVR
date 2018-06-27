@@ -93,7 +93,7 @@ public class IncrementAge : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         resetIncrement(); //resets the isIncremented when player exits
-        player.resetInRoom(); //resets isInRoom to false as player exits
+        player.setInRoom(false); //resets isInRoom to false as player exits
         methodEntered = player.isInRoom();
 
         notepad.setActiveText(0);
