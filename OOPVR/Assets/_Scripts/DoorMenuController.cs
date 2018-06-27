@@ -82,6 +82,9 @@ public class DoorMenuController : MonoBehaviour
             case "IncrementAgeActivity":
                 ActivityName = "IncrementAge";
                 break;
+            case "MultipleInstancesActivity":
+                ActivityName = "Constructor";
+                break;
             default:
                 break;
         }
