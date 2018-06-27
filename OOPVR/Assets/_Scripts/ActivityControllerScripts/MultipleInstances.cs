@@ -21,11 +21,18 @@ public class MultipleInstances : MonoBehaviour
 
     void Awake()
     {
+
+        
+
+
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         instance1 = GameObject.FindGameObjectWithTag("Instance1");
         instance2 = GameObject.FindGameObjectWithTag("Instance2");
+
+        instance1ConstructorRoom = instance1.transform.Find("Constructor").gameObject;
+        instance2ConstructorRoom = instance2.transform.Find("Constructor").gameObject;
 
         ic1 = instance1.GetComponent<InstanceController>();
         ic2 = instance2.GetComponent<InstanceController>();
@@ -36,8 +43,8 @@ public class MultipleInstances : MonoBehaviour
         ageBox2 = GameObject.Find("Age_InstanceBox2").GetComponent<VariableBoxController>();
         nameBox2 = GameObject.Find("Name_InstanceBox2").GetComponent<VariableBoxController>();
 
-        Transform parameterPlatform1 = instance1.transform.Find("Constructor/ParametersPlatform");
-        Transform parameterPlatform2 = instance2.transform.Find("Constructor/ParametersPlatform");
+        Transform parameterPlatform1 = instance1ConstructorRoom.transform.Find("ParametersPlatform");
+        Transform parameterPlatform2 = instance2ConstructorRoom.transform.Find("ParametersPlatform");
 
         nameParameterBox1 = parameterPlatform1.Find("NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
         ageParameterBox1 = parameterPlatform1.Find("AgeParameter/AgeParameterBox").GetComponent<VariableBoxController>();
