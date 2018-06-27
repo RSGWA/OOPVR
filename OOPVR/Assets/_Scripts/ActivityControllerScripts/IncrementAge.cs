@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncrementAge : MonoBehaviour {
+public class IncrementAge : MonoBehaviour
+{
 
     public GameObject AgeInstanceValue, NameInstanceValue;
 
@@ -79,6 +80,7 @@ public class IncrementAge : MonoBehaviour {
         {
             yield return new WaitForSeconds(0.1f);
         }
+
         notepad.reset();
         notepad.blinkObjective(objectives[3]);
         StartCoroutine("checkFirstIncrementReturn");
@@ -92,6 +94,7 @@ public class IncrementAge : MonoBehaviour {
         }
         resetIncrement(); //resets the isIncremented when player exits
         player.resetInRoom(); //resets isInRoom to false as player exits
+        methodEntered = player.isInRoom();
 
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
@@ -125,14 +128,14 @@ public class IncrementAge : MonoBehaviour {
 
     IEnumerator checkReturn()
     {
-        while (!returned)
+        while (!playerInFrontOfMethod())
         {
-            returned = player.hasReturned();
+            // returned = player.hasReturned();
             yield return new WaitForSeconds(0.1f);
         }
         // Activity Finished
-		PlayerPrefs.SetInt("IncrementAgeComplete",1);
-		PlayerPrefs.Save ();
+        PlayerPrefs.SetInt("IncrementAgeComplete", 1);
+        PlayerPrefs.Save();
         notepad.endOfActivity();
     }
 
