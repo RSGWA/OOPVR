@@ -17,6 +17,7 @@ public class MultipleInstances : MonoBehaviour
 
     VariableBoxController ageBox1, nameBox1, nameParameterBox1, ageParameterBox1, nameParameterBox2, ageParameterBox2, ageBox2, nameBox2;
     GameObject instance1ConstructorRoom, instance2ConstructorRoom , instance1, instance2;
+    GameObject i1constructorMovePoint, i2constructorMovePoint;
     
 
     void Awake()
@@ -26,13 +27,18 @@ public class MultipleInstances : MonoBehaviour
 
 
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        
 
         instance1 = GameObject.FindGameObjectWithTag("Instance1");
         instance2 = GameObject.FindGameObjectWithTag("Instance2");
 
         instance1ConstructorRoom = instance1.transform.Find("Constructor").gameObject;
         instance2ConstructorRoom = instance2.transform.Find("Constructor").gameObject;
+
+        i1constructorMovePoint = instance1ConstructorRoom.transform.Find("MovePoint").gameObject;
+        i2constructorMovePoint = instance2ConstructorRoom.transform.Find("MovePoint").gameObject;
 
         ic1 = instance1.GetComponent<InstanceController>();
         ic2 = instance2.GetComponent<InstanceController>();
@@ -83,6 +89,9 @@ public class MultipleInstances : MonoBehaviour
             instance1Created = ic1.hasInstanceBeenCreated();
             yield return new WaitForSeconds(0.1f);
         }
+        //automatically move player to constructor of instance
+        player.moveTo(i1constructorMovePoint);
+
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkNameParameterSet");
     }
@@ -153,6 +162,9 @@ public class MultipleInstances : MonoBehaviour
             instance2Created = ic2.hasInstanceBeenCreated();
             yield return new WaitForSeconds(0.1f);
         }
+        //automatically move player to constructor of instance
+        player.moveTo(i2constructorMovePoint);
+
         notepad.blinkObjective(objectives[7]);
         StartCoroutine("checkNameParameterSet2");
     }
