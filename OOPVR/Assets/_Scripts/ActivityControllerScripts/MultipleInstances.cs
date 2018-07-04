@@ -8,6 +8,7 @@ public class MultipleInstances : MonoBehaviour
     InstanceController ic1, ic2;
     Notepad notepad;
     PlayerController player;
+    
 
     bool instance1Created = false, instance2Created = false;
     //bool constructorEntered = false;
@@ -18,13 +19,12 @@ public class MultipleInstances : MonoBehaviour
     VariableBoxController ageBox1, nameBox1, nameParameterBox1, ageParameterBox1, nameParameterBox2, ageParameterBox2, ageBox2, nameBox2;
     GameObject instance1ConstructorRoom, instance2ConstructorRoom , instance1, instance2;
     GameObject i1constructorMovePoint, i2constructorMovePoint;
+    GameObject blueprint;
     
 
     void Awake()
     {
-
-        
-
+        blueprint = GameObject.FindGameObjectWithTag("Blueprint");
 
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
 
@@ -89,8 +89,8 @@ public class MultipleInstances : MonoBehaviour
             instance1Created = ic1.hasInstanceBeenCreated();
             yield return new WaitForSeconds(0.1f);
         }
-        //automatically move player to constructor of instance
-        player.moveTo(i1constructorMovePoint);
+        blueprint.SetActive(false); //hide blueprint to force player to work on first instance
+        player.moveTo(i1constructorMovePoint);  //automatically move player to constructor of instance
 
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkNameParameterSet");
@@ -148,6 +148,8 @@ public class MultipleInstances : MonoBehaviour
         }
         //Enable movepoints when player leaves the method
         //enableMovePoints(true);
+
+        blueprint.SetActive(true);
 
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
