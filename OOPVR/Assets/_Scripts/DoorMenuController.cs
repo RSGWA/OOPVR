@@ -85,6 +85,9 @@ public class DoorMenuController : MonoBehaviour
             case "MultipleInstancesActivity":
                 ActivityName = "Constructor";
                 break;
+            case "MultiInstancesMethodCallsActivity":
+                ActivityName = "Constructor";
+                break;
             default:
                 break;
         }

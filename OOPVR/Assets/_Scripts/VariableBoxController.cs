@@ -266,6 +266,7 @@ public class VariableBoxController : MonoBehaviour
 
         }
     }
+
     public void boxAction()
     {
         currentTime = Time.time;

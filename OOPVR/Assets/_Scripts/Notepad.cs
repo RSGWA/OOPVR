@@ -20,6 +20,7 @@ public class Notepad : MonoBehaviour
     string setNameFilename = "setName";
     string incrementAgeFilename = "incrementAge";
     string multiInstancesFilename = "multipleInstances";
+    string multiInstancesMethodCallsFilename = "MultiInstancesMethodCalls";
 
     string activeText;
 	string blinkedText;
@@ -78,6 +79,11 @@ public class Notepad : MonoBehaviour
                 parseText(textToParse);
                 break;
             case "MultipleInstancesActivity":
+                textAsset = Resources.Load(multiInstancesFilename) as TextAsset;
+                textToParse = textAsset.text;
+                parseText(textToParse);
+                break;
+            case "MultiInstancesMethodCallsActivity":
                 textAsset = Resources.Load(multiInstancesFilename) as TextAsset;
                 textToParse = textAsset.text;
                 parseText(textToParse);

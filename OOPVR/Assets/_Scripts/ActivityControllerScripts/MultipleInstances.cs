@@ -11,8 +11,6 @@ public class MultipleInstances : MonoBehaviour
     
 
     bool instance1Created = false, instance2Created = false;
-    //bool constructorEntered = false;
-    //bool returned = false;
 
     List<string> objectives = new List<string>();
 
@@ -242,7 +240,6 @@ public class MultipleInstances : MonoBehaviour
         }
 
     }
-
 
     bool nameParameterSet(int num)
     {
