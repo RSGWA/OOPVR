@@ -110,7 +110,7 @@ public class DoorMenuController : MonoBehaviour
         doorPanel.GetComponent<InteractiveItemGaze>().enabled = key;
     }
 
-    void ShowButton(GameObject button, bool key)
+    public void ShowButton(GameObject button, bool key)
     {
         button.SetActive(key);
     }

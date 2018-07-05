@@ -371,6 +371,13 @@ public class VariableBoxController : MonoBehaviour
 
                 //set parent of Ghost VariableBox to be Hand
                 ghostObject.parent = Hand.transform;
+
+                //Disable the instance variable menu controller for the ghostObject
+                if(ghostObject.name == "Name_InstanceBox(Clone)" | ghostObject.name == "Age_InstanceBox(Clone)")
+                {
+                    ghostObject.GetComponent<InstanceVariablesMenuController>().enabled = false;
+                }
+               
                 Hand.GetComponent<HandController>().setObjInHand(ghostObject.gameObject);
 
                 VariableBoxController ghostObj = ghostObject.GetComponent<VariableBoxController>();

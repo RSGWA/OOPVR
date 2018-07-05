@@ -12,15 +12,17 @@ public class MultiInstancesMethodCalls : MonoBehaviour
 
     List<string> objectives = new List<string>();
 
-    GameObject instance1, instance2;
-    Transform setNameIns1, getNameIns1, getNameIns2;
-    VariableBoxController nameParamSNins1, obj1NameInstanceBox, obj1AgeInstanceBox ;
+    GameObject instance1, instance2, ins1_GNDoor_goINTO, ins2_GNDoor_goINTO;
+    Transform setNameIns1, getNameIns1, getNameIns2, getNameIns1DoorMenuPanel, getNameIns2DoorMenuPanel;
+    VariableBoxController nameParamSNins1, INS1_NameInstanceBox, INS2_NameInstanceBox, INS1_AgeInstanceBox, INS2_AgeInstanceBox;
     VariableBoxController p1Variable, p2Variable;
     HandController hand;
+    DoorMenuController doorControl;
 
     void Awake()
     {
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
+        doorControl = GameObject.Find("ActivityController").GetComponent<DoorMenuController>();
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         hand = GameObject.FindGameObjectWithTag("Hand").GetComponent<HandController>();
@@ -32,11 +34,16 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         getNameIns1 = instance1.transform.Find("GetName");
         getNameIns2 = instance2.transform.Find("GetName");
 
+        getNameIns1DoorMenuPanel = getNameIns1.Find("Door/DoorExt/OptionMenu/Panel");
+        getNameIns2DoorMenuPanel = getNameIns2.Find("Door/DoorExt/OptionMenu/Panel");
+
+        ins1_GNDoor_goINTO = getNameIns1DoorMenuPanel.Find("GoIntoButton").gameObject;
+        ins2_GNDoor_goINTO = getNameIns2DoorMenuPanel.Find("GoIntoButton").gameObject;
+
         nameParamSNins1 = setNameIns1.Find("ParametersPlatform/NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
 
-        obj1NameInstanceBox = instance1.transform.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
-        obj1NameInstanceBox.setBoxAssigned(true);
-        obj1NameInstanceBox.setVariableBoxValue(Ins1NameInstanceValue);
+        initialiseInstanceVariables();
+        
 
         p1Variable = GameObject.Find("p1 variablebox").GetComponent<VariableBoxController>();
         p2Variable = GameObject.Find("p2 variablebox").GetComponent<VariableBoxController>();
@@ -60,6 +67,27 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         objectives.Add("return");
         objectives.Add("string p2 = peter.getName();");//main
 
+    }
+
+    void initialiseInstanceVariables()
+    {
+
+        INS1_NameInstanceBox = instance1.transform.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
+        INS1_NameInstanceBox.setBoxAssigned(true);
+        INS1_NameInstanceBox.setVariableBoxValue(Ins1NameInstanceValue);
+
+        INS2_NameInstanceBox = instance2.transform.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
+        INS2_NameInstanceBox.setBoxAssigned(true);
+        INS2_NameInstanceBox.setVariableBoxValue(Ins2NameInstanceValue);
+
+        //The following two (Age instance variables) are not used in this activity. But they are initialised anyways
+        INS1_AgeInstanceBox = instance1.transform.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
+        INS1_AgeInstanceBox.setBoxAssigned(true);
+        INS1_AgeInstanceBox.setVariableBoxValue(Ins1AgeInstanceValue);
+
+        INS2_AgeInstanceBox = instance2.transform.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
+        INS2_AgeInstanceBox.setBoxAssigned(true);
+        INS2_AgeInstanceBox.setVariableBoxValue(Ins2AgeInstanceValue);
     }
 
     // Use this for initialization
@@ -108,6 +136,8 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
+        //activate gointo option for getName instance1
+        doorControl.ShowButton(ins1_GNDoor_goINTO, true);
 
         notepad.setActiveText(0);
         notepad.setTitle("Main");
@@ -156,6 +186,9 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
+        //activate goINTO button for getName instance 2
+        doorControl.ShowButton(ins2_GNDoor_goINTO, true);
+
         notepad.setActiveText(0);
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[8]);
@@ -230,11 +263,11 @@ public class MultiInstancesMethodCalls : MonoBehaviour
     bool nameSet()
     {
 
-        if (obj1NameInstanceBox.transform.childCount > 3)
+        if (INS1_NameInstanceBox.transform.childCount > 3)
         {
-            if (obj1NameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>() != null)
+            if (INS1_NameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>() != null)
             {
-                if (obj1NameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>().text.ToString() == "\"Pita\"")
+                if (INS1_NameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>().text.ToString() == "\"Pita\"")
                 {
                     return true;
                 }
