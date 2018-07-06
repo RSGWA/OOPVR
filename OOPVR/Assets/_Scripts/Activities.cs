@@ -44,6 +44,7 @@ public class Activities : MonoBehaviour
         activityTitles.Add("Set name");
         activityTitles.Add("Increment age");
         activityTitles.Add("Multiple instances");
+        activityTitles.Add("Multiple instances method calls");
 
         setActivityTitle(currentActivity);
     }
@@ -129,6 +130,9 @@ public class Activities : MonoBehaviour
                 break;
             case "Multiple instances":
                 SceneManager.LoadScene("MultipleInstancesActivity", LoadSceneMode.Single);
+                break;
+            case "Multiple instances method calls":
+                SceneManager.LoadScene("MultiInstancesMethodCallsActivity", LoadSceneMode.Single);
                 break;
             default:
                 break;

@@ -238,7 +238,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         }
         
         //Activity Finished
-        PlayerPrefs.SetInt("ConstructorWithParametersComplete", 1);
+        PlayerPrefs.SetInt("MultiInstancesMethodCalls", 1);
         PlayerPrefs.Save();
         notepad.endOfActivity();
     }

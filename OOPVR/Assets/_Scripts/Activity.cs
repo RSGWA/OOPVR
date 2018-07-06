@@ -14,7 +14,7 @@ public class Activity : MonoBehaviour
     private ButtonGaze gaze;
 
     static bool constructorNoParametersComplete, constructorWithParametersComplete,
-    setNameComplete, getNameComplete, multipleInstancesComplete, incrementAgeComplete = false;
+    setNameComplete, getNameComplete, multipleInstancesComplete, multiInstanceMethodsComplete, incrementAgeComplete = false;
 
     // Use this for initialization
     void Awake()
@@ -72,6 +72,13 @@ public class Activity : MonoBehaviour
                     multipleInstancesComplete = true;
                 }
                 break;
+            case "MultiInstancesMethodCalls":
+                if (PlayerPrefs.GetInt("MultiInstancesMethodCalls") == 1)
+                {
+                    completeActivity();
+                    multiInstanceMethodsComplete = true;
+                }
+                break;
             default:
                 break;
         }
@@ -112,6 +119,13 @@ public class Activity : MonoBehaviour
                 break;
             case "MultipleInstances":
                 if (incrementAgeComplete)
+                {
+                    playButton.interactable = true;
+                    gaze.enabled = true;
+                }
+                break;
+            case "MultiInstancesMethodCalls":
+                if (multipleInstancesComplete)
                 {
                     playButton.interactable = true;
                     gaze.enabled = true;
@@ -179,6 +193,9 @@ public class Activity : MonoBehaviour
                 break;
             case "MultipleInstances":
                 SceneManager.LoadScene("MultipleInstancesActivity", LoadSceneMode.Single);
+                break;
+            case "MultiInstancesMethodCalls":
+                SceneManager.LoadScene("MultiInstancesMethodCallsActivity", LoadSceneMode.Single);
                 break;
             default:
                 break;
