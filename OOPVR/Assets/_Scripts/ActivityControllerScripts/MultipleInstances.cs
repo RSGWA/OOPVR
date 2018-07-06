@@ -41,11 +41,11 @@ public class MultipleInstances : MonoBehaviour
         ic1 = instance1.GetComponent<InstanceController>();
         ic2 = instance2.GetComponent<InstanceController>();
 
-        ageBox1 = GameObject.Find("Age_InstanceBox1").GetComponent<VariableBoxController>();
-        nameBox1 = GameObject.Find("Name_InstanceBox1").GetComponent<VariableBoxController>();
+        ageBox1 = instance1.transform.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
+        nameBox1 = instance1.transform.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
 
-        ageBox2 = GameObject.Find("Age_InstanceBox2").GetComponent<VariableBoxController>();
-        nameBox2 = GameObject.Find("Name_InstanceBox2").GetComponent<VariableBoxController>();
+        ageBox2 = instance2.transform.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
+        nameBox2 = instance2.transform.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
 
         Transform parameterPlatform1 = instance1ConstructorRoom.transform.Find("ParametersPlatform");
         Transform parameterPlatform2 = instance2ConstructorRoom.transform.Find("ParametersPlatform");
@@ -218,7 +218,7 @@ public class MultipleInstances : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         //Activity Finished
-        PlayerPrefs.SetInt("ConstructorWithParametersComplete", 1);
+        PlayerPrefs.SetInt("MultipleInstances", 1);
         PlayerPrefs.Save();
         notepad.endOfActivity();
 

@@ -7,20 +7,22 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class Activities : MonoBehaviour {
-	
-	public GameObject Next;
-	public GameObject Previous;
-	public GameObject Title;
+public class Activities : MonoBehaviour
+{
 
-	private List<string> activityTitles;
+    public GameObject Next;
+    public GameObject Previous;
+    public GameObject Title;
 
-	int currentActivity;
+    private List<string> activityTitles;
 
-	// Use this for initialization
-	void Awake () {
+    int currentActivity;
 
-		/*
+    // Use this for initialization
+    void Awake()
+    {
+
+        /*
 		if (PlayerPrefs.GetInt ("ActivityMenuActive") == 1) {
 			this.gameObject.SetActive (true);
 			currentActivity = PlayerPrefs.GetInt ("CurrentActivity");
@@ -30,147 +32,166 @@ public class Activities : MonoBehaviour {
 		}
 		*/
 
-		//this.gameObject.SetActive (false);
+        //this.gameObject.SetActive (false);
 
-		//Load ();
+        //Load ();
 
-		activityTitles = new List<string> ();
+        activityTitles = new List<string>();
 
-		activityTitles.Add ("Default Constructor");
-		activityTitles.Add ("Constructor with Parameters");
-		activityTitles.Add ("Get name");
-		activityTitles.Add ("Set name");
-		activityTitles.Add ("Increment age");
+        activityTitles.Add("Default Constructor");
+        activityTitles.Add("Constructor with Parameters");
+        activityTitles.Add("Get name");
+        activityTitles.Add("Set name");
+        activityTitles.Add("Increment age");
+        activityTitles.Add("Multiple instances");
 
-		setActivityTitle (currentActivity);
-	}
+        setActivityTitle(currentActivity);
+    }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
 
-	}
+    }
 
-	public void showActivityMenu() 
-	{
-		currentActivity = 0;
-		setActivityTitle (currentActivity);
-		this.gameObject.SetActive (true);
-		Previous.SetActive (false);
-		Next.SetActive (true);
-	}
+    public void showActivityMenu()
+    {
+        currentActivity = 0;
+        setActivityTitle(currentActivity);
+        this.gameObject.SetActive(true);
+        Previous.SetActive(false);
+        Next.SetActive(true);
+    }
 
-	public void nextActiviy() {
+    public void nextActiviy()
+    {
 
-		currentActivity++;
+        currentActivity++;
 
-		if (currentActivity >= activityTitles.Count - 1) {
-			Next.SetActive (false);
-		}
+        if (currentActivity >= activityTitles.Count - 1)
+        {
+            Next.SetActive(false);
+        }
 
-		if (!Previous.activeSelf) {
-			Previous.SetActive (true);
-		}
+        if (!Previous.activeSelf)
+        {
+            Previous.SetActive(true);
+        }
 
-		setActivityTitle (currentActivity);
+        setActivityTitle(currentActivity);
 
-	}
+    }
 
-	public void previousActivity() {
-		
-		currentActivity--;
+    public void previousActivity()
+    {
 
-		if (currentActivity <= 0) {
-			Previous.SetActive (false);
-		}
+        currentActivity--;
 
-		if (!Next.activeSelf) {
-			Next.SetActive (true);
-		}
+        if (currentActivity <= 0)
+        {
+            Previous.SetActive(false);
+        }
 
-		setActivityTitle (currentActivity);
-	}
+        if (!Next.activeSelf)
+        {
+            Next.SetActive(true);
+        }
 
-	void setActivityTitle(int activity) {
-		Title.GetComponent<Text> ().text = activityTitles [activity];
-	}
+        setActivityTitle(currentActivity);
+    }
 
-	public void playActivity() {
-		
-		SaveScene ();
+    void setActivityTitle(int activity)
+    {
+        Title.GetComponent<Text>().text = activityTitles[activity];
+    }
 
-		switch (activityTitles [currentActivity]) {
-		case "Default Constructor":
-			SceneManager.LoadScene ("DefaultConstructorScene", LoadSceneMode.Single);
-			break;
-		case "Constructor with Parameters":
-			SceneManager.LoadScene ("2ParameterConstructor", LoadSceneMode.Single);
-			break;
-		case "Get name":
-			SceneManager.LoadScene ("GetName", LoadSceneMode.Single);
-			break;
-		case "Set name":
-			SceneManager.LoadScene ("SetNameActivity", LoadSceneMode.Single);
-			break;
-		case "Increment age":
-			SceneManager.LoadScene ("IncrementAgeActivity", LoadSceneMode.Single);
-			break;
-		default:
-			break;
-		}
-	}
+    public void playActivity()
+    {
 
-	public void SaveScene() {
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.persistentDataPath + "/mainMenuScene.dat");
+        SaveScene();
 
-		SceneData data = new SceneData ();
-		data.activityMenuOpen = this.gameObject.activeSelf;
-		data.currentActivity = currentActivity;
-		data.prevActive = Previous.activeSelf;
-		data.nextActive = Next.activeSelf;
+        switch (activityTitles[currentActivity])
+        {
+            case "Default Constructor":
+                SceneManager.LoadScene("DefaultConstructorScene", LoadSceneMode.Single);
+                break;
+            case "Constructor with Parameters":
+                SceneManager.LoadScene("2ParameterConstructor", LoadSceneMode.Single);
+                break;
+            case "Get name":
+                SceneManager.LoadScene("GetName", LoadSceneMode.Single);
+                break;
+            case "Set name":
+                SceneManager.LoadScene("SetNameActivity", LoadSceneMode.Single);
+                break;
+            case "Increment age":
+                SceneManager.LoadScene("IncrementAgeActivity", LoadSceneMode.Single);
+                break;
+            case "Multiple instances":
+                SceneManager.LoadScene("MultipleInstancesActivity", LoadSceneMode.Single);
+                break;
+            default:
+                break;
+        }
+    }
 
-		bf.Serialize (file, data);
-		file.Close ();
-	}
+    public void SaveScene()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/mainMenuScene.dat");
 
-	public void Load() {
-		if (File.Exists (Application.persistentDataPath + "/mainMenuScene.dat")) {
-			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + "/mainMenuScene.dat", FileMode.Open);
-			SceneData data = (SceneData)bf.Deserialize (file);
-			file.Close ();
+        SceneData data = new SceneData();
+        data.activityMenuOpen = this.gameObject.activeSelf;
+        data.currentActivity = currentActivity;
+        data.prevActive = Previous.activeSelf;
+        data.nextActive = Next.activeSelf;
 
-			this.gameObject.SetActive (data.activityMenuOpen);
-			currentActivity = data.currentActivity;
-			Previous.SetActive (data.prevActive);
-			Next.SetActive (data.nextActive);
-		}
-	}
-		
-	void OnApplicationQuit() {
-		resetScene ();
-	}
+        bf.Serialize(file, data);
+        file.Close();
+    }
 
-	// Reset scene to initial values - used when application has quit
-	void resetScene() {
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.persistentDataPath + "/mainMenuScene.dat");
+    public void Load()
+    {
+        if (File.Exists(Application.persistentDataPath + "/mainMenuScene.dat"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/mainMenuScene.dat", FileMode.Open);
+            SceneData data = (SceneData)bf.Deserialize(file);
+            file.Close();
 
-		SceneData data = new SceneData ();
-		data.activityMenuOpen = false;
-		data.currentActivity = 0;
+            this.gameObject.SetActive(data.activityMenuOpen);
+            currentActivity = data.currentActivity;
+            Previous.SetActive(data.prevActive);
+            Next.SetActive(data.nextActive);
+        }
+    }
 
-		bf.Serialize (file, data);
-		file.Close ();
-	}
+    void OnApplicationQuit()
+    {
+        resetScene();
+    }
 
-	[Serializable]
-	class SceneData
-	{
-		public bool activityMenuOpen;
-		public int currentActivity;
-		public bool prevActive;
-		public bool nextActive;
-	}
+    // Reset scene to initial values - used when application has quit
+    void resetScene()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/mainMenuScene.dat");
+
+        SceneData data = new SceneData();
+        data.activityMenuOpen = false;
+        data.currentActivity = 0;
+
+        bf.Serialize(file, data);
+        file.Close();
+    }
+
+    [Serializable]
+    class SceneData
+    {
+        public bool activityMenuOpen;
+        public int currentActivity;
+        public bool prevActive;
+        public bool nextActive;
+    }
 
 }
