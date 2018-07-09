@@ -10,6 +10,7 @@ public class AddressBoxController : MonoBehaviour {
 
     private Transform addressValue;
     private Transform objInHandGhost;
+    private Transform address;
 
     private AnimationCurve[] curves;
     private AnimationCurve[] curvesSwap;
@@ -35,13 +36,14 @@ public class AddressBoxController : MonoBehaviour {
         AnimationCurve[] curves = new AnimationCurve[3];
         options = transform.GetComponent<OptionMenu>();
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
+        address = transform.Find("address");
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (movingToHand)
         {
-            transform.localPosition = new Vector3(
+            address.localPosition = new Vector3(
                 curves[0].Evaluate(Time.time - currentTime),
                 curves[1].Evaluate(Time.time - currentTime),
                 curves[2].Evaluate(Time.time - currentTime));
@@ -54,7 +56,7 @@ public class AddressBoxController : MonoBehaviour {
         }
         else if (swapping)
         {
-            transform.localPosition = new Vector3(
+            address.localPosition = new Vector3(
                 curves[0].Evaluate(Time.time - currentTime),
                 curves[1].Evaluate(Time.time - currentTime),
                 curves[2].Evaluate(Time.time - currentTime));
@@ -175,7 +177,7 @@ public class AddressBoxController : MonoBehaviour {
 
     void createAdressValue()
     {
-        addressValue = Instantiate(transform, transform.position, transform.rotation, transform.parent);
+        addressValue = Instantiate(address, transform.position, transform.rotation, transform.parent);
         //Renderer rend = addressValue.GetComponent<Renderer>();
         //rend.material = Resources.Load("GhostText") as Material;
         addressValue.GetComponent<BoxCollider>().enabled = false;
