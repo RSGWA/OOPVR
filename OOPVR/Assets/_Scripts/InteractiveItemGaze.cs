@@ -81,6 +81,9 @@ public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointer
             case "Return":
                 SetSelectedObject(obj);
                 break;
+            case "AddressBox":
+                SetSelectedObject(obj);
+                break;
             default:
                 break;
         }
