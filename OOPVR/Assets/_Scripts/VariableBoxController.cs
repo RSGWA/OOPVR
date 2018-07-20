@@ -23,6 +23,7 @@ public class VariableBoxController : MonoBehaviour
     private Status MessageCanvas;
     private InfoController info;
 	private OptionMenu options;
+    private string variableType;
 
 
     // Only one Ghost Object can exist at a time so all boxes must have a
@@ -58,6 +59,8 @@ public class VariableBoxController : MonoBehaviour
 
 
 
+
+
     // Use this for initialization
     void Start()
     {
@@ -85,7 +88,7 @@ public class VariableBoxController : MonoBehaviour
             {
                 movingVarToBox = false;
                 objInHand.GetComponent<ValueController>().setInHand(false);
-
+   
                 // Rotates object to stand up in box
                 objInHand.transform.rotation = Quaternion.identity;
 
@@ -466,7 +469,7 @@ public class VariableBoxController : MonoBehaviour
 
         if (objInHand.tag == "Value")
         {
-            string variableType = objInHand.transform.GetChild(0).tag;
+            variableType = objInHand.transform.GetChild(0).tag;
 
             if (varBoxType == variableType)
             {
@@ -476,8 +479,13 @@ public class VariableBoxController : MonoBehaviour
 
                 curves = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 3.5f);
 
-                // Remove ghost of variable
-                objInHand.GetComponent<ValueController>().removeGhost();
+                //Only remove the ghost value for all other apart from Address type
+                if(variableType != "Address")
+                {
+                    // Remove ghost of variable
+                    objInHand.GetComponent<ValueController>().removeGhost();
+                }
+                
                 
                 movingVarToBox = true;
                 variableBoxValue = objInHand;

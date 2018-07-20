@@ -37,13 +37,14 @@ public class AddressBoxController : MonoBehaviour {
         options = transform.GetComponent<OptionMenu>();
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
         address = transform.Find("address");
+        createAdressValue();
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (movingToHand)
         {
-            address.localPosition = new Vector3(
+            addressValue.localPosition = new Vector3(
                 curves[0].Evaluate(Time.time - currentTime),
                 curves[1].Evaluate(Time.time - currentTime),
                 curves[2].Evaluate(Time.time - currentTime));
@@ -56,7 +57,7 @@ public class AddressBoxController : MonoBehaviour {
         }
         else if (swapping)
         {
-            address.localPosition = new Vector3(
+            addressValue.localPosition = new Vector3(
                 curves[0].Evaluate(Time.time - currentTime),
                 curves[1].Evaluate(Time.time - currentTime),
                 curves[2].Evaluate(Time.time - currentTime));
@@ -107,7 +108,7 @@ public class AddressBoxController : MonoBehaviour {
         {
 
             // Create Ghost copy to leave behind
-            createAdressValue();
+            //createAdressValue();
 
             // Set up animation
             addressValue.parent = Hand.transform;
@@ -124,7 +125,7 @@ public class AddressBoxController : MonoBehaviour {
             // Disable current variable in hand
             GetComponent<BoxCollider>().enabled = false;
 
-            Hand.GetComponent<HandController>().setObjInHand(this.gameObject);
+            Hand.GetComponent<HandController>().setObjInHand(addressValue.gameObject);
             inHand = true;
         }
         else
@@ -145,15 +146,15 @@ public class AddressBoxController : MonoBehaviour {
         {
 
             // Put value in hand back where it was
-            objInHandGhost = objInHand.GetComponent<ValueController>().getGhost();
-            objInHand.transform.rotation = objInHandGhost.transform.rotation;
-            objInHand.transform.parent = objInHandGhost.transform;
+            //objInHandGhost = objInHand.GetComponent<ValueController>().getGhost();
+            //objInHand.transform.rotation = objInHandGhost.transform.rotation;
+            //objInHand.transform.parent = objInHandGhost.transform;
 
             // Animate moving value in hand back to its original position
-            curvesSwap = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 0);
+            //curvesSwap = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 0);
 
             // Create Ghost and place new Value in Hand
-            createAdressValue();
+            //createAdressValue();
 
             addressValue.parent = Hand.transform;
 
