@@ -23,7 +23,9 @@ public class VariableBoxController : MonoBehaviour
     private Status MessageCanvas;
     private InfoController info;
 	private OptionMenu options;
+
     private string variableType;
+    private AddressBoxController addressBox;
 
 
     // Only one Ghost Object can exist at a time so all boxes must have a
@@ -87,13 +89,24 @@ public class VariableBoxController : MonoBehaviour
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
                 movingVarToBox = false;
+                objInHand.GetComponent<InteractiveItemGaze>().enabled = false;
+
+                if(variableType == "Address")
+                {
+                    addressBox.GetComponent<AddressBoxController>().setInHand(false);
+                    //objInHand.GetComponent<AddressBoxController>().setInHand(false);
+                }
                 objInHand.GetComponent<ValueController>().setInHand(false);
-   
+               
+
+
                 // Rotates object to stand up in box
                 objInHand.transform.rotation = Quaternion.identity;
 
                 objInHand.GetComponent<BoxCollider>().enabled = true;
                 objInHand.AddComponent<Rigidbody>();
+
+                //Hand.GetComponent<HandController>().setObjInHand(null);
 
                 boxAssigned = true;
                 variableBoxValue = objInHand;
@@ -480,7 +493,11 @@ public class VariableBoxController : MonoBehaviour
                 curves = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 3.5f);
 
                 //Only remove the ghost value for all other apart from Address type
-                if(variableType != "Address")
+                if(variableType == "Address")
+                {
+                    addressBox = GameObject.Find("AddressBox").GetComponent<AddressBoxController>();
+                }
+                else
                 {
                     // Remove ghost of variable
                     objInHand.GetComponent<ValueController>().removeGhost();

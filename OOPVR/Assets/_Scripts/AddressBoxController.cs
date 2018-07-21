@@ -78,7 +78,7 @@ public class AddressBoxController : MonoBehaviour {
 
         if (inHand)
         {
-            transform.rotation = Hand.transform.rotation;
+            addressValue.transform.rotation = Hand.transform.rotation;
         }
     }
 
@@ -117,9 +117,9 @@ public class AddressBoxController : MonoBehaviour {
             movingToHand = true;
 
             // Disable RigidBody if present on component
-            if (GetComponent<Rigidbody>() != null)
+            if (addressValue.GetComponent<Rigidbody>() != null)
             {
-                Destroy(GetComponent<Rigidbody>());
+                Destroy(addressValue.GetComponent<Rigidbody>());
             }
 
             // Disable current variable in hand
