@@ -49,6 +49,7 @@ public class VariableBoxController : MonoBehaviour
 
     bool boxAssigned = false;
     bool varRemoved = false;
+    bool containerSelected = false;
 
     bool infoSelected = false;
     bool preIncrementSelection = false;
@@ -679,6 +680,9 @@ public class VariableBoxController : MonoBehaviour
         {
             collider.enabled = enable;
         }
+        //this is used to check whether the box is selected
+        containerSelected = enable;
+
     }
 
 	// For testing/debugging purposes
@@ -694,5 +698,10 @@ public class VariableBoxController : MonoBehaviour
     public void resetIncrement()
     {
         incremented = false;
+    }
+
+    public bool isSelected()
+    {
+        return containerSelected;
     }
 }
