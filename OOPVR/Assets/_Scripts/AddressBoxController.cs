@@ -55,26 +55,6 @@ public class AddressBoxController : MonoBehaviour {
                 movingToHand = false;
             }
         }
-        else if (swapping)
-        {
-            addressValue.localPosition = new Vector3(
-                curves[0].Evaluate(Time.time - currentTime),
-                curves[1].Evaluate(Time.time - currentTime),
-                curves[2].Evaluate(Time.time - currentTime));
-
-            objInHand.transform.localPosition = new Vector3(
-                curvesSwap[0].Evaluate(Time.time - currentTime),
-                curvesSwap[1].Evaluate(Time.time - currentTime),
-                curvesSwap[2].Evaluate(Time.time - currentTime));
-
-            // Signals end of animation
-            if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
-            {
-                swapping = false;
-                objInHand.transform.parent = objInHandGhost.transform.parent;
-                Destroy(objInHandGhost.gameObject);
-            }
-        }
 
         if (inHand)
         {
@@ -83,18 +63,10 @@ public class AddressBoxController : MonoBehaviour {
     }
 
 
-    public void PickUpButton()
+    public void PickUpAddress()
     {
         options.Deselect();
         ToHands();
-    }
-
-    public void InfoButton()
-    {
-        string valueType = transform.GetChild(0).tag;
-        string varName = transform.GetComponent<TextMesh>().text;
-        info.SetInformation(varName + "\nThis is a Value of Type " + valueType + ".\nYou may assign it to a variable or parameter container of type " + valueType);
-
     }
 
     public void ToHands()
@@ -106,10 +78,6 @@ public class AddressBoxController : MonoBehaviour {
         //if hand has no object, Pick up the value
         if (objInHand == null)
         {
-
-            // Create Ghost copy to leave behind
-            //createAdressValue();
-
             // Set up animation
             addressValue.parent = Hand.transform;
             curves = AnimationUtility.moveToParent(addressValue, 0, 0, 0);
@@ -130,50 +98,11 @@ public class AddressBoxController : MonoBehaviour {
         }
         else
         {
-            // Swap values
-            swap();
-            //info.SetInformation(varName + "\nThis is a Value of Type " + valueType + ".\nYou may assign it to a variable or parameter container of type " + valueType);
+
+            info.SetInformation("\nPlease assign the address to the correct container to complete instantiation of the instance");
 
         }
 
-    }
-
-    void swap()
-    {
-        objInHand = Hand.GetComponent<HandController>().getObjInHand();
-
-        if (objInHand.tag == "Value")
-        {
-
-            // Put value in hand back where it was
-            //objInHandGhost = objInHand.GetComponent<ValueController>().getGhost();
-            //objInHand.transform.rotation = objInHandGhost.transform.rotation;
-            //objInHand.transform.parent = objInHandGhost.transform;
-
-            // Animate moving value in hand back to its original position
-            //curvesSwap = AnimationUtility.moveToParent(objInHand.transform, 0, 0, 0);
-
-            // Create Ghost and place new Value in Hand
-            //createAdressValue();
-
-            addressValue.parent = Hand.transform;
-
-            // Animate value being gazed at being brought to hand
-            curves = AnimationUtility.moveToParent(addressValue, 0, 0, 0);
-
-            Hand.GetComponent<HandController>().setObjInHand(addressValue.gameObject);
-
-            enableVars(true);
-            inHand = true;
-            swapping = true;
-
-        }
-        else if (objInHand.tag == "VariableBox")
-        {
-            // Dont swap if variable box in hand
-            // TODO: Show two values cannot be swapped
-            MessageCanvas.SetMessage("CANNOT PICK UP: You are currently holding a Variable.");
-        }
     }
 
     void createAdressValue()
@@ -185,11 +114,13 @@ public class AddressBoxController : MonoBehaviour {
        
     }
 
+    public void InfoButton()
+    {
+        string valueType = transform.GetChild(0).tag;
+        string varName = transform.GetComponent<TextMesh>().text;
+        info.SetInformation(varName + "\nThis is a Value of Type " + valueType + ".\nYou may assign it to a variable or parameter container of type " + valueType);
 
-    //public void removeGhost()
-    //{
-    //    Destroy(ghost.gameObject);
-    //}
+    }
 
     public void setInHand(bool b)
     {
@@ -203,10 +134,5 @@ public class AddressBoxController : MonoBehaviour {
             var.GetComponent<BoxCollider>().enabled = enable;
         }
     }
-
-    //public Transform getGhost()
-    //{
-    //    return ghost;
-    //}
 
 }

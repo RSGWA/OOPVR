@@ -171,4 +171,9 @@ public class PlayerController : MonoBehaviour {
 	public bool hasReturned() {
 		return returned;
 	}
+
+    public Vector3 getCurrentPosition()
+    {
+        return this.transform.position;
+    }
 }

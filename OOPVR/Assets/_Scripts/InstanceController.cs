@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class InstanceController : MonoBehaviour
 {
 
-    public PlayerController player;
+    private PlayerController player;
 
     private GameObject[] movePoints;
     private Animator anim;

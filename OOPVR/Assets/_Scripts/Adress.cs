@@ -87,16 +87,6 @@ namespace BezierSolution
             line = Instantiate(spline, transform.position, transform.rotation, transform);
             bsList.Add(line);
 
-            point1 = line.Find("Point1");
-            point2 = line.Find("Point2");
-            point3 = line.Find("Point3");
-           
-
-            point1.position = addressBox.position;
-            point3.position = instanceBox.position;
-
-            Vector3 pos = Vector3.Lerp(point1.position, point3.position, 0.5f);
-            point2.position = new Vector3(pos.x, pos.y + curveHeight, pos.z);
         }
 
         void CreateCurve(Transform instanceBox, Transform line)
