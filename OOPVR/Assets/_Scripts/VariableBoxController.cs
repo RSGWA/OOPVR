@@ -92,11 +92,7 @@ public class VariableBoxController : MonoBehaviour
                 movingVarToBox = false;
                 objInHand.GetComponent<InteractiveItemGaze>().enabled = false;
 
-                if(variableType == "Address")
-                {
-                    addressBox.GetComponent<AddressBoxController>().setInHand(false);
-                    //objInHand.GetComponent<AddressBoxController>().setInHand(false);
-                }
+                
                 objInHand.GetComponent<ValueController>().setInHand(false);
                
 
@@ -113,7 +109,15 @@ public class VariableBoxController : MonoBehaviour
                 variableBoxValue = objInHand;
                 
                 variableBoxValue.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
-                //options.Select ();
+
+                if (variableType == "Address")
+                {
+                    addressBox.GetComponent<AddressBoxController>().setInHand(false);
+                    addressBox.GetComponent<AddressBoxController>().getCurvedLine().HideCurve();
+                    options.Select ();
+                    
+                }
+
             }
         }
         else if (movingBoxToHand)

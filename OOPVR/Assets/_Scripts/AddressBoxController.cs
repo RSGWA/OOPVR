@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddressBoxController : MonoBehaviour {
+
+public class AddressBoxController : MonoBehaviour
+{
 
     private GameObject Hand;
     private GameObject[] vars;
@@ -18,6 +20,9 @@ public class AddressBoxController : MonoBehaviour {
     private OptionMenu options;
     private InfoController info;
     private Status MessageCanvas;
+    private CurveLine curvedLine;
+
+
 
     float currentTime;
 
@@ -27,7 +32,8 @@ public class AddressBoxController : MonoBehaviour {
     bool infoSelected = false;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         Hand = GameObject.Find("Hand");
         vars = GameObject.FindGameObjectsWithTag("Value");
         movingToHand = false;
@@ -39,9 +45,10 @@ public class AddressBoxController : MonoBehaviour {
         address = transform.Find("address");
         createAdressValue();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (movingToHand)
         {
             addressValue.localPosition = new Vector3(
@@ -60,6 +67,12 @@ public class AddressBoxController : MonoBehaviour {
         {
             addressValue.transform.rotation = Hand.transform.rotation;
         }
+
+        if(addressValue.parent != Hand && addressValue.parent != transform)
+        {
+            //curvedLine.HideCurve();
+        }
+
     }
 
 
@@ -74,10 +87,11 @@ public class AddressBoxController : MonoBehaviour {
         currentTime = Time.time;
         objInHand = Hand.GetComponent<HandController>().getObjInHand();
 
-
+        curvedLine.ShowCurve();
         //if hand has no object, Pick up the value
         if (objInHand == null)
         {
+
             // Set up animation
             addressValue.parent = Hand.transform;
             curves = AnimationUtility.moveToParent(addressValue, 0, 0, 0);
@@ -108,10 +122,15 @@ public class AddressBoxController : MonoBehaviour {
     void createAdressValue()
     {
         addressValue = Instantiate(address, transform.position, transform.rotation, transform.parent);
+
+        curvedLine = transform.GetComponent<CurveLine>();
+
+        curvedLine.CreateCurveTo(addressValue);
+
         //Renderer rend = addressValue.GetComponent<Renderer>();
         //rend.material = Resources.Load("GhostText") as Material;
         addressValue.GetComponent<BoxCollider>().enabled = false;
-       
+
     }
 
     public void InfoButton()
@@ -135,4 +154,8 @@ public class AddressBoxController : MonoBehaviour {
         }
     }
 
+    public CurveLine getCurvedLine()
+    {
+        return curvedLine;
+    }
 }
