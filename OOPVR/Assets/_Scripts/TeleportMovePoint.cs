@@ -21,8 +21,8 @@ public class TeleportMovePoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if ((Player.transform.position.x >= transform.position.x - 0.5) &&
-			(Player.transform.position.x <= transform.position.x + 0.5)) {
+		if ((Player.transform.position.x == transform.position.x) &&
+			(Player.transform.position.z == transform.position.z)) {
 			DisableMovePoint();
 		} 
 		else

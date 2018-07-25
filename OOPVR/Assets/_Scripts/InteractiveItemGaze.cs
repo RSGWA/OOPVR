@@ -112,6 +112,10 @@ public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointer
         }
 
     }
+    public void ResetCurrentSelectedObj()
+    {
+        currentSelectedObj = null;
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {

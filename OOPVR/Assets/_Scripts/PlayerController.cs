@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
     private bool inRoom = false;
 	private bool returned = false;
     private bool inWorkingMethod = false;
-	private GameObject doorInt;
+	private GameObject doorInt, doorExt;
 
     private AnimationCurve[] curves;
 
@@ -54,18 +54,40 @@ public class PlayerController : MonoBehaviour {
         
 	}
 
-	public void backToOrigin() {
-		// Animate player moving back to origin
-		currentTime = Time.time;
-		curves = AnimationUtility.movePlayer (transform, origin);
-		playerMoving = true;
+	//public void backToOrigin() {
+	//	// Animate player moving back to origin
+	//	currentTime = Time.time;
+	//	curves = AnimationUtility.movePlayer (transform, origin);
+	//	playerMoving = true;
+
+ //       StartCoroutine("closeDoor");
+
+	//	returned = true;
+	//	inRoom = false;
+
+	//}
+
+    public void Return() { StartCoroutine("startReturnProcedure"); }
+
+    IEnumerator startReturnProcedure()
+    {
+        Vector3 extMethodPos = currentRoom.transform.Find("MovePoint").transform.position;
+
+        Door doorControl = doorExt.GetComponent<Door>();
+        doorControl.openDoor();
+        yield return new WaitForSeconds(1.5f);
+
+        currentTime = Time.time;
+        curves = AnimationUtility.movePlayer(transform, extMethodPos);
+        playerMoving = true;
 
         StartCoroutine("closeDoor");
+        yield return new WaitForSeconds(1.8f);
 
-		returned = true;
-		inRoom = false;
+        returned = true;
+        inRoom = false;
+    }
 
-	}
 
     IEnumerator closeDoor()
     {
@@ -91,8 +113,11 @@ public class PlayerController : MonoBehaviour {
         GameObject door = GameObject.FindGameObjectWithTag ("Door");
 		anim = door.GetComponent<Animator> ();
 
-		doorInt = room.transform.Find ("Door").Find ("DoorInt").gameObject;
+		doorInt = room.transform.Find ("Door/DoorInt").gameObject;
 		doorInt.transform.Find ("DoorPanel").GetComponent<BoxCollider> ().enabled = false;
+
+        doorExt = room.transform.Find("Door/DoorExt").gameObject;
+        doorExt.transform.Find("DoorPanel").GetComponent<BoxCollider>().enabled = false;
 
 		StartCoroutine ("check");
 		StartCoroutine (movePlayer(room));
@@ -124,7 +149,7 @@ public class PlayerController : MonoBehaviour {
 		curves = AnimationUtility.movePlayer (transform, dest.position);
 		playerMoving = true;
 
-		inRoom = true;
+		inRoom = true; //Change this, not good having movepoints controlled by whether player is in room
 
         // Removes glow of movepoint outside room so player cannot leave using it
         //GameObject[] movePoints = GameObject.FindGameObjectsWithTag("Move");
@@ -135,7 +160,9 @@ public class PlayerController : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 		// Open interior door once player has been moved completely into room
 		doorInt.GetComponent<Door> ().openDoor ();
-	}
+        doorExt.GetComponent<Door>().closeDoor();
+        doorExt.GetComponent<Door>().disableDoor();
+    }
 
     void enableMovePoints(bool trigger)
     {

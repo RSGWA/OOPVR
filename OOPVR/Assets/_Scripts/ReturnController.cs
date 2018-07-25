@@ -33,7 +33,7 @@ public class ReturnController : MonoBehaviour {
 
 		if (varType == returnType) {
 			// Exit room
-			GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().backToOrigin();
+			GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().Return();
             options.Deselect();
 		}
 

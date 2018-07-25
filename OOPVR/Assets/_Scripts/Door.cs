@@ -72,11 +72,15 @@ public class Door : MonoBehaviour
     public void enableDoor()
     {
         DoorPanel.GetComponent<BoxCollider>().enabled = true;
+        DoorPanel.GetComponent<InteractiveItemGaze>().enabled = true;
     }
 
     public void disableDoor()
     {
         DoorPanel.GetComponent<BoxCollider>().enabled = false;
+        DoorPanel.GetComponent<InteractiveItemGaze>().ResetCurrentSelectedObj();
+        DoorPanel.GetComponent<InteractiveItemGaze>().enabled = false;
+
     }
 
     public bool isDoorFullyOpen()

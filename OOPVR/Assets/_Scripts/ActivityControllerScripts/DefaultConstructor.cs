@@ -16,10 +16,11 @@ public class DefaultConstructor : MonoBehaviour
     List<string> objectives = new List<string>();
 
     VariableBoxController ageBox, nameBox, instanceBox;
+    GameObject instanceContainer;
     AddressBoxController address;
 
     Transform methodRoom;
-    Vector3 inRoomPos;
+    Vector3 inRoomPos, insConScale, mainMovePoint;
 
 
     void Awake()
@@ -33,6 +34,12 @@ public class DefaultConstructor : MonoBehaviour
 
         ageBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
         nameBox = GameObject.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
+
+        instanceContainer = GameObject.Find("InstanceContainer");
+        insConScale = instanceContainer.transform.localScale;
+        instanceContainer.transform.localScale = new Vector3(0, 0, 0);
+
+        
 
         objectives.Add("new Person();");
         objectives.Add("Person::Person() {");
@@ -63,13 +70,17 @@ public class DefaultConstructor : MonoBehaviour
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[1]);
+        yield return new WaitForSeconds(4f);
+
+        //Move player in front of constructor automatically
+        movePlayerAutomatically();
         StartCoroutine("checkConstructorEntered");
     }
 
     IEnumerator checkConstructorEntered()
     {
-
-        while (!checkPlayerPos())
+        inRoomPos = GameObject.FindGameObjectWithTag("ConstructorNoParameters").transform.Find("PlayerDest").position;
+        while (!checkPlayerPos(inRoomPos))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -108,6 +119,18 @@ public class DefaultConstructor : MonoBehaviour
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[5]);
         retrieveAddress();
+        StartCoroutine("checkPlayerInMain");
+        
+    }
+    IEnumerator checkPlayerInMain()
+    {
+        mainMovePoint = GameObject.Find("MainMovePoint").transform.position;
+
+        while (!checkPlayerPos(mainMovePoint))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        instanceContainer.transform.localScale = insConScale;
         StartCoroutine("checkInstanceContainer");
     }
 
@@ -121,6 +144,12 @@ public class DefaultConstructor : MonoBehaviour
         PlayerPrefs.SetInt("ConstructorNoParametersComplete", 1);
         PlayerPrefs.Save();
         notepad.endOfActivity();
+    }
+
+    void movePlayerAutomatically()
+    {
+        GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
+        player.moveTo(constrMovePoint);
     }
 
     void retrieveAddress()
@@ -144,13 +173,9 @@ public class DefaultConstructor : MonoBehaviour
         return instanceBox.isVarInBox();
     }
 
-    bool checkPlayerPos()
+    bool checkPlayerPos(Vector3 againstPos)
     {
-        methodRoom = GameObject.FindGameObjectWithTag("ConstructorNoParameters").transform;
-        inRoomPos = methodRoom.Find("PlayerDest").position;
-
-        if ((player.transform.position.x == inRoomPos.x) && (player.transform.position.z == inRoomPos.z))
-
+        if ((player.transform.position.x == againstPos.x) && (player.transform.position.z == againstPos.z))
         {
             return true;
         }
