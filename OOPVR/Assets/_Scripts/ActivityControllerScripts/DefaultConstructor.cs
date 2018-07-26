@@ -18,6 +18,7 @@ public class DefaultConstructor : MonoBehaviour
     VariableBoxController ageBox, nameBox, instanceBox;
     GameObject instanceContainer, mainMovePoint;
     AddressBoxController address;
+    PlanksController entrance;
 
     Transform methodRoom;
     Vector3 inRoomPos, insConScale;
@@ -38,6 +39,8 @@ public class DefaultConstructor : MonoBehaviour
         instanceContainer = GameObject.Find("InstanceContainer");
         insConScale = instanceContainer.transform.localScale;
         instanceContainer.transform.localScale = new Vector3(0, 0, 0);
+
+        entrance = GameObject.FindGameObjectWithTag("Instance").transform.Find("DefaultConstructor/Planks").GetComponent<PlanksController>();
 
         
 
@@ -119,7 +122,9 @@ public class DefaultConstructor : MonoBehaviour
         notepad.setActiveText(0);
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[5]);
+
         retrieveAddress();
+        restrictEntrance(true);
         StartCoroutine("checkPlayerInMain");
         
     }
@@ -182,5 +187,10 @@ public class DefaultConstructor : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    void restrictEntrance(bool key)
+    {
+        entrance.EnablePlanks(key);
     }
 }
