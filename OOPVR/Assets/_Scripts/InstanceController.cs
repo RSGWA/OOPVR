@@ -11,9 +11,13 @@ public class InstanceController : MonoBehaviour
     private GameObject[] movePoints;
     private List<Transform> methods;
     private Animator anim;
+    private bool completedInstantiation;
 
     bool instanceCreated = false;
     bool instanceLowered = false;
+
+    static string INSTANCE_METHODS = "instance_methods";
+    static string CONSTRUCTOR_METHODS = "constructors";
 
     // Use this for initialization
     void Start()
@@ -22,12 +26,18 @@ public class InstanceController : MonoBehaviour
         movePoints = GameObject.FindGameObjectsWithTag("Move"); //this also need changes for multiple instances
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
+        completedInstantiation = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(completedInstantiation == true)
+        {
+            enableMethods(CONSTRUCTOR_METHODS, false);
+            enableMethods(INSTANCE_METHODS, true);
+        }
     }
 
     public void createInstance()
@@ -74,6 +84,7 @@ public class InstanceController : MonoBehaviour
 
         // Instance animation completed
         movePointVisible(true);
+        enableMethods(INSTANCE_METHODS, false);
     }
 
     IEnumerator returnBlueprint()
@@ -135,6 +146,11 @@ public class InstanceController : MonoBehaviour
             transform.Find("GetName/Planks").GetComponent<PlanksController>().EnablePlanks(!key);
             transform.Find("IncrementAge/Planks").GetComponent<PlanksController>().EnablePlanks(!key);
         }
+    }
+
+    public void SetInstanceCompletion(bool key)
+    {
+        completedInstantiation = key;
     }
 
 

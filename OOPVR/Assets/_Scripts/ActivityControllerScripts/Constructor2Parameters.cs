@@ -105,6 +105,7 @@ public class Constructor2Parameters : MonoBehaviour {
             returned = player.hasReturned();
             yield return new WaitForSeconds(0.1f);
         }
+        instance.SetInstanceCompletion(true);
         // Activity Finished
 		PlayerPrefs.SetInt("ConstructorWithParametersComplete",1);
 		PlayerPrefs.Save ();

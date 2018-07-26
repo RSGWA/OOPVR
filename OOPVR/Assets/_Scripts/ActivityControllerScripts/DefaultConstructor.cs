@@ -68,16 +68,16 @@ public class DefaultConstructor : MonoBehaviour
             {
                 instanceCreated = true;
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(4f);
         }
 
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[1]);
-        yield return new WaitForSeconds(4f);
+        
 
         //disable instance methods
-        instance.enableMethods("instance_methods", false);
+        //instance.SetInstanceCompletion(true);
 
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
@@ -135,10 +135,10 @@ public class DefaultConstructor : MonoBehaviour
     IEnumerator checkPlayerInMain()
     {
         yield return new WaitForSeconds(1.9f);
-
+        instance.SetInstanceCompletion(true);
         //Disable constructors and enable the methods
-        instance.enableMethods("instance_methods", true);
-        instance.enableMethods("constructors", false);
+        //instance.enableMethods("instance_methods", true);
+        //instance.enableMethods("constructors", false);
        
 
         mainMovePoint = GameObject.Find("MainMovePoint");
