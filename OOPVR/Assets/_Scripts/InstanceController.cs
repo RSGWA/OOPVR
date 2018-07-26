@@ -9,6 +9,7 @@ public class InstanceController : MonoBehaviour
     private PlayerController player;
 
     private GameObject[] movePoints;
+    private List<Transform> methods;
     private Animator anim;
 
     bool instanceCreated = false;
@@ -20,6 +21,7 @@ public class InstanceController : MonoBehaviour
         anim = GetComponent<Animator>();
         movePoints = GameObject.FindGameObjectsWithTag("Move"); //this also need changes for multiple instances
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
     }
 
     // Update is called once per frame
@@ -111,4 +113,31 @@ public class InstanceController : MonoBehaviour
             player.setInRoom(false);
         }
     }
+
+
+    //Enable/Disable method given room transform
+    public void enableMethodEntrance(Transform room, bool key)
+    {
+        room.Find("Planks").GetComponent<PlanksController>().EnablePlanks(!key);
+    }
+
+    //Enable/Disable method given "code" instructions
+    public void enableMethods(string code, bool key)
+    {
+        if(code == "constructors")
+        {
+            transform.Find("DefaultConstructor/Planks").GetComponent<PlanksController>().EnablePlanks(!key);
+            transform.Find("Constructor/Planks").GetComponent<PlanksController>().EnablePlanks(!key);
+
+        }else if(code == "instance_methods")
+        {
+            transform.Find("SetName/Planks").GetComponent<PlanksController>().EnablePlanks(!key);
+            transform.Find("GetName/Planks").GetComponent<PlanksController>().EnablePlanks(!key);
+            transform.Find("IncrementAge/Planks").GetComponent<PlanksController>().EnablePlanks(!key);
+        }
+    }
+
+
+
+
 }

@@ -70,10 +70,14 @@ public class DefaultConstructor : MonoBehaviour
             }
             yield return new WaitForSeconds(0.1f);
         }
+
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[1]);
         yield return new WaitForSeconds(4f);
+
+        //disable instance methods
+        instance.enableMethods("instance_methods", false);
 
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
@@ -124,13 +128,19 @@ public class DefaultConstructor : MonoBehaviour
         notepad.blinkObjective(objectives[5]);
 
         retrieveAddress();
-        restrictEntrance(true);
+        
         StartCoroutine("checkPlayerInMain");
         
     }
     IEnumerator checkPlayerInMain()
     {
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(1.9f);
+
+        //Disable constructors and enable the methods
+        instance.enableMethods("instance_methods", true);
+        instance.enableMethods("constructors", false);
+       
+
         mainMovePoint = GameObject.Find("MainMovePoint");
         movePlayerTo(mainMovePoint);
 
@@ -149,9 +159,9 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         // Activity Finished
-        //PlayerPrefs.SetInt("ConstructorNoParametersComplete", 1);
-        //PlayerPrefs.Save();
-        //notepad.endOfActivity();
+        PlayerPrefs.SetInt("ConstructorNoParametersComplete", 1);
+        PlayerPrefs.Save();
+        notepad.endOfActivity();
     }
 
     void movePlayerTo(GameObject pos)
@@ -189,8 +199,4 @@ public class DefaultConstructor : MonoBehaviour
         return false;
     }
 
-    void restrictEntrance(bool key)
-    {
-        entrance.EnablePlanks(key);
-    }
 }
