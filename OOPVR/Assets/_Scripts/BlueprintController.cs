@@ -23,7 +23,7 @@ public class BlueprintController : MonoBehaviour
     private bool bpInPosition = false;
     bool infoSelected = false;
     bool alreadyInstantiated = false;
-    private int count = 0;
+    private int count = 0, counter = 0;
 
     // Use this for initialization
     void Start()
@@ -39,7 +39,8 @@ public class BlueprintController : MonoBehaviour
 
     public void InstantiateButton()
     {
-        if (alreadyInstantiated)
+        counter++;
+        if (instances.Length < counter)
         {
             MessageCanvas.SetMessage("CANNOT PERFORM ACTION : This Activity only allows you to instantiate ONE instance from the blueprint");
         }

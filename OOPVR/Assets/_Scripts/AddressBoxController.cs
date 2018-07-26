@@ -121,7 +121,8 @@ public class AddressBoxController : MonoBehaviour
 
     void createAdressValue()
     {
-        addressValue = Instantiate(address, transform.position, transform.rotation, transform.parent);
+        //addressValue = Instantiate(address, transform.position, Quaternion.identity , transform.parent);
+        addressValue = Instantiate(address, address.transform.position, address.transform.rotation, transform);
 
         curvedLine = transform.GetComponent<CurveLine>();
 

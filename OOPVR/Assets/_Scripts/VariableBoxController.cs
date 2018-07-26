@@ -114,7 +114,7 @@ public class VariableBoxController : MonoBehaviour
                 {
                     addressBox.GetComponent<AddressBoxController>().setInHand(false);
                     addressBox.GetComponent<AddressBoxController>().getCurvedLine().HideCurve();
-                    options.Select ();
+                    //options.Select ();
                     
                 }
 
@@ -500,7 +500,8 @@ public class VariableBoxController : MonoBehaviour
                 //Only remove the ghost value for all other apart from Address type
                 if(variableType == "Address")
                 {
-                    addressBox = GameObject.Find("AddressBox").GetComponent<AddressBoxController>();
+                    addressBox = GameObject.Find("Mailbox").GetComponent<AddressBoxController>();
+                   // addressBox = GameObject.Find("AddressBox").GetComponent<AddressBoxController>();
                 }
                 else
                 {

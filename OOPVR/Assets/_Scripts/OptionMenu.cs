@@ -41,8 +41,10 @@ public class OptionMenu : MonoBehaviour
         {
             optionMenu = transform.Find("OptionMenu");
         }
-
+        
         canvasGroup = optionMenu.GetComponent<CanvasGroup>();
+        
+        
 
         selectedItem = transform.GetComponent<InteractiveItemGaze>();
         outline = transform.GetComponent<Outline>();

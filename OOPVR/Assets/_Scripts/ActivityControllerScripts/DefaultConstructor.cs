@@ -16,11 +16,11 @@ public class DefaultConstructor : MonoBehaviour
     List<string> objectives = new List<string>();
 
     VariableBoxController ageBox, nameBox, instanceBox;
-    GameObject instanceContainer;
+    GameObject instanceContainer, mainMovePoint;
     AddressBoxController address;
 
     Transform methodRoom;
-    Vector3 inRoomPos, insConScale, mainMovePoint;
+    Vector3 inRoomPos, insConScale;
 
 
     void Awake()
@@ -46,7 +46,7 @@ public class DefaultConstructor : MonoBehaviour
         objectives.Add("this->age = -1;");
         objectives.Add("this->name = \"\";");
         objectives.Add("}");
-        objectives.Add("Person *p = new Person();");
+        objectives.Add("Person *p1 = new Person();");
     }
 
     // Use this for initialization
@@ -72,8 +72,9 @@ public class DefaultConstructor : MonoBehaviour
         notepad.blinkObjective(objectives[1]);
         yield return new WaitForSeconds(4f);
 
-        //Move player in front of constructor automatically
-        movePlayerAutomatically();
+        //Move player in front of constructor
+        GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
+        movePlayerTo(constrMovePoint);
         StartCoroutine("checkConstructorEntered");
     }
 
@@ -124,9 +125,11 @@ public class DefaultConstructor : MonoBehaviour
     }
     IEnumerator checkPlayerInMain()
     {
-        mainMovePoint = GameObject.Find("MainMovePoint").transform.position;
+        yield return new WaitForSeconds(1.8f);
+        mainMovePoint = GameObject.Find("MainMovePoint");
+        movePlayerTo(mainMovePoint);
 
-        while (!checkPlayerPos(mainMovePoint))
+        while (!checkPlayerPos(mainMovePoint.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -141,20 +144,19 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         // Activity Finished
-        PlayerPrefs.SetInt("ConstructorNoParametersComplete", 1);
-        PlayerPrefs.Save();
-        notepad.endOfActivity();
+        //PlayerPrefs.SetInt("ConstructorNoParametersComplete", 1);
+        //PlayerPrefs.Save();
+        //notepad.endOfActivity();
     }
 
-    void movePlayerAutomatically()
+    void movePlayerTo(GameObject pos)
     {
-        GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
-        player.moveTo(constrMovePoint);
+        
+        player.moveTo(pos);
     }
 
     void retrieveAddress()
     {
-        if(address)
         address.ToHands();
     }
 

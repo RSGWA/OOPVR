@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cakeslice;
 
 public class CurveLine : MonoBehaviour
 {
@@ -18,9 +19,6 @@ public class CurveLine : MonoBehaviour
 
         spline = transform.parent.Find("BezierSpline");
         addressBox = transform;
-
-
-
 
     }
     // Update is called once per frame
@@ -67,12 +65,12 @@ public class CurveLine : MonoBehaviour
     public void HideCurve()
     {
         curve.localScale = new Vector3(0, 0, 0);
+        addressBox.GetComponent<Outline>().enabled = false;
     }
 
     public void ShowCurve()
     {
         curve.localScale = new Vector3(1, 1, 1);
-        //curve.GetComponent<BezierSpline>().ConstructLinearPath();
-        //curve.GetComponent<BezierSpline>().AutoConstructSpline2();
+        addressBox.GetComponent<Outline>().enabled = true;
     }
 }

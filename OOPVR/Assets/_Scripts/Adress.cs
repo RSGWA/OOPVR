@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cakeslice;
 
-namespace BezierSolution
-{
 
 
     public class Adress : MonoBehaviour
@@ -24,7 +23,7 @@ namespace BezierSolution
         {
 
             spline = transform.Find("BezierSpline");
-            addressBox = transform.Find("AddressBox");
+            addressBox = transform.Find("Mailbox");
             bs = spline.GetComponent<BezierSpline>();
 
             SetInstanceBoxes();
@@ -107,6 +106,7 @@ namespace BezierSolution
         void HideSpline(Transform curve)
         {
             curve.localScale = new Vector3(0, 0, 0);
+            addressBox.GetComponent<Outline>().enabled = false;
         }
 
         void ShowSpline(Transform curve)
@@ -114,6 +114,7 @@ namespace BezierSolution
             curve.localScale = new Vector3(1, 1, 1);
             curve.GetComponent<BezierSpline>().ConstructLinearPath();
             curve.GetComponent<BezierSpline>().AutoConstructSpline();
-        }
+
+            addressBox.GetComponent<Outline>().enabled = true;
     }
 }
