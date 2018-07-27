@@ -89,7 +89,7 @@ public class Constructor2Parameters : MonoBehaviour {
         Vector3 infrontConstructor = instance.transform.Find("Constructor/MovePoint").position;
         while (!checkPlayerPos(infrontConstructor))
         {
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(1f);
         }
 
         showMainAreaValues(true);
@@ -180,9 +180,9 @@ public class Constructor2Parameters : MonoBehaviour {
         }
 
         // Activity Finished
-        //PlayerPrefs.SetInt("ConstructorWithParametersComplete", 1);
-        //PlayerPrefs.Save();
-        //notepad.endOfActivity();
+        PlayerPrefs.SetInt("ConstructorWithParametersComplete", 1);
+        PlayerPrefs.Save();
+        notepad.endOfActivity();
     }
 
 
