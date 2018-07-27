@@ -165,6 +165,10 @@ public class InstanceController : MonoBehaviour
 
         if (activityName == "SetNameActivity" || activityName == "GetName" || activityName == "IncrementAgeActivity")
         {
+            if(activityName != "SetNameActivity")
+            {
+                transform.Find("SetName/ParametersPlatform/NameParameter/NameParameterBox").GetComponent<InteractiveItemGaze>().enabled = false;
+            }
             return true;
         }
         return false;
