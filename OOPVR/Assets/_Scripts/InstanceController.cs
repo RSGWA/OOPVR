@@ -33,7 +33,13 @@ public class InstanceController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(completedInstantiation == true)
+        if(completedInstantiation)
+        {
+            enableMethods(CONSTRUCTOR_METHODS, false);
+            enableMethods(INSTANCE_METHODS, true);
+        }
+
+        if(instanceCreatedByDefault())
         {
             enableMethods(CONSTRUCTOR_METHODS, false);
             enableMethods(INSTANCE_METHODS, true);
@@ -152,6 +158,19 @@ public class InstanceController : MonoBehaviour
     {
         completedInstantiation = key;
     }
+
+    bool instanceCreatedByDefault()
+    {
+        string activityName = SceneManager.GetActiveScene().name;
+
+        if (activityName == "SetNameActivity" || activityName == "GetName" || activityName == "IncrementAgeActivity")
+        {
+            return true;
+        }
+        return false;
+    }
+
+
 
 
 
