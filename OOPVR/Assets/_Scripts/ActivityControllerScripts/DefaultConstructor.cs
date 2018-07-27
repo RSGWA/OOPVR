@@ -74,10 +74,6 @@ public class DefaultConstructor : MonoBehaviour
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[1]);
-        
-
-        //disable instance methods
-        //instance.SetInstanceCompletion(true);
 
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
@@ -135,11 +131,7 @@ public class DefaultConstructor : MonoBehaviour
     IEnumerator checkPlayerInMain()
     {
         yield return new WaitForSeconds(1.9f);
-        instance.SetInstanceCompletion(true);
-        //Disable constructors and enable the methods
-        //instance.enableMethods("instance_methods", true);
-        //instance.enableMethods("constructors", false);
-       
+        instance.SetInstanceCompletion(true);       
 
         mainMovePoint = GameObject.Find("MainMovePoint");
         movePlayerTo(mainMovePoint);

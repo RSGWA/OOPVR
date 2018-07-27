@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class Constructor2Parameters : MonoBehaviour {
 
+
+    public Transform[] MainAreaValues;
+    private List<Vector3> initialScales = new List<Vector3>();
+
     InstanceController instance;
     Notepad notepad;
     PlayerController player;
+    AddressBoxController address;
+    GameObject instanceContainer;
+
+    Vector3 insConScale;
+
 
     bool instanceCreated = false;
     bool constructorEntered = false;
     bool returned = false;
 
-	VariableBoxController nameParameterBox, ageParameterBox, nameBox, ageBox;
+	VariableBoxController nameParameterBox, ageParameterBox, nameBox, ageBox, instanceBox;
 
     List<string> objectives = new List<string>();
 
@@ -29,40 +38,72 @@ public class Constructor2Parameters : MonoBehaviour {
 
 		ageBox = GameObject.Find ("Age_InstanceBox").GetComponent<VariableBoxController> ();
 		nameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
+        instanceBox = GameObject.Find("InstanceContainer").GetComponent<VariableBoxController>();
 
-        objectives.Add("new Person"); 
+        address = GameObject.FindGameObjectWithTag("AddressBox").GetComponent<AddressBoxController>();
+
+        instanceContainer = GameObject.Find("InstanceContainer");
+        insConScale = instanceContainer.transform.localScale;
+        instanceContainer.transform.localScale = new Vector3(0, 0, 0);
+
+        objectives.Add("new Person");
+        objectives.Add("Person(\"John\",20)");
         objectives.Add("\"John\"");
         objectives.Add("20");
 		objectives.Add("this->name = name;");
 		objectives.Add("this->age = age;");
 		objectives.Add ("}");
+        
+
     }
 
     // Use this for initialization
     void Start()
     {
-		notepad.blinkObjective (objectives [0]);
+        setUpScales();
+        notepad.blinkObjective (objectives [0]);
         StartCoroutine("checkInstanceCreated");
     }
+
 
     IEnumerator checkInstanceCreated()
     {
         while (!instanceCreated)
         {
             instanceCreated = instance.hasInstanceBeenCreated();
-            yield return new WaitForSeconds(0.1f);
+            if (player.isInRoom())
+            {
+                instanceCreated = true;
+            }
+            yield return new WaitForSeconds(4f);
         }
 		notepad.blinkObjective (objectives [1]);
+
+        GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
+        player.moveTo(constrMovePoint);
+        StartCoroutine("checkInfrontOfConstructor");
+    }
+
+    IEnumerator checkInfrontOfConstructor()
+    {
+        Vector3 infrontConstructor = instance.transform.Find("Constructor/MovePoint").position;
+        while (!checkPlayerPos(infrontConstructor))
+        {
+            yield return new WaitForSeconds(4f);
+        }
+
+        showMainAreaValues(true);
+        notepad.blinkObjective(objectives[2]);
         StartCoroutine("checkNameParameterSet");
     }
 
-	IEnumerator checkNameParameterSet()
+    IEnumerator checkNameParameterSet()
 	{
 		while (!nameParameterSet())
 		{
 			yield return new WaitForSeconds(0.1f);
 		}
-		notepad.blinkObjective (objectives [2]);
+		notepad.blinkObjective (objectives [3]);
 		StartCoroutine("checkAgeParameterSet");
 	}
 
@@ -74,7 +115,7 @@ public class Constructor2Parameters : MonoBehaviour {
 		}
 		notepad.setActiveText (1);
 		notepad.setTitle ("CONSTRUCTOR");
-		notepad.blinkObjective (objectives [3]);
+		notepad.blinkObjective (objectives [4]);
 		StartCoroutine("checkNameSet");
 	}
 
@@ -84,7 +125,7 @@ public class Constructor2Parameters : MonoBehaviour {
 		{
 			yield return new WaitForSeconds(0.1f);
 		}
-		notepad.blinkObjective (objectives [4]);
+		notepad.blinkObjective (objectives [5]);
 		StartCoroutine("checkAgeSet");
 	}
 
@@ -94,7 +135,7 @@ public class Constructor2Parameters : MonoBehaviour {
 		{
 			yield return new WaitForSeconds(0.1f);
 		}
-		notepad.blinkObjective (objectives [5]);
+		notepad.blinkObjective (objectives [6]);
 		StartCoroutine("checkReturn");
 	}
 
@@ -106,13 +147,47 @@ public class Constructor2Parameters : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
         instance.SetInstanceCompletion(true);
-        // Activity Finished
-		PlayerPrefs.SetInt("ConstructorWithParametersComplete",1);
-		PlayerPrefs.Save ();
-        notepad.endOfActivity();
+        notepad.setActiveText(0);
+        notepad.setTitle("Main");
+        notepad.blinkObjective(objectives[5]);
+
+        address.ToHands();
+
+        StartCoroutine("checkPlayerInMain");
     }
 
-	bool nameParameterSet() {
+    IEnumerator checkPlayerInMain()
+    {
+        yield return new WaitForSeconds(1.9f);
+        instance.SetInstanceCompletion(true);
+
+        GameObject mainMovePoint = GameObject.Find("MainMovePoint");
+        player.moveTo(mainMovePoint);
+
+        while (!checkPlayerPos(mainMovePoint.transform.position))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        instanceContainer.transform.localScale = insConScale;
+        StartCoroutine("checkInstanceContainer");
+    }
+
+    IEnumerator checkInstanceContainer()
+    {
+        while (!instanceBox.isVarInBox())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        // Activity Finished
+        //PlayerPrefs.SetInt("ConstructorWithParametersComplete", 1);
+        //PlayerPrefs.Save();
+        //notepad.endOfActivity();
+    }
+
+
+
+    bool nameParameterSet() {
 		return nameParameterBox.isVarInBox ();
 	}
 
@@ -127,4 +202,41 @@ public class Constructor2Parameters : MonoBehaviour {
 	bool ageSet() {
 		return ageBox.isVarInBox ();
 	}
+
+    bool checkPlayerPos(Vector3 againstPos)
+    {
+        if ((player.transform.position.x == againstPos.x) && (player.transform.position.z == againstPos.z))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    void setUpScales()
+    {
+        for (int i = 0; i < MainAreaValues.Length; i++)
+        {
+            initialScales.Add(MainAreaValues[i].localScale);
+            MainAreaValues[i].localScale = new Vector3(0, 0, 0);
+        }
+    }
+    void showMainAreaValues(bool key)
+    {
+
+        if (key)
+        {
+            for (int i = 0; i < MainAreaValues.Length; i++)
+            {
+                    MainAreaValues[i].localScale = initialScales[i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < MainAreaValues.Length; i++)
+            {
+                MainAreaValues[i].localScale = new Vector3(0, 0, 0);
+            }
+        }
+
+    }
 }
