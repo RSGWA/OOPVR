@@ -38,7 +38,7 @@ public class IncrementAge : MonoBehaviour
         objectives.Add("incrementAge();");
         objectives.Add("this->age++;");
         objectives.Add("}");
-        objectives.Add("john.incrementAge();");
+		objectives.Add("john.incrementAge();"); // NOTE: Should this be john.incrementAge() or incrementAge()
         objectives.Add("this->age++;");
         objectives.Add("}");
     }

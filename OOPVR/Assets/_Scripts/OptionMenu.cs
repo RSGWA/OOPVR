@@ -114,7 +114,7 @@ public class OptionMenu : MonoBehaviour
 
     public void Deselect()
     {
-        itemHolder.enabled = true;
+		selectedItem.enabled = true;
         EnableSelectedObject(true);
 
         HideOptions();
