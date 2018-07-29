@@ -151,7 +151,7 @@ public class MultipleInstances : MonoBehaviour
 
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
-        notepad.blinkObjective(objectives[6]);
+        notepad.blinkDuplicateObjective(objectives[6], 2);
         StartCoroutine("checkInstance2Created");
     }
 
@@ -165,7 +165,7 @@ public class MultipleInstances : MonoBehaviour
         //automatically move player to constructor of instance
         player.moveTo(i2constructorMovePoint);
 
-        notepad.blinkObjective(objectives[7]);
+		notepad.blinkDuplicateObjective(objectives[7], 2);
         StartCoroutine("checkNameParameterSet2");
     }
 
@@ -175,7 +175,7 @@ public class MultipleInstances : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[8]);
+		notepad.blinkDuplicateObjective(objectives[8], 2);
         StartCoroutine("checkAgeParameterSet2");
     }
 
