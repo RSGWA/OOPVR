@@ -98,7 +98,7 @@ public class IncrementAge : MonoBehaviour
 
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
-        notepad.blinkObjective(objectives[4]);
+        notepad.blinkDuplicateObjective(objectives[4], 2);
         StartCoroutine("methodEnteredTwice");
     }
 

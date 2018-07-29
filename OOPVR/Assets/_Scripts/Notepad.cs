@@ -183,6 +183,35 @@ public class Notepad : MonoBehaviour
 		StartCoroutine (coroutine);
 	}
 
+	public void blinkDuplicateText(string text, string color, int duplicateNumber) {
+		blinkedText = activeText;
+
+		List<int> startIndexes = blinkedText.AllIndexsOf (text);
+		int startIndex;
+
+		if (startIndexes.Count >= duplicateNumber) {
+			startIndex = startIndexes [duplicateNumber - 1];
+		} else {
+			startIndex = -1;
+		}
+
+		// If code to highlight is not on current page
+		if (startIndex == -1) {
+			return;
+		}
+
+		int endIndex = startIndex + text.Length;
+
+		blinkedText = blinkedText.Insert(endIndex, "</color>");
+		blinkedText = blinkedText.Insert(startIndex, "<color=" + color + ">");
+
+		// store original blinked text state
+		originalBlinkedText = blinkedText;
+
+		StopCoroutine (coroutine);
+		StartCoroutine (coroutine);
+	}
+
 	IEnumerator blink() {
 		
 		while (true) {
@@ -215,6 +244,11 @@ public class Notepad : MonoBehaviour
 	public void blinkObjective(string objective) {
 		reset ();
 		blinkText (objective, "white");
+	}
+
+	public void blinkDuplicateObjective(string objective, int duplicateNumber) {
+		reset ();
+		blinkDuplicateText (objective, "white", duplicateNumber);
 	}
 
     public void reset()
