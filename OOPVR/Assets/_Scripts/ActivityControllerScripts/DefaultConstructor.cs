@@ -24,6 +24,7 @@ public class DefaultConstructor : MonoBehaviour
     Transform methodRoom;
     Vector3 inRoomPos, insConScale;
 
+	private static float BLINK_DELAY = 4f;
 
     void Awake()
     {
@@ -57,9 +58,13 @@ public class DefaultConstructor : MonoBehaviour
     void Start()
     {
         notepad.blinkObjective(objectives[0]);
-		objBlink.blinkObject (GameObject.Find ("Blueprint"));
+		Invoke ("blinkBlueprint", BLINK_DELAY); 
         StartCoroutine("checkInstanceCreated");
     }
+
+	private void blinkBlueprint() {
+		objBlink.blinkObject (GameObject.Find ("Blueprint"));
+	}
 
     IEnumerator checkInstanceCreated()
     {
@@ -76,13 +81,17 @@ public class DefaultConstructor : MonoBehaviour
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[1]);
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
+		Invoke ("blinkDoor", BLINK_DELAY);
 
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
         movePlayerTo(constrMovePoint);
         StartCoroutine("checkConstructorEntered");
     }
+
+	void blinkDoor() {
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
+	}
 
     IEnumerator checkConstructorEntered()
     {
