@@ -53,7 +53,8 @@ public class Constructor2Parameters : MonoBehaviour {
 		objectives.Add("this->name = name;");
 		objectives.Add("this->age = age;");
 		objectives.Add ("}");
-        
+        objectives.Add("Person *p1 = new Person(\"John\",20);");
+
 
     }
 
@@ -71,12 +72,9 @@ public class Constructor2Parameters : MonoBehaviour {
         while (!instanceCreated)
         {
             instanceCreated = instance.hasInstanceBeenCreated();
-            if (player.isInRoom())
-            {
-                instanceCreated = true;
-            }
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(2f);
         }
+
 		notepad.blinkObjective (objectives [1]);
 
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
@@ -146,10 +144,10 @@ public class Constructor2Parameters : MonoBehaviour {
             returned = player.hasReturned();
             yield return new WaitForSeconds(0.1f);
         }
-        instance.SetInstanceCompletion(true);
+ 
         notepad.setActiveText(0);
         notepad.setTitle("Main");
-        notepad.blinkObjective(objectives[5]);
+        notepad.blinkObjective(objectives[7]);
 
         address.ToHands();
 

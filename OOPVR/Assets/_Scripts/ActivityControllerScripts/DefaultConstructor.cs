@@ -68,7 +68,7 @@ public class DefaultConstructor : MonoBehaviour
             {
                 instanceCreated = true;
             }
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(3f);
         }
 
         notepad.setActiveText(1);
