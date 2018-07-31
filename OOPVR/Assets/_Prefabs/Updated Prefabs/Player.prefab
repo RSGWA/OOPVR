@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4307193517832404}
   - component: {fileID: 114584402822008416}
   - component: {fileID: 95152631490189000}
+  - component: {fileID: 114802215316312798}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -839,7 +840,7 @@ MonoBehaviour:
   fillAmount: 0
   lineColor0: {r: 1, g: 0, b: 0.8896551, a: 1}
   lineColor1: {r: 0, g: 1, b: 0, a: 1}
-  lineColor2: {r: 0, g: 0, b: 1, a: 1}
+  lineColor2: {r: 1, g: 1, b: 1, a: 1}
   additiveRendering: 0
   backfaceCulling: 1
   cornerOutlines: 1
@@ -1437,6 +1438,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1419743b9d5f349418f9d806cd8ffb61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114802215316312798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1192538891273054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ef0898a6d0ab3c45ad891906d735a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114890411192740964

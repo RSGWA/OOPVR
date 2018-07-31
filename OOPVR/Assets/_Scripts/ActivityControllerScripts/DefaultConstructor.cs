@@ -19,6 +19,7 @@ public class DefaultConstructor : MonoBehaviour
     GameObject instanceContainer, mainMovePoint;
     AddressBoxController address;
     PlanksController entrance;
+	ObjectBlink objBlink;
 
     Transform methodRoom;
     Vector3 inRoomPos, insConScale;
@@ -41,8 +42,8 @@ public class DefaultConstructor : MonoBehaviour
         instanceContainer.transform.localScale = new Vector3(0, 0, 0);
 
         entrance = GameObject.FindGameObjectWithTag("Instance").transform.Find("DefaultConstructor/Planks").GetComponent<PlanksController>();
-
-        
+	
+		objBlink = GameObject.FindGameObjectWithTag("Player").GetComponent<ObjectBlink> ();
 
         objectives.Add("new Person();");
         objectives.Add("Person::Person() {");
@@ -56,6 +57,7 @@ public class DefaultConstructor : MonoBehaviour
     void Start()
     {
         notepad.blinkObjective(objectives[0]);
+		objBlink.blinkObject (GameObject.Find ("Blueprint"));
         StartCoroutine("checkInstanceCreated");
     }
 
@@ -74,6 +76,7 @@ public class DefaultConstructor : MonoBehaviour
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[1]);
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
 
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;

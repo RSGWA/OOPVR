@@ -127,4 +127,10 @@ public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointer
         isEntered = false;
         RadialProgress.GetComponent<Image>().fillAmount = 0f;
     }
+
+	public GameObject getCurrentSelectedObj()
+	{
+		return currentSelectedObj;
+	}
+
 }
