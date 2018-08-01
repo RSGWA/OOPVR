@@ -559,6 +559,7 @@ public class VariableBoxController : MonoBehaviour
 
     public void GOTOaddress(GameObject address)
     {
+        options.Deselect();
         PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         player.moveTo(address);
     }

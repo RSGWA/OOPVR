@@ -85,7 +85,7 @@ public class Constructor2Parameters : MonoBehaviour {
     IEnumerator checkInfrontOfConstructor()
     {
         Vector3 infrontConstructor = instance.transform.Find("Constructor/MovePoint").position;
-        while (!checkPlayerPos(infrontConstructor))
+        while (!player.checkPlayerPos(infrontConstructor))
         {
             yield return new WaitForSeconds(1f);
         }
@@ -164,7 +164,7 @@ public class Constructor2Parameters : MonoBehaviour {
         GameObject mainMovePoint = GameObject.Find("MainMovePoint");
         player.moveTo(mainMovePoint);
 
-        while (!checkPlayerPos(mainMovePoint.transform.position))
+        while (!player.checkPlayerPos(mainMovePoint.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -185,8 +185,6 @@ public class Constructor2Parameters : MonoBehaviour {
         notepad.endOfActivity();
     }
 
-
-
     bool nameParameterSet() {
 		return nameParameterBox.isVarInBox ();
 	}
@@ -202,15 +200,6 @@ public class Constructor2Parameters : MonoBehaviour {
 	bool ageSet() {
 		return ageBox.isVarInBox ();
 	}
-
-    bool checkPlayerPos(Vector3 againstPos)
-    {
-        if ((player.transform.position.x == againstPos.x) && (player.transform.position.z == againstPos.z))
-        {
-            return true;
-        }
-        return false;
-    }
 
     void setUpScales()
     {

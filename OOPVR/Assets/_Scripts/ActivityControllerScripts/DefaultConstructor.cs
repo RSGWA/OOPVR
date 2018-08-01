@@ -85,7 +85,7 @@ public class DefaultConstructor : MonoBehaviour
 
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
-        movePlayerTo(constrMovePoint);
+        player.moveTo(constrMovePoint);
         StartCoroutine("checkConstructorEntered");
     }
 
@@ -96,7 +96,7 @@ public class DefaultConstructor : MonoBehaviour
     IEnumerator checkConstructorEntered()
     {
         inRoomPos = GameObject.FindGameObjectWithTag("ConstructorNoParameters").transform.Find("PlayerDest").position;
-        while (!checkPlayerPos(inRoomPos))
+        while (!player.checkPlayerPos(inRoomPos))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -149,9 +149,9 @@ public class DefaultConstructor : MonoBehaviour
         instance.SetInstanceCompletion(true);       
 
         mainMovePoint = GameObject.Find("MainMovePoint");
-        movePlayerTo(mainMovePoint);
+        player.moveTo(mainMovePoint);
 
-        while (!checkPlayerPos(mainMovePoint.transform.position))
+        while (!player.checkPlayerPos(mainMovePoint.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -169,12 +169,6 @@ public class DefaultConstructor : MonoBehaviour
         PlayerPrefs.SetInt("ConstructorNoParametersComplete", 1);
         PlayerPrefs.Save();
         notepad.endOfActivity();
-    }
-
-    void movePlayerTo(GameObject pos)
-    {
-        
-        player.moveTo(pos);
     }
 
     void retrieveAddress()
@@ -196,15 +190,4 @@ public class DefaultConstructor : MonoBehaviour
     {
         return instanceBox.isVarInBox();
     }
-
-    bool checkPlayerPos(Vector3 againstPos)
-    {
-        if ((player.transform.position.x == againstPos.x) && (player.transform.position.z == againstPos.z))
-        {
-            return true;
-        }
-        return false;
-    }
-    
-
 }

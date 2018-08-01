@@ -97,6 +97,7 @@ public class SetName : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[4]);
+        instance.transform.Find("SetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("checkReturn");
     }
 
@@ -107,17 +108,22 @@ public class SetName : MonoBehaviour
             returned = player.hasReturned();
             yield return new WaitForSeconds(0.1f);
         }
-        // Activity Finished
-		PlayerPrefs.SetInt("SetNameComplete",1);
-		PlayerPrefs.Save ();
-        notepad.endOfActivity();
+        GameObject mainMovePoint = GameObject.Find("MainMovePoint");
+        player.moveTo(mainMovePoint);
+        StartCoroutine("checkInMain");
     }
 
-    bool playerInFrontOfMethod()
+    IEnumerator checkInMain()
     {
-        Transform roomMovePoint = setNameRoom.transform.Find("MovePoint");
-
-        return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
+        Vector3 mainMovePoint = GameObject.Find("MainMovePoint").transform.position;
+        while (!player.checkPlayerPos(mainMovePoint))
+        {
+            yield return new WaitForSeconds(4f);
+        }
+        // Activity Finished
+        PlayerPrefs.SetInt("SetNameComplete", 1);
+        PlayerPrefs.Save();
+        notepad.endOfActivity();
     }
 
     bool nameParameterSet()
@@ -132,18 +138,12 @@ public class SetName : MonoBehaviour
         {
             if (nameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>() != null)
             {
-
                 if (nameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>().text.ToString() == "\"Gilbert\"")
                 {
                     return true;
                 }
-
-
-            }
-            
+            }  
         }
-
-
         return false;
     }
 }
