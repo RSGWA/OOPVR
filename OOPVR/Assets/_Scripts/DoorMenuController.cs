@@ -22,22 +22,32 @@ public class DoorMenuController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        
+        SetUpInActiveOptions();
+        SetUpActiveOptions();
+        
+    }
+    void SetUpInActiveOptions()
+    {
         //Control options for other methods not in the activity
         foreach (GameObject method in inactiveDoors)
         {
             Transform doorExtOptionPanel = method.transform.Find("DoorExt/OptionMenu/Panel");
             GoIntoButton = doorExtOptionPanel.Find("GoIntoButton").gameObject;
             InfoButton = doorExtOptionPanel.Find("InfoButton").gameObject;
-            //Return = doorExtOptionPanel.Find("Return").gameObject;
+            Return = doorExtOptionPanel.Find("Return").gameObject;
 
             ShowButton(GoIntoButton, false);
             ShowButton(InfoButton, true);
-            //ShowButton(Return, false);
+            ShowButton(Return, false);
 
             GameObject doorIntDoorPanel = method.transform.Find("DoorInt/DoorPanel").gameObject;
             SetInteractive(doorIntDoorPanel, false);
         }
+    }
 
+    void SetUpActiveOptions()
+    {
         //Control options for active activity
         GameObject activityMethod = GameObject.Find(ActivityName);
         activeDoorOptionMenuPanel = activityMethod.transform.Find("Door/DoorExt/OptionMenu/Panel");
@@ -59,7 +69,7 @@ public class DoorMenuController : MonoBehaviour
             ShowButton(activeGoInto, true);
             ShowButton(activeInfo, true);
             ShowButton(activeReturn, false);
-         } 
+        }
     }
 
     public void EnableDoorIndoorOptions(Transform optionMenu, bool key)
@@ -67,12 +77,18 @@ public class DoorMenuController : MonoBehaviour
         GameObject goInto = optionMenu.Find("Panel/GoIntoButton").gameObject;
         GameObject info = optionMenu.Find("Panel/InfoButton").gameObject;
         GameObject rtn = optionMenu.Find("Panel/Return").gameObject;
-       
-        
-        ShowButton(goInto, !key);
-        ShowButton(info, !key);
-        ShowButton(rtn, key);
 
+        if (key)
+        {
+            ShowButton(goInto, !key);
+            ShowButton(info, !key);
+            ShowButton(rtn, key);
+        }
+        else
+        {
+            SetUpInActiveOptions();
+            SetUpActiveOptions();
+        }
     }
 
     void GetActiveDoor(string activityName)

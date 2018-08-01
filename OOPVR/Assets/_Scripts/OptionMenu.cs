@@ -39,21 +39,21 @@ public class OptionMenu : MonoBehaviour
         if (selectedObject == "Door")
         {
             //used to filter the unused internal doors
-            if(transform.parent.name != "DoorInt")
+            if (transform.parent.name != "DoorInt")
             {
                 optionMenu = transform.parent.Find("OptionMenu");
                 door = transform.parent.GetComponent<Door>();
                 canvasGroup = optionMenu.GetComponent<CanvasGroup>();
             }
-            
+
         }
         else
         {
             optionMenu = transform.Find("OptionMenu");
             canvasGroup = optionMenu.GetComponent<CanvasGroup>();
         }
-        
-        
+
+
 
         selectedItem = transform.GetComponent<InteractiveItemGaze>();
         outline = transform.GetComponent<Outline>();
@@ -119,24 +119,25 @@ public class OptionMenu : MonoBehaviour
         // Specific actions to do depending on the object selected
         switch (selectedObject)
         {
-		case "VariableBox":
-			// Highlight code in notepad representing the selected variable
-			foreach (string code in variableBox.code) {
-				notepad.highlightText (code, "green");
-			}
+            case "VariableBox":
+                // Highlight code in notepad representing the selected variable
+                foreach (string code in variableBox.code)
+                {
+                    notepad.highlightText(code, "green");
+                }
                 variableBox.peekValue(true);
-			break;
-		case "Door":
-			notepad.highlightText (door.code, "purple");
-			break;
-		default:
-			break;
+                break;
+            case "Door":
+                notepad.highlightText(door.code, "purple");
+                break;
+            default:
+                break;
         }
     }
 
     public void Deselect()
     {
-		selectedItem.enabled = true;
+        selectedItem.enabled = true;
         EnableSelectedObject(true);
 
         HideOptions();
@@ -147,18 +148,18 @@ public class OptionMenu : MonoBehaviour
         // Deselecting actions
         switch (selectedObject)
         {
-		case "VariableBox":
-			foreach (string text in variableBox.code)
-			{
-				notepad.unhighlightText(text);
-			}
+            case "VariableBox":
+                foreach (string text in variableBox.code)
+                {
+                    notepad.unhighlightText(text);
+                }
                 variableBox.peekValue(false);
                 break;
-		case "Door":
-			notepad.unhighlightText(door.code);
-			break;
-		default:
-			break;
+            case "Door":
+                notepad.unhighlightText(door.code);
+                break;
+            default:
+                break;
         }
     }
 
@@ -208,5 +209,7 @@ public class OptionMenu : MonoBehaviour
     {
         return isSelected;
     }
-
 }
+
+
+
