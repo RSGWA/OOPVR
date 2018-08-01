@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GetName : MonoBehaviour {
 
-	public GameObject nameInstanceValue, ageInstanceValue;
+	public GameObject nameInstanceValue, ageInstanceValue, InstanceAddress;
 
 	InstanceController instance;
 	Notepad notepad;
@@ -12,7 +12,7 @@ public class GetName : MonoBehaviour {
 	HandController hand;
 
 	GameObject getNameRoom;
-	VariableBoxController instanceNameBox, instanceAgeBox, mainNameBox;
+	VariableBoxController instanceNameBox, instanceAgeBox, mainNameBox, instanceContainer;
 
 	bool instanceCreated = false;
 	bool methodEntered = false;
@@ -34,6 +34,10 @@ public class GetName : MonoBehaviour {
         instanceAgeBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
         instanceAgeBox.setBoxAssigned(true);
         instanceAgeBox.setVariableBoxValue(ageInstanceValue);
+
+        instanceContainer = GameObject.Find("InstanceContainer").GetComponent<VariableBoxController>();
+        instanceContainer.setBoxAssigned(true);
+        instanceContainer.setVariableBoxValue(InstanceAddress);
 
         mainNameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
 
@@ -64,7 +68,8 @@ public class GetName : MonoBehaviour {
 			yield return new WaitForSeconds (0.1f);
 		}
 		notepad.blinkObjective (objectives [2]);
-		StartCoroutine ("checkReturned");
+        instance.transform.Find("GetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
+        StartCoroutine ("checkReturned");
 	}
 
 	IEnumerator checkReturned() {
@@ -75,10 +80,25 @@ public class GetName : MonoBehaviour {
 		notepad.setActiveText (0);
 		notepad.setTitle ("Main");
 		notepad.blinkObjective (objectives [3]);
-		StartCoroutine ("checkNameAssigned");
+
+        GameObject mainMovePoint = GameObject.Find("MainMovePoint");
+        player.moveTo(mainMovePoint);
+        StartCoroutine ("checkInMain");
 	}
 
-	IEnumerator checkNameAssigned() {
+    IEnumerator checkInMain()
+    {
+        Vector3 mainMovePoint = GameObject.Find("MainMovePoint").transform.position;
+        while (!player.checkPlayerPos(mainMovePoint))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        StartCoroutine("checkNameAssigned");
+    }
+
+
+    IEnumerator checkNameAssigned() {
 		while (!nameAssigned()) {
 			yield return new WaitForSeconds (0.1f);
 		}

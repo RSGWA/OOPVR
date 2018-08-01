@@ -39,21 +39,6 @@ using cakeslice;
 
         void Check()
         {
-            //if(instanceBoxes.Length == 1)
-            //{
-            //    instanceContainer = instanceBoxes[0].GetComponent<VariableBoxController>();
-            //    if (instanceContainer.isSelected() & instanceContainer.isVarInBox())
-            //    {
-            //        CreateCurve(instanceContainer.transform, bsList[0]);
-            //        ShowSpline(bsList[0]);
-            //    }
-            //    else
-            //    {
-            //        HideSpline(bsList[0]);
-            //    }
-            //}
-            //else
-            //{
                 for (int i = 0; i < instanceBoxes.Length; i++)
                 {
                     instanceContainer = instanceBoxes[i].GetComponent<VariableBoxController>();
@@ -68,7 +53,6 @@ using cakeslice;
                     }
                     
                 }
-            //}
 
         }
         void SetInstanceBoxes()
