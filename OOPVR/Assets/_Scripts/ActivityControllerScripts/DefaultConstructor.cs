@@ -62,7 +62,7 @@ public class DefaultConstructor : MonoBehaviour
         StartCoroutine("checkInstanceCreated");
     }
 
-	private void blinkBlueprint() {
+	void blinkBlueprint() {
 		objBlink.blinkObject (GameObject.Find ("Blueprint"));
 	}
 
@@ -101,8 +101,18 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[2]);
+		Invoke ("blinkAgeValue", BLINK_DELAY);
+		Invoke ("blinkAgeBox", BLINK_DELAY);
         StartCoroutine("checkAgeSet");
     }
+
+	void blinkAgeValue() {
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
+	}
+
+	void blinkAgeBox() {
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
+	}
 
     IEnumerator checkAgeSet()
     {
@@ -111,8 +121,18 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[3]);
+		Invoke ("blinkNameValue", BLINK_DELAY);
+		Invoke ("blinkNameBox", BLINK_DELAY);
         StartCoroutine("checkNameSet");
     }
+
+	void blinkNameValue() {
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
+	}
+
+	void blinkNameBox() {
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
+	}
 
     IEnumerator checkNameSet()
     {
@@ -121,10 +141,10 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[4]);
+		Invoke ("blinkDoor", BLINK_DELAY);
         //Enable Door selection for exit
         instance.transform.Find("DefaultConstructor/Door/DoorExt").GetComponent<Door>().enableDoor();
         StartCoroutine("checkReturn");
-
     }
 
     IEnumerator checkReturn()
@@ -143,6 +163,7 @@ public class DefaultConstructor : MonoBehaviour
         StartCoroutine("checkPlayerInMain");
         
     }
+
     IEnumerator checkPlayerInMain()
     {
         yield return new WaitForSeconds(1.9f);
@@ -156,8 +177,14 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         instanceContainer.transform.localScale = insConScale;
+
+		Invoke ("blinkInstanceContainer", BLINK_DELAY);
         StartCoroutine("checkInstanceContainer");
     }
+
+	void blinkInstanceContainer() {
+		objBlink.blinkObject (GameObject.Find ("InstanceContainer"));
+	}
 
     IEnumerator checkInstanceContainer()
     {
