@@ -133,4 +133,8 @@ public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointer
 		return currentSelectedObj;
 	}
 
+	public GameObject getPreviousSelectedObj()
+	{
+		return previousSelectedObj;
+	}
 }

@@ -31,10 +31,14 @@ public class ObjectBlink : MonoBehaviour {
 		yield return new WaitForSeconds (BLINK_DELAY);
 
 		objBlinking = obj;
+
+		if (objectWasSelected ()) {
+			yield break;
+		}
+
 		originalOutlineColor = obj.GetComponent<Outline> ().color;
 
 		outline = obj.GetComponent<Outline> ();
-
 		obj.GetComponent<Outline> ().color = 2;
 		outline.eraseRenderer = false;
 		outline.enabled = true;
@@ -43,7 +47,16 @@ public class ObjectBlink : MonoBehaviour {
 		StartCoroutine (coroutine);
 	}
 
-	private void checkBlinkingObjectSelected()
+	private bool objectWasSelected() {
+		GameObject currentSelectedObj = objBlinking.GetComponent<InteractiveItemGaze> ().getCurrentSelectedObj ();
+		if (currentSelectedObj == objBlinking) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+		
+	private void checkBlinkingObjectCurrentlySelected()
 	{
 		GameObject currentSelectedObj = objBlinking.GetComponent<InteractiveItemGaze> ().getCurrentSelectedObj ();
 		if (currentSelectedObj == objBlinking) {
@@ -58,18 +71,18 @@ public class ObjectBlink : MonoBehaviour {
 	private IEnumerator glow() {
 
 		while (true) {
-
+			checkBlinkingObjectCurrentlySelected ();
 			while (outlineEffect.fillAmount < 0.3f) 
 			{
 				outlineEffect.fillAmount += 0.4f * Time.deltaTime;
-				checkBlinkingObjectSelected ();
+				checkBlinkingObjectCurrentlySelected ();
 				yield return null;
 			}
 
 			while (outlineEffect.fillAmount > 0) 
 			{
 				outlineEffect.fillAmount -= 0.4f * Time.deltaTime;
-				checkBlinkingObjectSelected ();
+				checkBlinkingObjectCurrentlySelected ();
 				yield return null;
 			}
 		}
