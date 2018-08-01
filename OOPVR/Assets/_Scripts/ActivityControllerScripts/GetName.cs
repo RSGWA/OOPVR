@@ -41,25 +41,38 @@ public class GetName : MonoBehaviour {
 
         mainNameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
 
+        objectives.Add("p1.");
 		objectives.Add ("getName()");
 		objectives.Add ("this->name");
 		objectives.Add ("return");
 		objectives.Add ("string pName = p.getName();");
-	}
+        objectives.Add("string pName");
+    }
 
 	// Use this for initialization
 	void Start () {
 		notepad.blinkObjective(objectives[0]);
-		StartCoroutine ("checkMethodEntered");
+		StartCoroutine ("CheckPlayerOnInstanceArea");
 	}
 
-	IEnumerator checkMethodEntered() {
+    IEnumerator CheckPlayerOnInstanceArea()
+    {
+        Vector3 onLand = GameObject.FindGameObjectWithTag("SetName").transform.Find("MovePoint").position;
+        while (!player.checkPlayerPos(onLand))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        notepad.blinkObjective(objectives[1]);
+        StartCoroutine("checkMethodEntered");
+    }
+
+    IEnumerator checkMethodEntered() {
 		while (!player.isInRoom ()) {
 			yield return new WaitForSeconds (0.1f);
 		}
 		notepad.setActiveText (1);
 		notepad.setTitle ("Get name");
-		notepad.blinkObjective (objectives [1]);
+		notepad.blinkObjective (objectives [2]);
 		StartCoroutine ("checkNameInHand");
 	}
 
@@ -67,7 +80,7 @@ public class GetName : MonoBehaviour {
 		while (!nameInHand ()) {
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.blinkObjective (objectives [2]);
+		notepad.blinkObjective (objectives [3]);
         instance.transform.Find("GetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine ("checkReturned");
 	}
@@ -79,7 +92,7 @@ public class GetName : MonoBehaviour {
 		}
 		notepad.setActiveText (0);
 		notepad.setTitle ("Main");
-		notepad.blinkObjective (objectives [3]);
+		notepad.blinkObjective (objectives [4]);
 
         GameObject mainMovePoint = GameObject.Find("MainMovePoint");
         player.moveTo(mainMovePoint);
@@ -93,7 +106,7 @@ public class GetName : MonoBehaviour {
         {
             yield return new WaitForSeconds(0.1f);
         }
-
+        notepad.blinkObjective(objectives[5]);
         StartCoroutine("checkNameAssigned");
     }
 
