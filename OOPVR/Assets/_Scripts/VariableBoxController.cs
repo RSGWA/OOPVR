@@ -557,6 +557,12 @@ public class VariableBoxController : MonoBehaviour
         }
     }
 
+    public void GOTOaddress(GameObject address)
+    {
+        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player.moveTo(address);
+    }
+
     public void InfoButton()
     {
         string varBoxType = transform.GetChild(0).tag;
@@ -686,7 +692,7 @@ public class VariableBoxController : MonoBehaviour
             collider.enabled = enable;
         }
         //this is used to check whether the box is selected
-        containerSelected = enable;
+        containerSelected = !enable;
 
     }
 

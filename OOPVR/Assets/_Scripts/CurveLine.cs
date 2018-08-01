@@ -29,10 +29,6 @@ public class CurveLine : MonoBehaviour
             UpdatePoints();
 
         }
-        else
-        {
-
-        }
     }
 
 

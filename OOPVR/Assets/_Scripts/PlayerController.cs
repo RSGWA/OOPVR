@@ -172,6 +172,15 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public bool checkPlayerPos(Vector3 againstPos)
+    {
+        if ((transform.position.x == againstPos.x) && (transform.position.z == againstPos.z))
+        {
+            return true;
+        }
+        return false;
+    }
+
     void PlayerControl(string direction) {
 		playerAnim.SetTrigger(direction);
 	}

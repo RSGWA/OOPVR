@@ -23,7 +23,7 @@ public class InstanceVariablesMenuController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        OptionMenuPanel = transform.Find("OptionMenu").Find("Panel").gameObject;
+        OptionMenuPanel = transform.Find("OptionMenu/Panel").gameObject;
 
         CopyButton = OptionMenuPanel.transform.Find("CopyButton").gameObject;
         AssignButton = OptionMenuPanel.transform.Find("AssignButton").gameObject;

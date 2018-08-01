@@ -5,7 +5,7 @@ using UnityEngine;
 public class SetName : MonoBehaviour
 {
 
-    public GameObject NameInstanceValue , AgeInstanceValue;
+    public GameObject NameInstanceValue , AgeInstanceValue, InstanceAddress;
 
     InstanceController instance;
     Notepad notepad;
@@ -17,7 +17,7 @@ public class SetName : MonoBehaviour
     bool returned = false;
 
     GameObject setNameRoom;
-    VariableBoxController nameParameterBox, nameInstanceBox, ageInstanceBox;
+    VariableBoxController nameParameterBox, nameInstanceBox, ageInstanceBox, instanceContainer;
 
     List<string> objectives = new List<string>();
 
@@ -38,6 +38,11 @@ public class SetName : MonoBehaviour
         ageInstanceBox.setBoxAssigned(true);
         ageInstanceBox.setVariableBoxValue(AgeInstanceValue);
 
+        instanceContainer = GameObject.Find("InstanceContainer").GetComponent<VariableBoxController>();
+        instanceContainer.setBoxAssigned(true);
+        instanceContainer.setVariableBoxValue(InstanceAddress);
+
+        objectives.Add("p1.");
         objectives.Add("setName");
         objectives.Add("\"Gilbert\"");
         objectives.Add("this->name = name;");
@@ -48,16 +53,28 @@ public class SetName : MonoBehaviour
     void Start()
     {
         notepad.blinkObjective(objectives[0]);
+        StartCoroutine("CheckPlayerOnInstanceArea");
+    }
+
+    IEnumerator CheckPlayerOnInstanceArea()
+    {
+        Vector3 onLand = GameObject.FindGameObjectWithTag("ConstructorWithParameters").transform.Find("MovePoint").position;
+        while (!player.checkPlayerPos(onLand))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkPlayerInFrontOfMethod");
     }
 
     IEnumerator checkPlayerInFrontOfMethod()
     {
-        while (!playerInFrontOfMethod())
+        Vector3 frontOfSetName = setNameRoom.transform.Find("MovePoint").position;
+        while (!player.checkPlayerPos(frontOfSetName))
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[1]);
+        notepad.blinkObjective(objectives[2]);
         StartCoroutine("checkNameParameterSet");
     }
 
@@ -69,7 +86,7 @@ public class SetName : MonoBehaviour
         }
         notepad.setActiveText(1);
         notepad.setTitle("Set name");
-        notepad.blinkObjective(objectives[2]);
+        notepad.blinkObjective(objectives[3]);
         StartCoroutine("checkNameSet");
     }
 
@@ -79,7 +96,7 @@ public class SetName : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[3]);
+        notepad.blinkObjective(objectives[4]);
         StartCoroutine("checkReturn");
     }
 
@@ -101,7 +118,6 @@ public class SetName : MonoBehaviour
         Transform roomMovePoint = setNameRoom.transform.Find("MovePoint");
 
         return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
-
     }
 
     bool nameParameterSet()
