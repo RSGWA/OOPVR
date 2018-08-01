@@ -16,8 +16,10 @@ public class OptionMenu : MonoBehaviour
     private ValueController valueControl;
     private Door door;
     private ReturnController returnControl;
+    private DoorMenuController doorOptions;
 
     private GameObject MainCamera;
+    private PlayerController player;
 
     private Outline outline;
     private Vector3 targetPoint;
@@ -30,19 +32,26 @@ public class OptionMenu : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        selectedObject = transform.tag;
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
+        doorOptions = GameObject.Find("ActivityController").GetComponent<DoorMenuController>();
 
+        selectedObject = transform.tag;
         if (selectedObject == "Door")
         {
-            optionMenu = transform.parent.Find("OptionMenu");
-            door = transform.parent.GetComponent<Door>();
+            //used to filter the unused internal doors
+            if(transform.parent.name != "DoorInt")
+            {
+                optionMenu = transform.parent.Find("OptionMenu");
+                door = transform.parent.GetComponent<Door>();
+                canvasGroup = optionMenu.GetComponent<CanvasGroup>();
+            }
+            
         }
         else
         {
             optionMenu = transform.Find("OptionMenu");
+            canvasGroup = optionMenu.GetComponent<CanvasGroup>();
         }
-        
-        canvasGroup = optionMenu.GetComponent<CanvasGroup>();
         
         
 
@@ -64,6 +73,19 @@ public class OptionMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (selectedObject == "Door" && transform.parent.name != "DoorInt")
+        {
+            if (player.isInRoom())
+            {
+                optionMenu.localPosition = new Vector3(0, 0, 0.1f);
+                doorOptions.EnableDoorIndoorOptions(optionMenu, true);
+            }
+            else
+            {
+                optionMenu.localPosition = new Vector3(0, 0, -0.1f);
+                doorOptions.EnableDoorIndoorOptions(optionMenu, false);
+            }
+        }
         targetPoint = new Vector3(MainCamera.transform.position.x, optionMenu.position.y, MainCamera.transform.position.z) - optionMenu.position;
         targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
         optionMenu.rotation = Quaternion.Slerp(optionMenu.rotation, targetRotation, Time.deltaTime * 2.0f);

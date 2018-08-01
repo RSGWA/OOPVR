@@ -11,7 +11,7 @@ public class DoorMenuController : MonoBehaviour
     private List<GameObject> inactiveDoors = new List<GameObject>();
 
     Transform activeDoorOptionMenuPanel;
-    GameObject GoIntoButton, InfoButton, activeGoInto, activeInfo;
+    GameObject GoIntoButton, InfoButton,Return, activeGoInto, activeInfo, activeReturn;
 
     void Awake()
     {
@@ -22,45 +22,57 @@ public class DoorMenuController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        //Control options for other methods not in the activity
         foreach (GameObject method in inactiveDoors)
         {
-            Transform doorExtOptionPanel = method.transform.GetChild(0).Find("OptionMenu").Find("Panel");
+            Transform doorExtOptionPanel = method.transform.Find("DoorExt/OptionMenu/Panel");
             GoIntoButton = doorExtOptionPanel.Find("GoIntoButton").gameObject;
             InfoButton = doorExtOptionPanel.Find("InfoButton").gameObject;
+            //Return = doorExtOptionPanel.Find("Return").gameObject;
 
             ShowButton(GoIntoButton, false);
             ShowButton(InfoButton, true);
+            //ShowButton(Return, false);
 
-            GameObject doorIntDoorPanel = method.transform.GetChild(1).Find("DoorPanel").gameObject;
+            GameObject doorIntDoorPanel = method.transform.Find("DoorInt/DoorPanel").gameObject;
             SetInteractive(doorIntDoorPanel, false);
         }
 
+        //Control options for active activity
         GameObject activityMethod = GameObject.Find(ActivityName);
-        activeDoorOptionMenuPanel = activityMethod.transform.Find("Door").GetChild(0).Find("OptionMenu").Find("Panel");
+        activeDoorOptionMenuPanel = activityMethod.transform.Find("Door/DoorExt/OptionMenu/Panel");
         activeGoInto = activeDoorOptionMenuPanel.Find("GoIntoButton").gameObject;
         activeInfo = activeDoorOptionMenuPanel.Find("InfoButton").gameObject;
+        activeReturn = activeDoorOptionMenuPanel.Find("Return").gameObject;
 
-        GameObject activeIntDoorPanel = activityMethod.transform.Find("Door").transform.GetChild(1).Find("DoorPanel").gameObject;
-
+        GameObject activeIntDoorPanel = activityMethod.transform.Find("Door/DoorInt/DoorPanel").gameObject;
+        SetInteractive(activeIntDoorPanel, false);
 
         if (ActivityName == "Constructor" || ActivityName == "SetName")
         {
             ShowButton(activeGoInto, false);
             ShowButton(activeInfo, true);
-            SetInteractive(activeIntDoorPanel, false);
-
+            ShowButton(activeReturn, false);
         }
         else
         {
             ShowButton(activeGoInto, true);
             ShowButton(activeInfo, true);
-            SetInteractive(activeIntDoorPanel, false);
-        }
+            ShowButton(activeReturn, false);
+         } 
+    }
 
+    public void EnableDoorIndoorOptions(Transform optionMenu, bool key)
+    {
+        GameObject goInto = optionMenu.Find("Panel/GoIntoButton").gameObject;
+        GameObject info = optionMenu.Find("Panel/InfoButton").gameObject;
+        GameObject rtn = optionMenu.Find("Panel/Return").gameObject;
+       
         
+        ShowButton(goInto, !key);
+        ShowButton(info, !key);
+        ShowButton(rtn, key);
 
-        
     }
 
     void GetActiveDoor(string activityName)

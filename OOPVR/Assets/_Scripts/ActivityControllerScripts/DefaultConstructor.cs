@@ -121,7 +121,10 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[4]);
+        //Enable Door selection for exit
+        instance.transform.Find("DefaultConstructor/Door/DoorExt").GetComponent<Door>().enableDoor();
         StartCoroutine("checkReturn");
+
     }
 
     IEnumerator checkReturn()
@@ -202,5 +205,6 @@ public class DefaultConstructor : MonoBehaviour
         }
         return false;
     }
+    
 
 }

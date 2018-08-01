@@ -20,13 +20,17 @@ public class Door : MonoBehaviour
 
     void Start()
     {
-
+        
         DoorPanel = transform.Find("DoorPanel");
         doorOpen = false;
 
         animator = GetComponent<Animator>();
 
-        options = transform.Find("DoorPanel").GetComponent<OptionMenu>();
+        if (transform.name != "DoorInt")
+        {
+            options = transform.Find("DoorPanel").GetComponent<OptionMenu>();
+        }
+        
         info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
 
         methodName = transform.parent.parent.name;
@@ -45,7 +49,11 @@ public class Door : MonoBehaviour
         transform.GetComponent<BoxCollider>().enabled = false;
         doorOpen = true;
         //Deselect the door outlines before opening
-        options.Deselect();
+        if(transform.name != "DoorInt")
+        {
+            options.Deselect();
+        }
+       
     }
 
     public void closeDoor()
@@ -144,6 +152,35 @@ public class Door : MonoBehaviour
                 break;
         }
         return mName;
+
+    }
+
+    public void checkAndReturn()
+    {
+        string returnType = transform.parent.parent.Find("ReturnType").tag;
+        GameObject objInHand = GameObject.FindGameObjectWithTag("Hand").GetComponent<HandController>().getObjInHand();
+        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        string varType;
+
+        if (objInHand == null)
+        {
+            varType = "Void";
+        }
+        else
+        {
+            varType = objInHand.transform.GetChild(0).tag;
+        }
+
+        if (varType == returnType)
+        {
+            // Exit room
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().Return();
+            options.Deselect();
+        }
+
+        player.setInRoom(false);
+
 
     }
     public void infoButton()
