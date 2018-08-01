@@ -134,7 +134,9 @@ public class Constructor2Parameters : MonoBehaviour {
 			yield return new WaitForSeconds(0.1f);
 		}
 		notepad.blinkObjective (objectives [6]);
-		StartCoroutine("checkReturn");
+        //Enable Door selection for exit
+        instance.transform.Find("Constructor/Door/DoorExt").GetComponent<Door>().enableDoor();
+        StartCoroutine("checkReturn");
 	}
 
     IEnumerator checkReturn()
