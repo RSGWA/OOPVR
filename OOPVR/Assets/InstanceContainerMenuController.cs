@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InstanceContainerMenuController : MonoBehaviour {
 
@@ -18,6 +19,11 @@ public class InstanceContainerMenuController : MonoBehaviour {
     bool playerOnMovePoint = false;
     string ActivityName;
 
+    void Awake()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        GetActivity(scene.name);
+    }
     // Use this for initialization
     void Start()
     {
