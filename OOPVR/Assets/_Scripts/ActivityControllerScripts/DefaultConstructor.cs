@@ -19,7 +19,9 @@ public class DefaultConstructor : MonoBehaviour
     GameObject instanceContainer, mainMovePoint;
     AddressBoxController address;
     PlanksController entrance;
+	BlueprintController bp;
 	ObjectBlink objBlink;
+	HandController hand;
 
     Transform methodRoom;
     Vector3 inRoomPos, insConScale;
@@ -31,6 +33,7 @@ public class DefaultConstructor : MonoBehaviour
         instance = GameObject.FindGameObjectWithTag("Instance").GetComponent<InstanceController>();
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+		bp = GameObject.FindGameObjectWithTag ("Blueprint").GetComponent<BlueprintController> ();
 
         instanceBox = GameObject.Find("InstanceContainer").GetComponent<VariableBoxController>();
         address = GameObject.FindGameObjectWithTag("AddressBox").GetComponent<AddressBoxController>();
@@ -45,6 +48,7 @@ public class DefaultConstructor : MonoBehaviour
         entrance = GameObject.FindGameObjectWithTag("Instance").transform.Find("DefaultConstructor/Planks").GetComponent<PlanksController>();
 	
 		objBlink = GameObject.FindGameObjectWithTag("Player").GetComponent<ObjectBlink> ();
+		hand = GameObject.FindGameObjectWithTag ("Hand").GetComponent<HandController> ();
 
         objectives.Add("new Person();");
         objectives.Add("Person::Person() {");
@@ -58,13 +62,9 @@ public class DefaultConstructor : MonoBehaviour
     void Start()
     {
         notepad.blinkObjective(objectives[0]);
-		Invoke ("blinkBlueprint", BLINK_DELAY); 
+		objBlink.blinkObject (GameObject.Find ("Blueprint"));
         StartCoroutine("checkInstanceCreated");
     }
-
-	void blinkBlueprint() {
-		objBlink.blinkObject (GameObject.Find ("Blueprint"));
-	}
 
     IEnumerator checkInstanceCreated()
     {
@@ -77,21 +77,16 @@ public class DefaultConstructor : MonoBehaviour
             }
             yield return new WaitForSeconds(3f);
         }
-
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[1]);
-		Invoke ("blinkDoor", BLINK_DELAY);
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
 
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
         player.moveTo(constrMovePoint);
         StartCoroutine("checkConstructorEntered");
     }
-
-	void blinkDoor() {
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
-	}
 
     IEnumerator checkConstructorEntered()
     {
@@ -100,19 +95,12 @@ public class DefaultConstructor : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
+
         notepad.blinkObjective(objectives[2]);
-		Invoke ("blinkAgeValue", BLINK_DELAY);
-		Invoke ("blinkAgeBox", BLINK_DELAY);
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
         StartCoroutine("checkAgeSet");
     }
-
-	void blinkAgeValue() {
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
-	}
-
-	void blinkAgeBox() {
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
-	}
 
     IEnumerator checkAgeSet()
     {
@@ -121,18 +109,10 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[3]);
-		Invoke ("blinkNameValue", BLINK_DELAY);
-		Invoke ("blinkNameBox", BLINK_DELAY);
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
         StartCoroutine("checkNameSet");
     }
-
-	void blinkNameValue() {
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
-	}
-
-	void blinkNameBox() {
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
-	}
 
     IEnumerator checkNameSet()
     {
@@ -141,7 +121,7 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[4]);
-		Invoke ("blinkDoor", BLINK_DELAY);
+		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
         //Enable Door selection for exit
         instance.transform.Find("DefaultConstructor/Door/DoorExt").GetComponent<Door>().enableDoor();
         StartCoroutine("checkReturn");
@@ -178,13 +158,9 @@ public class DefaultConstructor : MonoBehaviour
         }
         instanceContainer.transform.localScale = insConScale;
 
-		Invoke ("blinkInstanceContainer", BLINK_DELAY);
+		objBlink.blinkObject (GameObject.Find ("InstanceContainer"));
         StartCoroutine("checkInstanceContainer");
     }
-
-	void blinkInstanceContainer() {
-		objBlink.blinkObject (GameObject.Find ("InstanceContainer"));
-	}
 
     IEnumerator checkInstanceContainer()
     {
