@@ -42,7 +42,7 @@ public class SetName : MonoBehaviour
         instanceContainer.setBoxAssigned(true);
         instanceContainer.setVariableBoxValue(InstanceAddress);
 
-        objectives.Add("p1.");
+        objectives.Add("p1->");
         objectives.Add("setName");
         objectives.Add("\"Gilbert\"");
         objectives.Add("this->name = name;");
