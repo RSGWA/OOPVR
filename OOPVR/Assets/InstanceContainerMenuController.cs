@@ -35,7 +35,7 @@ public class InstanceContainerMenuController : MonoBehaviour {
         GotoAddress = OptionMenuPanel.transform.Find("GoToAddress").gameObject;
         InfoButton = OptionMenuPanel.transform.Find("InfoButton").gameObject;
 
-        if (ActivityName == "DefaultConstructor" || ActivityName == "Constructor")
+        if (ActivityName == "DefaultConstructor" || ActivityName == "Constructor" || ActivityName == "MultiInstanceConstructor")
         {
             ShowButton(CopyButton, false);
             ShowButton(AssignButton, true);

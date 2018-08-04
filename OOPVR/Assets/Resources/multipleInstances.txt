@@ -1,6 +1,6 @@
 <p>int main() {
-	Person pete = new Person ("Peter", 15);
-	Person peter = new Person ("Peter", 15);
+	Person *p1 = new Person ("Peter", 15);
+	Person *p2 = new Person ("Peter", 15);
 	return 0;
 }</p>
 <p>int age;
