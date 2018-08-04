@@ -19,12 +19,16 @@ public class InstanceController : MonoBehaviour
     static string INSTANCE_METHODS = "instance_methods";
     static string CONSTRUCTOR_METHODS = "constructors";
 
+    private void Awake()
+    {
+        movePoints = new List<Transform>();
+        SetMovePoints();
+    }
     // Use this for initialization
     void Start()
     {
         anim = GetComponent<Animator>();
-        movePoints = new List<Transform>();
-        SetMovePoints();
+        
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         completedInstantiation = false;
