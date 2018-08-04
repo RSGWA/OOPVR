@@ -41,7 +41,7 @@ public class GetName : MonoBehaviour {
 
         mainNameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
 
-        objectives.Add("p1.");
+        objectives.Add("p1->");
 		objectives.Add ("getName()");
 		objectives.Add ("this->name");
 		objectives.Add ("return");

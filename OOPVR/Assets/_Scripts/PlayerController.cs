@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
         //{
         //    enableMovePoints(true);
         //}
-	}
+    }
 
     public void Return() { StartCoroutine("startReturnProcedure"); }
 

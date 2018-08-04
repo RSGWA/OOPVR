@@ -5,7 +5,7 @@ using UnityEngine;
 public class IncrementAge : MonoBehaviour
 {
 
-    public GameObject AgeInstanceValue, NameInstanceValue;
+    public GameObject AgeInstanceValue, NameInstanceValue, InstanceAddress;
 
     InstanceController instance;
     Notepad notepad;
@@ -14,8 +14,9 @@ public class IncrementAge : MonoBehaviour
     bool methodEntered = false;
     bool returned = false;
 
+    GameObject mainMovePos;
     GameObject incrementAgeRoom;
-    VariableBoxController instanceAgeBox, instanceNameBox;
+    VariableBoxController instanceAgeBox, instanceNameBox, instanceContainer;
 
     List<string> objectives = new List<string>();
 
@@ -24,6 +25,8 @@ public class IncrementAge : MonoBehaviour
         instance = GameObject.FindGameObjectWithTag("Instance").GetComponent<InstanceController>();
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        mainMovePos = GameObject.Find("MainMovePoint");
 
         incrementAgeRoom = GameObject.FindGameObjectWithTag("IncrementAge");
         instanceAgeBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
@@ -34,11 +37,16 @@ public class IncrementAge : MonoBehaviour
         instanceNameBox.setBoxAssigned(true);
         instanceNameBox.setVariableBoxValue(NameInstanceValue);
 
-        objectives.Add("p1->incrementAge();");
+        instanceContainer = GameObject.Find("InstanceContainer").GetComponent<VariableBoxController>();
+        instanceContainer.setBoxAssigned(true);
+        instanceContainer.setVariableBoxValue(InstanceAddress);
+
+        objectives.Add("p1->");
         objectives.Add("incrementAge();");
         objectives.Add("this->age++;");
         objectives.Add("}");
-		objectives.Add("p1->incrementAge();"); // NOTE: Should this be john.incrementAge() or incrementAge()
+		objectives.Add("p1->"); // NOTE: Should this be john.incrementAge() or incrementAge()
+        objectives.Add("incrementAge();");
         objectives.Add("this->age++;");
         objectives.Add("}");
     }
@@ -46,26 +54,27 @@ public class IncrementAge : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        notepad.blinkObjective(objectives[0]);
-        StartCoroutine("checkPlayerInFrontOfMethod");
+        notepad.blinkDuplicateObjective(objectives[0], 2);
+        instance.EnableMovePositions(false);
+        StartCoroutine("CheckPlayerOnInstanceArea");
     }
 
-    IEnumerator checkPlayerInFrontOfMethod()
+    IEnumerator CheckPlayerOnInstanceArea()
     {
-        while (!playerInFrontOfMethod())
+        Vector3 onLand = GameObject.FindGameObjectWithTag("GetName").transform.Find("MovePoint").position;
+        while (!player.checkPlayerPos(onLand))
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.reset();
+        instance.EnableMovePositions(true);
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkMethodEntered");
     }
 
     IEnumerator checkMethodEntered()
     {
-        while (!methodEntered)
+        while (!player.isInRoom())
         {
-            methodEntered = player.isInRoom();
             yield return new WaitForSeconds(0.1f);
         }
         notepad.setActiveText(1);
@@ -83,6 +92,7 @@ public class IncrementAge : MonoBehaviour
 
         notepad.reset();
         notepad.blinkObjective(objectives[3]);
+        instance.transform.Find("IncrementAge/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("checkFirstIncrementReturn");
     }
 
@@ -96,22 +106,51 @@ public class IncrementAge : MonoBehaviour
         player.setInRoom(false); //resets isInRoom to false as player exits
         methodEntered = player.isInRoom();
 
+        player.moveTo(mainMovePos);
+        instance.EnableMovePositions(false);
+
+        StartCoroutine("CheckPlayerInMain");
+    }
+
+    IEnumerator CheckPlayerInMain()
+    {
+        Vector3 mainPos = GameObject.Find("MainMovePoint").transform.position;
+        while (!player.checkPlayerPos(mainPos))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
-        notepad.blinkDuplicateObjective(objectives[4], 2);
+        notepad.blinkDuplicateObjective(objectives[4], 3);
+
+        instance.EnableMovePositions(false);
+        StartCoroutine("CheckPlayerOnInstance");
+    }
+
+    IEnumerator CheckPlayerOnInstance()
+    {
+        Vector3 onLand = GameObject.FindGameObjectWithTag("GetName").transform.Find("MovePoint").position;
+        while (!player.checkPlayerPos(onLand))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        instance.EnableMovePositions(true);
+        notepad.blinkDuplicateObjective(objectives[5], 2);
+
         StartCoroutine("methodEnteredTwice");
     }
 
     IEnumerator methodEnteredTwice()
     {
-        while (!methodEntered)
+        Vector3 inside = incrementAgeRoom.transform.Find("PlayerDest").position;
+        while (!player.checkPlayerPos(inside))
         {
-            methodEntered = player.isInRoom();
             yield return new WaitForSeconds(0.1f);
         }
         notepad.setActiveText(1);
         notepad.setTitle("IncrementAge");
-        notepad.blinkObjective(objectives[5]);
+        notepad.blinkObjective(objectives[6]);
         StartCoroutine("checkSecondIncrement");
     }
 
@@ -122,7 +161,8 @@ public class IncrementAge : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.reset();
-        notepad.blinkObjective(objectives[6]);
+        notepad.blinkObjective(objectives[7]);
+        instance.transform.Find("IncrementAge/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("checkReturn");
     }
 
@@ -130,7 +170,17 @@ public class IncrementAge : MonoBehaviour
     {
         while (!playerInFrontOfMethod())
         {
-            // returned = player.hasReturned();
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        player.moveTo(mainMovePos);
+        StartCoroutine("checkBackInMain");
+    }
+
+    IEnumerator checkBackInMain()
+    {
+        while (!player.checkPlayerPos(mainMovePos.transform.position))
+        {
             yield return new WaitForSeconds(0.1f);
         }
         // Activity Finished
@@ -143,7 +193,7 @@ public class IncrementAge : MonoBehaviour
     {
         Transform roomMovePoint = incrementAgeRoom.transform.Find("MovePoint");
 
-        return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
+        return (player.checkPlayerPos(roomMovePoint.position));
 
     }
     bool isAgeInstanceIncremented()
