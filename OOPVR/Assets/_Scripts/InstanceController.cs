@@ -178,9 +178,9 @@ public class InstanceController : MonoBehaviour
     {
         string activityName = SceneManager.GetActiveScene().name;
 
-        if (activityName == "SetNameActivity" || activityName == "GetName" || activityName == "IncrementAgeActivity")
+        if (activityName == "SetNameActivity" || activityName == "GetName" || activityName == "IncrementAgeActivity" || activityName == "MultiInstancesMethodCallsActivity")
         {
-            if(activityName != "SetNameActivity")
+            if(activityName != "SetNameActivity" && activityName != "MultiInstancesMethodCallsActivity")
             {
                 transform.Find("SetName/ParametersPlatform/NameParameter/NameParameterBox").GetComponent<InteractiveItemGaze>().enabled = false;
             }

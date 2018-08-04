@@ -13,9 +13,10 @@ public class MultiInstancesMethodCalls : MonoBehaviour
     List<string> objectives = new List<string>();
 
     GameObject instance1, instance2, ins1_GNDoor_goINTO, ins2_GNDoor_goINTO;
+    GameObject mainMovePos;
     Transform setNameIns1, getNameIns1, getNameIns2, getNameIns1DoorMenuPanel, getNameIns2DoorMenuPanel;
     VariableBoxController nameParamSNins1, INS1_NameInstanceBox, INS2_NameInstanceBox, INS1_AgeInstanceBox, INS2_AgeInstanceBox;
-    VariableBoxController p1Variable, p2Variable;
+    VariableBoxController p1Name, p2Name, instanceContainer1, instanceContainer2;
     HandController hand;
     DoorMenuController doorControl;
 
@@ -23,6 +24,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
     {
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
         doorControl = GameObject.Find("ActivityController").GetComponent<DoorMenuController>();
+        mainMovePos = GameObject.Find("MainMovePoint");
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         hand = GameObject.FindGameObjectWithTag("Hand").GetComponent<HandController>();
@@ -30,6 +32,12 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         instance1 = GameObject.FindGameObjectWithTag("Instance1");
         instance2 = GameObject.FindGameObjectWithTag("Instance2");
 
+        
+        
+
+        ic1 = instance1.GetComponent<InstanceController>();
+        ic2 = instance2.GetComponent<InstanceController>();
+        
         setNameIns1 = instance1.transform.Find("SetName");
         getNameIns1 = instance1.transform.Find("GetName");
         getNameIns2 = instance2.transform.Find("GetName");
@@ -45,11 +53,8 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         initialiseInstanceVariables();
         
 
-        p1Variable = GameObject.Find("p1 variablebox").GetComponent<VariableBoxController>();
-        p2Variable = GameObject.Find("p2 variablebox").GetComponent<VariableBoxController>();
-
-
-
+        p1Name = GameObject.Find("Name_Variable1").GetComponent<VariableBoxController>();
+        p2Name = GameObject.Find("Name_Variable2").GetComponent<VariableBoxController>();
 
 
         objectives.Add("p1->setName"); //main
@@ -57,20 +62,30 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         objectives.Add("this->name = name;"); //setName
         objectives.Add("}");
 
-        objectives.Add("p1->getName()");//main
+        objectives.Add("p1->");//main- duplicate
+        objectives.Add("getName()");
         objectives.Add("this->name");//getName
         objectives.Add("return");
-        objectives.Add("string p1Name = p1->getName();");//main
+        objectives.Add("string p1Name =");//main
 
-        objectives.Add("p2->getName()");
+        objectives.Add("p2->");
+        objectives.Add("getName()"); //-duplicate
         objectives.Add("this->name");//getName
         objectives.Add("return");
-        objectives.Add("string p2Name = peter->getName();");//main
+        objectives.Add("string p2Name =");//main
 
     }
 
     void initialiseInstanceVariables()
     {
+        //initialising instance containers
+        instanceContainer1 = GameObject.Find("InstanceContainer1").GetComponent<VariableBoxController>();
+        instanceContainer1.setBoxAssigned(true);
+        instanceContainer1.setVariableBoxValue(instanceContainer1.transform.Find("address").gameObject);
+
+        instanceContainer2 = GameObject.Find("InstanceContainer2").GetComponent<VariableBoxController>();
+        instanceContainer2.setBoxAssigned(true);
+        instanceContainer2.setVariableBoxValue(instanceContainer2.transform.Find("address").gameObject);
 
         INS1_NameInstanceBox = instance1.transform.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
         INS1_NameInstanceBox.setBoxAssigned(true);
@@ -93,6 +108,9 @@ public class MultiInstancesMethodCalls : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        ic1.EnableMovePositions(false);
+        ic2.EnableMovePositions(false);
+
         notepad.blinkObjective(objectives[0]);
         StartCoroutine("checkInFrontSetName");
     }
@@ -103,7 +121,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-
+        ic1.EnableMovePositions(true);
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkNameParameterSet");
     }
@@ -127,6 +145,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[3]);
+        instance1.transform.Find("SetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("checkSetNameReturn");
     }
 
@@ -136,12 +155,36 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        //activate gointo option for getName instance1
-        doorControl.ShowButton(ins1_GNDoor_goINTO, true);
+        player.moveTo(mainMovePos);
+        ic1.EnableMovePositions(false);
 
         notepad.setActiveText(0);
         notepad.setTitle("Main");
-        notepad.blinkObjective(objectives[4]);
+        //notepad.blinkObjective(objectives[4]);
+        notepad.blinkDuplicateObjective(objectives[4], 2);
+        StartCoroutine("checkPlayerInMain");
+    }
+
+    IEnumerator checkPlayerInMain()
+    {
+        while (!player.checkPlayerPos(mainMovePos.transform.position))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        //activate gointo option for getName instance1
+        doorControl.ShowButton(ins1_GNDoor_goINTO, true);
+        StartCoroutine("checkPlayerOnInstance1");
+    }
+
+    IEnumerator checkPlayerOnInstance1()
+    {
+        while (!player.checkPlayerPos(setNameIns1.Find("MovePoint").position))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        ic1.EnableMovePositions(true);
+
+        notepad.blinkObjective(objectives[5]);
         StartCoroutine("check_ins1_InsideGetName");
     }
 
@@ -154,7 +197,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
 
         notepad.setActiveText(2);
         notepad.setTitle("Get name");
-        notepad.blinkObjective(objectives[5]);
+        notepad.blinkObjective(objectives[6]);
         StartCoroutine("check_ins1_NameInHand");
     }
 
@@ -164,7 +207,8 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[6]);
+        notepad.blinkObjective(objectives[7]);
+        instance1.transform.Find("GetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("check_ins1_GetNameReturn");
     }
 
@@ -176,24 +220,53 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         }
         notepad.setActiveText(0);
         notepad.setTitle("Main");
-        notepad.blinkObjective(objectives[7]);
+        notepad.blinkObjective(objectives[8]);
+        player.moveTo(mainMovePos); //move player to main
+        ic1.EnableMovePositions(false);
+        StartCoroutine("checkPlayerBackInMain");
+    }
+
+    IEnumerator checkPlayerBackInMain()
+    {
+        while (!player.checkPlayerPos(mainMovePos.transform.position))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        //Show the namevariable1
         StartCoroutine("check_p1_NameAssigned");
     }
 
     IEnumerator check_p1_NameAssigned()
     {
-        while (!variableAssigned(p1Variable))
+        while (!variableAssigned(p1Name))
         {
             yield return new WaitForSeconds(0.1f);
         }
+        
+        //show instance container 2
+
+        notepad.blinkObjective(objectives[9]);
+        StartCoroutine("checkPlayerOnInstance2");
+    }
+
+    IEnumerator checkPlayerOnInstance2()
+    {
+        while (!player.checkPlayerPos(getNameIns2.Find("MovePoint").position))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        ic2.EnableMovePositions(true);
         //activate goINTO button for getName instance 2
         doorControl.ShowButton(ins2_GNDoor_goINTO, true);
+        ins2_GNDoor_goINTO.SetActive(true);
 
-        notepad.setActiveText(0);
-        notepad.setTitle("Main");
-        notepad.blinkObjective(objectives[8]);
+
+        //notepad.blinkObjective(objectives[10]);
+        notepad.blinkDuplicateObjective(objectives[10], 2);
         StartCoroutine("check_ins2_InsideGetName");
     }
+
 
     IEnumerator check_ins2_InsideGetName()
     {
@@ -204,7 +277,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
 
         notepad.setActiveText(2);
         notepad.setTitle("Get name");
-        notepad.blinkObjective(objectives[9]);
+        notepad.blinkObjective(objectives[11]);
         StartCoroutine("check_ins2_NameInHand");
     }
 
@@ -214,7 +287,8 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[10]);
+        notepad.blinkObjective(objectives[12]);
+        instance2.transform.Find("GetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("check_ins2_GetNameReturn");
     }
 
@@ -224,15 +298,20 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
+
+        player.moveTo(mainMovePos);
+        ic2.EnableMovePositions(false);
         notepad.setActiveText(0);
         notepad.setTitle("Main");
-        notepad.blinkObjective(objectives[11]);
+        notepad.blinkObjective(objectives[13]);
+
+        //show name variable 2
         StartCoroutine("check_p2_NameAssigned");
     }
 
     IEnumerator check_p2_NameAssigned()
     {
-        while (!variableAssigned(p2Variable))
+        while (!variableAssigned(p2Name))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -267,7 +346,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             if (INS1_NameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>() != null)
             {
-                if (INS1_NameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>().text.ToString() == "\"Pita\"")
+                if (INS1_NameInstanceBox.gameObject.transform.GetChild(3).GetComponent<TextMesh>().text.ToString() == "\"Junior\"")
                 {
                     return true;
                 }
