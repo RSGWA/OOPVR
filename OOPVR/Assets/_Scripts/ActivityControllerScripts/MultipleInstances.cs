@@ -21,6 +21,7 @@ public class MultipleInstances : MonoBehaviour
     GameObject i1constructorMovePoint, i2constructorMovePoint;
     GameObject blueprint, mainMovePos;
     AddressBoxController address1, address2;
+    Vector3 insConScale;
     
 
     void Awake()
@@ -47,6 +48,7 @@ public class MultipleInstances : MonoBehaviour
 
         instanceBox1 = GameObject.Find("InstanceContainer1").GetComponent<VariableBoxController>();
         instanceBox2 = GameObject.Find("InstanceContainer2").GetComponent<VariableBoxController>();
+        
 
         ageBox1 = instance1.transform.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
         nameBox1 = instance1.transform.Find("Name_InstanceBox").GetComponent<VariableBoxController>();
@@ -65,6 +67,10 @@ public class MultipleInstances : MonoBehaviour
 
         address1 = GameObject.Find("Plot of Land 1/Mailbox").GetComponent<AddressBoxController>();
         address2 = GameObject.Find("Plot of Land 2/Mailbox").GetComponent<AddressBoxController>();
+
+        insConScale = instanceBox1.transform.localScale;
+        instanceBox1.transform.localScale = new Vector3(0, 0, 0);
+        instanceBox2.transform.localScale = new Vector3(0, 0, 0); 
 
         setUpScales(Instance1Values);
         setUpScales(Instance2Values);
@@ -175,7 +181,7 @@ public class MultipleInstances : MonoBehaviour
    
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
-        
+        notepad.blinkObjective(objectives[6]);
         //notepad.blinkDuplicateObjective(objectives[6], 2);
         StartCoroutine("checkPlayerInMain");
     }
@@ -185,15 +191,14 @@ public class MultipleInstances : MonoBehaviour
         yield return new WaitForSeconds(1.9f);
         ic1.SetInstanceCompletion(true);
 
-        GameObject mainMovePoint = GameObject.Find("MainMovePoint");
-        player.moveTo(mainMovePoint);
+        player.moveTo(mainMovePos);
 
-        while (!player.checkPlayerPos(mainMovePoint.transform.position))
+        while (!player.checkPlayerPos(mainMovePos.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[6]);
-        //instanceContainer.transform.localScale = insConScale;
+
+        instanceBox1.transform.localScale = insConScale;
         StartCoroutine("checkInstance1Container");
     }
 
@@ -218,9 +223,17 @@ public class MultipleInstances : MonoBehaviour
         }
         //automatically move player to constructor of instance
         player.moveTo(i2constructorMovePoint);
-        showInstanceValues(Instance2Values, true);
+        StartCoroutine("checkPlayerOnInstance2");
+    }
 
-		notepad.blinkDuplicateObjective(objectives[8], 2);
+    IEnumerator checkPlayerOnInstance2()
+    {
+        while (!player.checkPlayerPos(i2constructorMovePoint.transform.position))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        showInstanceValues(Instance2Values, true);
+        notepad.blinkDuplicateObjective(objectives[8], 2);
         StartCoroutine("checkNameParameterSet2");
     }
 
@@ -273,24 +286,24 @@ public class MultipleInstances : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-
         address2.ToHands();
+
+        ic2.SetInstanceCompletion(true);
+
+        player.moveTo(mainMovePos);
+        notepad.setActiveText(0);
+        notepad.setTitle("MAIN");
+        notepad.blinkObjective(objectives[13]);
         StartCoroutine("checkPlayerBackInMain");
 
     }
     IEnumerator checkPlayerBackInMain()
     {
-        yield return new WaitForSeconds(1.9f);
-        ic2.SetInstanceCompletion(true);
-
-        player.moveTo(mainMovePos);
-
         while (!player.checkPlayerPos(mainMovePos.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[13]);
-        //instanceContainer.transform.localScale = insConScale;
+        instanceBox2.transform.localScale = insConScale;
         StartCoroutine("checkInstance2Container");
     }
 
@@ -305,7 +318,6 @@ public class MultipleInstances : MonoBehaviour
         PlayerPrefs.SetInt("MultipleInstances", 1);
         PlayerPrefs.Save();
         notepad.endOfActivity();
-
     }
 
 
@@ -315,12 +327,12 @@ public class MultipleInstances : MonoBehaviour
         if (num == 1)
         {
             roomMovePoint = instance1ConstructorRoom.transform.Find("MovePoint");
-            return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
+            return (player.checkPlayerPos(roomMovePoint.position));
         }
         else
         {
             roomMovePoint = instance2ConstructorRoom.transform.Find("MovePoint");
-            return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
+            return (player.checkPlayerPos(roomMovePoint.position));
         }
 
     }
@@ -403,13 +415,4 @@ public class MultipleInstances : MonoBehaviour
         }
 
     }
-
-    //void enableMovePoints(bool trigger)
-    //{
-    //    GameObject[] movePoints = GameObject.FindGameObjectsWithTag("Move");
-    //    foreach (GameObject movePoint in movePoints)
-    //    {
-    //        movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(trigger);
-    //    }
-    //}
 }
