@@ -34,11 +34,11 @@ public class IncrementAge : MonoBehaviour
         instanceNameBox.setBoxAssigned(true);
         instanceNameBox.setVariableBoxValue(NameInstanceValue);
 
-        objectives.Add("john.incrementAge();");
+        objectives.Add("p1->incrementAge();");
         objectives.Add("incrementAge();");
         objectives.Add("this->age++;");
         objectives.Add("}");
-		objectives.Add("john.incrementAge();"); // NOTE: Should this be john.incrementAge() or incrementAge()
+		objectives.Add("p1->incrementAge();"); // NOTE: Should this be john.incrementAge() or incrementAge()
         objectives.Add("this->age++;");
         objectives.Add("}");
     }

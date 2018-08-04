@@ -1,7 +1,8 @@
 ﻿<p>int main() {
-	Person john = new Person("John", 20);
-	john.incrementAge();
-	john.incrementAge();
+	Person *p1 = new Person("John",20);
+	p1->setName("Gilbert");
+	p1->incrementAge();
+	p1->incrementAge();
 	return 0;
 }</p>
 <p>int age;
