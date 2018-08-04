@@ -1,9 +1,9 @@
 <p>int main() {
-	Person pete = new Person("Peter", 15);
-	Person peter = new Person("Peter", 15);
-	pete.setName("Pita");
-	string p1 = pete.getName();
-	string p2 = peter.getName();
+	Person *p1 = new Person("Peter", 15);
+	Person *p2 = new Person("Peter", 15);
+	p1->setName("Junior");
+	string p1Name = p1->getName();
+	string p2Name = p2->getName();
 	return 0;
 }</p>
 <p>int age;

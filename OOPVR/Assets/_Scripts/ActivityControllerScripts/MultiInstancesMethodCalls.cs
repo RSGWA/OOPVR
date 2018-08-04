@@ -52,20 +52,20 @@ public class MultiInstancesMethodCalls : MonoBehaviour
 
 
 
-        objectives.Add("pete.setName"); //main
-        objectives.Add("\"Pita\"");
+        objectives.Add("p1->setName"); //main
+        objectives.Add("\"Junior\"");
         objectives.Add("this->name = name;"); //setName
         objectives.Add("}");
 
-        objectives.Add("pete.getName()");//main
+        objectives.Add("p1->getName()");//main
         objectives.Add("this->name");//getName
         objectives.Add("return");
-        objectives.Add("string p1 = pete.getName();");//main
+        objectives.Add("string p1Name = p1->getName();");//main
 
-        objectives.Add("peter.getName()");
+        objectives.Add("p2->getName()");
         objectives.Add("this->name");//getName
         objectives.Add("return");
-        objectives.Add("string p2 = peter.getName();");//main
+        objectives.Add("string p2Name = peter->getName();");//main
 
     }
 
