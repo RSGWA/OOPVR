@@ -43,29 +43,15 @@ public class PlayerController : MonoBehaviour {
 				playerMoving = false;
 			}
 		}
-        if (inRoom)
-        {
-            enableMovePoints(false);
-        }
-        else
-        {
-            enableMovePoints(true);
-        }
-        
+        //if (inRoom)
+        //{
+        //    enableMovePoints(false);
+        //}
+        //else
+        //{
+        //    enableMovePoints(true);
+        //}
 	}
-
-	//public void backToOrigin() {
-	//	// Animate player moving back to origin
-	//	currentTime = Time.time;
-	//	curves = AnimationUtility.movePlayer (transform, origin);
-	//	playerMoving = true;
-
- //       StartCoroutine("closeDoor");
-
-	//	returned = true;
-	//	inRoom = false;
-
-	//}
 
     public void Return() { StartCoroutine("startReturnProcedure"); }
 
@@ -85,6 +71,7 @@ public class PlayerController : MonoBehaviour {
         yield return new WaitForSeconds(1.8f);
 
         returned = true;
+        currentRoom.GetComponentInParent<InstanceController>().EnableMovePositions(false);
         inRoom = false;
     }
 
@@ -149,13 +136,9 @@ public class PlayerController : MonoBehaviour {
 		curves = AnimationUtility.movePlayer (transform, dest.position);
 		playerMoving = true;
 
+        room.transform.parent.GetComponent<InstanceController>().EnableMovePositions(true);
 		inRoom = true; //Change this, not good having movepoints controlled by whether player is in room
 
-        // Removes glow of movepoint outside room so player cannot leave using it
-        //GameObject[] movePoints = GameObject.FindGameObjectsWithTag("Move");
-        //foreach (GameObject movePoint in movePoints) {
-        //	movePoint.GetComponent<TeleportMovePoint> ().ShowMovePoint (false);
-        //}
 
         yield return new WaitForSeconds(1f);
 		// Open interior door once player has been moved completely into room

@@ -8,7 +8,7 @@ public class InstanceController : MonoBehaviour
 
     private PlayerController player;
 
-    private GameObject[] movePoints;
+    private List<Transform> movePoints;
     private List<Transform> methods;
     private Animator anim;
     private bool completedInstantiation;
@@ -23,7 +23,8 @@ public class InstanceController : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        movePoints = GameObject.FindGameObjectsWithTag("Move"); //this also need changes for multiple instances
+        movePoints = new List<Transform>();
+        SetMovePoints();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         completedInstantiation = false;
@@ -49,7 +50,7 @@ public class InstanceController : MonoBehaviour
     public void createInstance()
     {
         this.gameObject.SetActive(true);
-        movePointVisible(false);
+        EnableMovePositions(false);
         InstanceControl("Create");
         InstanceControl("Lower");
         StartCoroutine("checkInstanceCreated");
@@ -89,7 +90,7 @@ public class InstanceController : MonoBehaviour
         }
 
         // Instance animation completed
-        movePointVisible(true);
+        EnableMovePositions(true);
         enableMethods(INSTANCE_METHODS, false);
     }
 
@@ -115,20 +116,30 @@ public class InstanceController : MonoBehaviour
         return instanceLowered;
     }
 
-    void movePointVisible(bool b)
+    void SetMovePoints()
     {
-        //foreach (GameObject movePoint in movePoints)
-        //{
-        //    movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(b);
-        //}
-        if (!b)
+        int children = transform.childCount;
+        string child;
+        for (int i = 0; i < children; i++)
         {
-            player.setInRoom(true);
+            child = transform.GetChild(i).name;
+
+            if (child == "DefaultConstructor" || child == "Constructor" || child == "SetName" || child == "GetName" || child == "IncrementAge")
+            {
+                child = child + "/MovePoint";
+                movePoints.Add(transform.Find(child));
+            }
         }
-        else
+    }
+
+    public void EnableMovePositions(bool key)
+    {
+
+        foreach (Transform mPoint in movePoints)
         {
-            player.setInRoom(false);
+            mPoint.GetComponent<TeleportMovePoint>().ShowMovePoint(key);
         }
+
     }
 
 

@@ -52,6 +52,7 @@ public class SetName : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        instance.EnableMovePositions(false);
         notepad.blinkObjective(objectives[0]);
         StartCoroutine("CheckPlayerOnInstanceArea");
     }
@@ -63,6 +64,7 @@ public class SetName : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
+        instance.EnableMovePositions(true);
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkPlayerInFrontOfMethod");
     }
