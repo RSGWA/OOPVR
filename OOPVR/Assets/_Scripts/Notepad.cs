@@ -44,7 +44,6 @@ public class Notepad : MonoBehaviour
     {
         objectives = GameObject.FindGameObjectsWithTag("Objective");
         tracker = GameObject.FindGameObjectWithTag("Tracker");
-        //setObjective (getObjective ("0"));
         code = this.transform.Find("Code").gameObject;
         title = this.transform.Find("Title").gameObject;
 

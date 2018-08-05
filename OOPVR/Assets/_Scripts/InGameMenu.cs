@@ -6,14 +6,20 @@ using UnityEngine;
 
 public class InGameMenu : MonoBehaviour {
 
+	GameObject Notepad;
+
 	// Use this for initialization
 	void Start () {
-		
+		Notepad = GameObject.FindGameObjectWithTag ("Notepad");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Camera.main.transform.rotation.eulerAngles.x > 62f & Camera.main.transform.eulerAngles.x < 90f) {
+			Notepad.GetComponent<Image> ().enabled = false;
+		} else {
+			Notepad.GetComponent<Image> ().enabled = true;
+		}
 	}
 
 	public void restartActivity() {
