@@ -5,53 +5,37 @@ using System.Linq;
 
 public class NotepadPivot : MonoBehaviour {
 
+	public float distanceFromCamera = 0.6f;
+	float tiltSpeed = 5f;
+	float tiltAngle = -35f;
+
 	// Use this for initialization
 	void Start () {
-		
+		StartCoroutine (tiltNotepad ());
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		transform.rotation = Quaternion.Euler (-30, Camera.main.transform.rotation.eulerAngles.y, 0);
+		transform.position = new Vector3 (Camera.main.transform.position.x + Camera.main.transform.forward.x * distanceFromCamera, 
+			transform.position.y, 
+			Camera.main.transform.position.z + Camera.main.transform.forward.z * distanceFromCamera);
 
-		if (Camera.main.transform.localRotation.eulerAngles.y > -10 && Camera.main.transform.localRotation.eulerAngles.y < 10) {
-			transform.localPosition = Vector3.MoveTowards (transform.localPosition, new Vector3 (0, transform.localPosition.y, 0.5f), 2 * Time.deltaTime);
-			//transform.localPosition = new Vector3 (0, transform.localPosition.y, 0.5f);
-		}
+		transform.eulerAngles = new Vector3 (0, 
+			Camera.main.transform.eulerAngles.y, 
+			0);
 
-		if (Camera.main.transform.localRotation.eulerAngles.y > 35 && Camera.main.transform.localRotation.eulerAngles.y < 55) {
-			transform.localPosition = Vector3.MoveTowards (transform.localPosition, new Vector3 (0.35f, transform.localPosition.y, 0.35f), 2 * Time.deltaTime);
-			//transform.localPosition = new Vector3 (0.35f, transform.localPosition.y, 0.35f);
-		}
+		StartCoroutine (tiltNotepad ());
+	}
 
-		if (Camera.main.transform.localRotation.eulerAngles.y > 80 && Camera.main.transform.localRotation.eulerAngles.y < 100) {
-			transform.localPosition = Vector3.MoveTowards (transform.localPosition, new Vector3 (0.5f, transform.localPosition.y, 0), 2 * Time.deltaTime);
-			//transform.localPosition = new Vector3 (0.5f, transform.localPosition.y, 0);
+	IEnumerator tiltNotepad() {
+		while (Camera.main.transform.rotation.eulerAngles.x > 8f & Camera.main.transform.eulerAngles.x < 90f) {
+			transform.rotation = Quaternion.Lerp (transform.rotation, 
+				Quaternion.Euler (new Vector3 (tiltAngle, Camera.main.transform.eulerAngles.y, 0)), 
+				tiltSpeed * Time.deltaTime);
+			yield return null;
 		}
-
-		if (Camera.main.transform.localRotation.eulerAngles.y > 125 && Camera.main.transform.localRotation.eulerAngles.y < 145) {
-			transform.localPosition = Vector3.MoveTowards (transform.localPosition, new Vector3 (0.35f, transform.localPosition.y, -0.35f), 2 * Time.deltaTime);
-			//transform.localPosition = new Vector3 (0.35f, transform.localPosition.y, -0.35f);
-		}
-
-		if (Camera.main.transform.localRotation.eulerAngles.y > 160 && Camera.main.transform.localRotation.eulerAngles.y < 190) {
-			transform.localPosition = Vector3.MoveTowards (transform.localPosition, new Vector3 (0, transform.localPosition.y, -0.5f), 2 * Time.deltaTime);
-			//transform.localPosition = new Vector3 (0, transform.localPosition.y, -0.5f);
-		}
-
-		if (Camera.main.transform.localRotation.eulerAngles.y > 215 && Camera.main.transform.localRotation.eulerAngles.y < 235) {
-			transform.localPosition = Vector3.MoveTowards (transform.localPosition, new Vector3 (-0.35f, transform.localPosition.y, -0.35f), 2 * Time.deltaTime);
-			//transform.localPosition = new Vector3 (-0.35f, transform.localPosition.y, -0.35f);
-		}
-
-		if (Camera.main.transform.localRotation.eulerAngles.y > 260 && Camera.main.transform.localRotation.eulerAngles.y < 280) {
-			transform.localPosition = Vector3.MoveTowards (transform.localPosition, new Vector3 (-0.5f, transform.localPosition.y, 0), 2 * Time.deltaTime);
-			//transform.localPosition = new Vector3 (-0.5f, transform.localPosition.y, 0);
-		}
-
-		if (Camera.main.transform.localRotation.eulerAngles.y > 305 && Camera.main.transform.localRotation.eulerAngles.y < 325) {
-			transform.localPosition = Vector3.MoveTowards (transform.localPosition, new Vector3 (-0.35f, transform.localPosition.y, 0.35f), 2 * Time.deltaTime);
-			//transform.localPosition = new Vector3 (-0.35f, transform.localPosition.y, 0.35f);
-		}
+			
+		transform.rotation = Quaternion.Euler (new Vector3 (0, Camera.main.transform.eulerAngles.y, 0));
+		yield return null;
 	}
 }
