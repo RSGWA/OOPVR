@@ -29,17 +29,6 @@ public class TeleportMovePoint : MonoBehaviour
 		{
 			EnableMovePoint();
 		}
-		/*
-        if (Player.transform.position.x == transform.position.x)
-        {
-            DisableMovePoint();
-        }
-        else
-        {
-            EnableMovePoint();
-        }
-        */
-
     }
 
 

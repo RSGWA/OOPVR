@@ -138,6 +138,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         }
         ic1.EnableMovePositions(true);
         nameValue.localScale = valueScale;
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkNameParameterSet");
     }
@@ -173,7 +174,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         }
         player.moveTo(mainMovePos);
         ic1.EnableMovePositions(false);
-
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         notepad.setActiveText(0);
         notepad.setTitle("Main");
         //notepad.blinkObjective(objectives[4]);
@@ -198,7 +199,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         ic1.EnableMovePositions(true);
-
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         notepad.blinkObjective(objectives[5]);
         StartCoroutine("check_ins1_InsideGetName");
     }
@@ -237,6 +238,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[8]);
         player.moveTo(mainMovePos); //move player to main
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         ic1.EnableMovePositions(false);
         StartCoroutine("checkPlayerBackInMain");
     }
@@ -271,7 +273,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         ic2.EnableMovePositions(true);
-
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         notepad.blinkDuplicateObjective(objectives[10], 2);
         StartCoroutine("check_ins2_InsideGetName");
     }
@@ -309,6 +311,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         }
 
         player.moveTo(mainMovePos);
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         ic2.EnableMovePositions(false);
         notepad.setActiveText(0);
         notepad.setTitle("Main");
