@@ -124,7 +124,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
     {
         ic1.EnableMovePositions(false);
         ic2.EnableMovePositions(false);
-        ins1_GNDoor_goINTO.interactable = false;
+        Enable_GOINTO_Button(false);
 
         notepad.blinkObjective(objectives[0]);
         StartCoroutine("checkInFrontSetName");
@@ -188,7 +188,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        ins1_GNDoor_goINTO.interactable = true;
+        Enable_GOINTO_Button(true);
         StartCoroutine("checkPlayerOnInstance1");
     }
 
@@ -385,7 +385,11 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         return false;
     }
 
-
+    void Enable_GOINTO_Button(bool key)
+    {
+        ins1_GNDoor_goINTO.interactable = key;
+        ins1_GNDoor_goINTO.transform.GetComponent<ButtonGaze>().enabled = key;
+    }
 
 
 

@@ -6,82 +6,124 @@ using UnityEngine.SceneManagement;
 public class DoorMenuController : MonoBehaviour
 {
 
-    private string ActivityName;
+    string ActivityName;
 
-    private List<GameObject> inactiveDoors = new List<GameObject>();
+    List<GameObject> inactiveDoors = new List<GameObject>();
 
     Transform activeDoorOptionMenuPanel;
     GameObject GoIntoButton, InfoButton,Return, activeGoInto, activeInfo, activeReturn;
+    bool isMultiInstance;
 
     void Awake()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        GetActiveDoor(scene.name);
-        GetAllDoors();
+
+        
     }
     // Use this for initialization
     void Start()
     {
-        
-        SetUpInActiveOptions();
-        SetUpActiveOptions();
-        
-    }
-    void SetUpInActiveOptions()
-    {
-        //Control options for other methods not in the activity
-        foreach (GameObject method in inactiveDoors)
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name == "MultiInstancesMethodCallsActivity" || scene.name == "MultipleInstancesActivity")
         {
-            Transform doorExtOptionPanel = method.transform.Find("DoorExt/OptionMenu/Panel");
-            GoIntoButton = doorExtOptionPanel.Find("GoIntoButton").gameObject;
-            InfoButton = doorExtOptionPanel.Find("InfoButton").gameObject;
-            Return = doorExtOptionPanel.Find("Return").gameObject;
-
-            ShowButton(GoIntoButton, false);
-            ShowButton(InfoButton, true);
-            ShowButton(Return, false);
-
-            GameObject doorIntDoorPanel = method.transform.Find("DoorInt/DoorPanel").gameObject;
-            SetInteractive(doorIntDoorPanel, false);
-        }
-    }
-
-    void SetUpActiveOptions()
-    {
-        //Control options for active activity
-        if(ActivityName != "MultiMethod")
-        {
-            GameObject activityMethod = GameObject.Find(ActivityName);
-            activeDoorOptionMenuPanel = activityMethod.transform.Find("Door/DoorExt/OptionMenu/Panel");
-            activeGoInto = activeDoorOptionMenuPanel.Find("GoIntoButton").gameObject;
-            activeInfo = activeDoorOptionMenuPanel.Find("InfoButton").gameObject;
-            activeReturn = activeDoorOptionMenuPanel.Find("Return").gameObject;
-            GameObject activeIntDoorPanel = activityMethod.transform.Find("Door/DoorInt/DoorPanel").gameObject;
-            SetInteractive(activeIntDoorPanel, false);
-        }
-        
-
-        if (ActivityName == "Constructor" || ActivityName == "SetName")
-        {
-            ShowButton(activeGoInto, false);
-            ShowButton(activeInfo, true);
-            ShowButton(activeReturn, false);
-        }
-        else if(ActivityName == "MultiMethod")
-        {
-            GameObject instance1 = GameObject.FindGameObjectWithTag("Instance1");
-            GameObject instance2 = GameObject.FindGameObjectWithTag("Instance2");
-
-            SetUpActiveMethod(instance1.transform.Find("SetName"));
-            SetUpActiveMethod(instance1.transform.Find("GetName"));
-            SetUpActiveMethod(instance2.transform.Find("GetName"));
+            isMultiInstance = true;
         }
         else
         {
-            ShowButton(activeGoInto, true);
-            ShowButton(activeInfo, true);
-            ShowButton(activeReturn, false);
+            isMultiInstance = false;
         }
+
+        GetActivityName(scene.name);
+        GetAllDoors();
+
+        ActivateOptions();
+        SetUpInActiveOptions();
+        
+    }
+
+    void ActivateOptions()
+    {
+            foreach (GameObject method in inactiveDoors)
+            {
+                Transform doorExtOptionPanel = method.transform.Find("DoorExt/OptionMenu/Panel");
+                GoIntoButton = doorExtOptionPanel.Find("GoIntoButton").gameObject;
+                InfoButton = doorExtOptionPanel.Find("InfoButton").gameObject;
+                Return = doorExtOptionPanel.Find("Return").gameObject;
+
+                ShowButton(GoIntoButton, true);
+                ShowButton(InfoButton, true);
+                ShowButton(Return, false);
+
+                GameObject doorIntDoorPanel = method.transform.Find("DoorInt/DoorPanel").gameObject;
+                SetInteractive(doorIntDoorPanel, false);
+            }                    
+    }
+
+    void SetUpInActiveOptions()
+    {
+        if (isMultiInstance)
+        {
+            Transform instance1 = GameObject.FindGameObjectWithTag("Instance1").transform;
+            Transform instance2 = GameObject.FindGameObjectWithTag("Instance2").transform;
+
+            if(ActivityName == "MultiMethod")
+            {
+                SetUpInActiveMethod(instance1.Find("IncrementAge"));
+                SetUpInActiveMethod(instance1.Find("Constructor"));
+                SetUpInActiveMethod(instance1.Find("DefaultConstructor"));
+                SetUpInActiveMethod(instance1.Find("SetName"));
+
+                SetUpInActiveMethod(instance2.Find("IncrementAge"));
+                SetUpInActiveMethod(instance2.Find("Constructor"));
+                SetUpInActiveMethod(instance2.Find("DefaultConstructor"));
+                SetUpInActiveMethod(instance2.Find("SetName"));
+            }
+            else
+            {
+                SetUpInActiveMethod(instance1.Find("Constructor"));
+                SetUpInActiveMethod(instance1.Find("DefaultConstructor"));
+
+                SetUpInActiveMethod(instance2.Find("Constructor"));
+                SetUpInActiveMethod(instance2.Find("DefaultConstructor"));
+            }
+            
+        }
+        else
+        {
+            Transform instance = GameObject.FindGameObjectWithTag("Instance").transform;
+
+            if (ActivityName == "GetName")
+            {
+                SetUpInActiveMethod(instance.Find("SetName"));
+                SetUpInActiveMethod(instance.Find("IncrementAge"));
+            }
+            if (ActivityName == "IncrementAge")
+            {
+                SetUpInActiveMethod(instance.Find("SetName"));
+                SetUpInActiveMethod(instance.Find("GetName"));
+            }
+            if (ActivityName == "DefaultConstructor")
+            {
+                //SetUpInActiveMethod(instance.Find("SetName"));
+                //SetUpInActiveMethod(instance.Find("GetName"));
+                //SetUpInActiveMethod(instance.Find("IncrementAge"));
+                SetUpInActiveMethod(instance.Find("Constructor"));
+            }
+            if (ActivityName == "Constructor")
+            {
+                //SetUpInActiveMethod(instance.Find("SetName"));
+                //SetUpInActiveMethod(instance.Find("GetName"));
+                //SetUpInActiveMethod(instance.Find("IncrementAge"));
+                SetUpInActiveMethod(instance.Find("Constructor"));
+                SetUpInActiveMethod(instance.Find("DefaultConstructor"));
+            }
+            if (ActivityName == "SetName")
+            {
+                SetUpInActiveMethod(instance.Find("SetName"));
+                SetUpInActiveMethod(instance.Find("GetName"));
+                SetUpInActiveMethod(instance.Find("IncrementAge"));
+            }
+        }
+        
     }
 
     public void EnableDoorIndoorOptions(Transform optionMenu, bool key)
@@ -98,12 +140,24 @@ public class DoorMenuController : MonoBehaviour
         }
         else
         {
+            ActivateOptions();
             SetUpInActiveOptions();
-            SetUpActiveOptions();
         }
     }
 
-    void GetActiveDoor(string activityName)
+    void SetUpInActiveMethod(Transform room)
+    {
+        GameObject goInto = room.Find("Door/DoorExt/OptionMenu/Panel/GoIntoButton").gameObject;
+        GameObject info = room.Find("Door/DoorExt/OptionMenu/Panel/InfoButton").gameObject;
+        GameObject rtn = room.Find("Door/DoorExt/OptionMenu/Panel/Return").gameObject;
+
+        ShowButton(goInto, false);
+        ShowButton(info, true);
+        ShowButton(rtn, false);
+
+    }
+
+    void GetActivityName(string activityName)
     {
         switch (activityName)
         {
@@ -123,7 +177,7 @@ public class DoorMenuController : MonoBehaviour
                 ActivityName = "IncrementAge";
                 break;
             case "MultipleInstancesActivity":
-                ActivityName = "Constructor";
+                ActivityName = "MultiConstructor";
                 break;
             case "MultiInstancesMethodCallsActivity":
                 ActivityName = "MultiMethod";
@@ -133,26 +187,6 @@ public class DoorMenuController : MonoBehaviour
         }
     }
 
-    void SetUpActiveMethod(Transform room)
-    {
-        GameObject goInto = room.Find("Door/DoorExt/OptionMenu/Panel/GoIntoButton").gameObject;
-        GameObject info = room.Find("Door/DoorExt/OptionMenu/Panel/InfoButton").gameObject;
-        GameObject rtn = room.Find("Door/DoorExt/OptionMenu/Panel/Return").gameObject;
-
-        if(room.name == "Constructor" || room.name == "SetName")
-        {
-            ShowButton(goInto, false);
-            ShowButton(info, true);
-            ShowButton(rtn, false);
-        }
-        else
-        {
-            ShowButton(goInto, true);
-            ShowButton(info, true);
-            ShowButton(rtn, false);
-        }
-
-    }
     void GetAllDoors()
     {
         GameObject[] allDoors = GameObject.FindGameObjectsWithTag("Door");
@@ -173,6 +207,8 @@ public class DoorMenuController : MonoBehaviour
 
     public void ShowButton(GameObject button, bool key)
     {
+
         button.SetActive(key);
+        
     }
 }

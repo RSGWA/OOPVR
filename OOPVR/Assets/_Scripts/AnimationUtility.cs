@@ -6,7 +6,7 @@ public static class AnimationUtility {
 
 	public static float ANIM_LENGTH = 1.2f;
 
-	public static float PLAYER_ANIM_LENGTH = 2f;
+	public static float PLAYER_ANIM_LENGTH = 3f;
 
 	private static AnimationCurve xCurve;
 	private static AnimationCurve yCurve;
