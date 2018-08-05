@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class MultiInstancesMethodCalls : MonoBehaviour
@@ -12,13 +13,16 @@ public class MultiInstancesMethodCalls : MonoBehaviour
 
     List<string> objectives = new List<string>();
 
-    GameObject instance1, instance2, ins1_GNDoor_goINTO, ins2_GNDoor_goINTO;
+    GameObject instance1, instance2 ;
     GameObject mainMovePos;
     Transform setNameIns1, getNameIns1, getNameIns2, getNameIns1DoorMenuPanel, getNameIns2DoorMenuPanel;
     VariableBoxController nameParamSNins1, INS1_NameInstanceBox, INS2_NameInstanceBox, INS1_AgeInstanceBox, INS2_AgeInstanceBox;
     VariableBoxController p1Name, p2Name, instanceContainer1, instanceContainer2;
+    Transform nameValue;
     HandController hand;
     DoorMenuController doorControl;
+    Vector3 insConScale, varConScale, valueScale;
+    Button ins1_GNDoor_goINTO, ins2_GNDoor_goINTO;
 
     void Awake()
     {
@@ -32,12 +36,10 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         instance1 = GameObject.FindGameObjectWithTag("Instance1");
         instance2 = GameObject.FindGameObjectWithTag("Instance2");
 
-        
-        
 
         ic1 = instance1.GetComponent<InstanceController>();
         ic2 = instance2.GetComponent<InstanceController>();
-        
+
         setNameIns1 = instance1.transform.Find("SetName");
         getNameIns1 = instance1.transform.Find("GetName");
         getNameIns2 = instance2.transform.Find("GetName");
@@ -45,16 +47,26 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         getNameIns1DoorMenuPanel = getNameIns1.Find("Door/DoorExt/OptionMenu/Panel");
         getNameIns2DoorMenuPanel = getNameIns2.Find("Door/DoorExt/OptionMenu/Panel");
 
-        ins1_GNDoor_goINTO = getNameIns1DoorMenuPanel.Find("GoIntoButton").gameObject;
-        ins2_GNDoor_goINTO = getNameIns2DoorMenuPanel.Find("GoIntoButton").gameObject;
+        ins1_GNDoor_goINTO = getNameIns1DoorMenuPanel.Find("GoIntoButton").GetComponent<Button>();
+        ins2_GNDoor_goINTO = getNameIns2DoorMenuPanel.Find("GoIntoButton").GetComponent<Button>();
+
 
         nameParamSNins1 = setNameIns1.Find("ParametersPlatform/NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
 
         initialiseInstanceVariables();
-        
+        insConScale = instanceContainer2.transform.localScale;
+        instanceContainer2.transform.localScale = new Vector3(0, 0, 0);
 
         p1Name = GameObject.Find("Name_Variable1").GetComponent<VariableBoxController>();
         p2Name = GameObject.Find("Name_Variable2").GetComponent<VariableBoxController>();
+
+        varConScale = p1Name.transform.localScale;
+        p1Name.transform.localScale = new Vector3(0, 0, 0);
+        p2Name.transform.localScale = new Vector3(0, 0, 0);
+
+        nameValue = GameObject.Find("Junior").transform;
+        valueScale = nameValue.localScale;
+        nameValue.localScale = new Vector3(0, 0, 0);
 
 
         objectives.Add("p1->setName"); //main
@@ -103,6 +115,8 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         INS2_AgeInstanceBox = instance2.transform.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
         INS2_AgeInstanceBox.setBoxAssigned(true);
         INS2_AgeInstanceBox.setVariableBoxValue(Ins2AgeInstanceValue);
+
+
     }
 
     // Use this for initialization
@@ -110,6 +124,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
     {
         ic1.EnableMovePositions(false);
         ic2.EnableMovePositions(false);
+        ins1_GNDoor_goINTO.interactable = false;
 
         notepad.blinkObjective(objectives[0]);
         StartCoroutine("checkInFrontSetName");
@@ -122,6 +137,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         ic1.EnableMovePositions(true);
+        nameValue.localScale = valueScale;
         notepad.blinkObjective(objectives[1]);
         StartCoroutine("checkNameParameterSet");
     }
@@ -171,8 +187,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        //activate gointo option for getName instance1
-        doorControl.ShowButton(ins1_GNDoor_goINTO, true);
+        ins1_GNDoor_goINTO.interactable = true;
         StartCoroutine("checkPlayerOnInstance1");
     }
 
@@ -232,8 +247,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-
-        //Show the namevariable1
+        p1Name.transform.localScale = varConScale;
         StartCoroutine("check_p1_NameAssigned");
     }
 
@@ -243,9 +257,9 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        
-        //show instance container 2
 
+        //show instance container 2
+        instanceContainer2.transform.localScale = insConScale;
         notepad.blinkObjective(objectives[9]);
         StartCoroutine("checkPlayerOnInstance2");
     }
@@ -257,12 +271,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         ic2.EnableMovePositions(true);
-        //activate goINTO button for getName instance 2
-        doorControl.ShowButton(ins2_GNDoor_goINTO, true);
-        ins2_GNDoor_goINTO.SetActive(true);
 
-
-        //notepad.blinkObjective(objectives[10]);
         notepad.blinkDuplicateObjective(objectives[10], 2);
         StartCoroutine("check_ins2_InsideGetName");
     }
@@ -305,7 +314,16 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[13]);
 
-        //show name variable 2
+        StartCoroutine("checkPlayerFinalMain");
+    }
+
+    IEnumerator checkPlayerFinalMain()
+    {
+        while (!player.checkPlayerPos(mainMovePos.transform.position))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        p2Name.transform.localScale = varConScale;
         StartCoroutine("check_p2_NameAssigned");
     }
 
@@ -315,7 +333,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        
+
         //Activity Finished
         PlayerPrefs.SetInt("MultiInstancesMethodCalls", 1);
         PlayerPrefs.Save();
@@ -326,7 +344,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
     bool playerInFrontMethod(Transform trans)
     {
         Transform roomMovePoint = trans.Find("MovePoint");
-        return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
+        return (player.checkPlayerPos(roomMovePoint.position));
     }
 
     bool nameParameterSet()
@@ -364,7 +382,7 @@ public class MultiInstancesMethodCalls : MonoBehaviour
         return false;
     }
 
-    
+
 
 
 

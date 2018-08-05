@@ -49,20 +49,32 @@ public class DoorMenuController : MonoBehaviour
     void SetUpActiveOptions()
     {
         //Control options for active activity
-        GameObject activityMethod = GameObject.Find(ActivityName);
-        activeDoorOptionMenuPanel = activityMethod.transform.Find("Door/DoorExt/OptionMenu/Panel");
-        activeGoInto = activeDoorOptionMenuPanel.Find("GoIntoButton").gameObject;
-        activeInfo = activeDoorOptionMenuPanel.Find("InfoButton").gameObject;
-        activeReturn = activeDoorOptionMenuPanel.Find("Return").gameObject;
-
-        GameObject activeIntDoorPanel = activityMethod.transform.Find("Door/DoorInt/DoorPanel").gameObject;
-        SetInteractive(activeIntDoorPanel, false);
+        if(ActivityName != "MultiMethod")
+        {
+            GameObject activityMethod = GameObject.Find(ActivityName);
+            activeDoorOptionMenuPanel = activityMethod.transform.Find("Door/DoorExt/OptionMenu/Panel");
+            activeGoInto = activeDoorOptionMenuPanel.Find("GoIntoButton").gameObject;
+            activeInfo = activeDoorOptionMenuPanel.Find("InfoButton").gameObject;
+            activeReturn = activeDoorOptionMenuPanel.Find("Return").gameObject;
+            GameObject activeIntDoorPanel = activityMethod.transform.Find("Door/DoorInt/DoorPanel").gameObject;
+            SetInteractive(activeIntDoorPanel, false);
+        }
+        
 
         if (ActivityName == "Constructor" || ActivityName == "SetName")
         {
             ShowButton(activeGoInto, false);
             ShowButton(activeInfo, true);
             ShowButton(activeReturn, false);
+        }
+        else if(ActivityName == "MultiMethod")
+        {
+            GameObject instance1 = GameObject.FindGameObjectWithTag("Instance1");
+            GameObject instance2 = GameObject.FindGameObjectWithTag("Instance2");
+
+            SetUpActiveMethod(instance1.transform.Find("SetName"));
+            SetUpActiveMethod(instance1.transform.Find("GetName"));
+            SetUpActiveMethod(instance2.transform.Find("GetName"));
         }
         else
         {
@@ -114,11 +126,32 @@ public class DoorMenuController : MonoBehaviour
                 ActivityName = "Constructor";
                 break;
             case "MultiInstancesMethodCallsActivity":
-                ActivityName = "GetName";
+                ActivityName = "MultiMethod";
                 break;
             default:
                 break;
         }
+    }
+
+    void SetUpActiveMethod(Transform room)
+    {
+        GameObject goInto = room.Find("Door/DoorExt/OptionMenu/Panel/GoIntoButton").gameObject;
+        GameObject info = room.Find("Door/DoorExt/OptionMenu/Panel/InfoButton").gameObject;
+        GameObject rtn = room.Find("Door/DoorExt/OptionMenu/Panel/Return").gameObject;
+
+        if(room.name == "Constructor" || room.name == "SetName")
+        {
+            ShowButton(goInto, false);
+            ShowButton(info, true);
+            ShowButton(rtn, false);
+        }
+        else
+        {
+            ShowButton(goInto, true);
+            ShowButton(info, true);
+            ShowButton(rtn, false);
+        }
+
     }
     void GetAllDoors()
     {
