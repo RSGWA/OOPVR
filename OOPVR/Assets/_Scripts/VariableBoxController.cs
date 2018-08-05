@@ -714,6 +714,6 @@ public class VariableBoxController : MonoBehaviour
 
     public bool isSelected()
     {
-        return containerSelected;
+        return transform.GetComponent<OptionMenu>().selected();
     }
 }

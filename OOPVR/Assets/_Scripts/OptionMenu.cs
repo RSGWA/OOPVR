@@ -108,8 +108,8 @@ public class OptionMenu : MonoBehaviour
     {
         itemHolder = selectedItem;
 
-        selectedItem.enabled = false;
-        EnableSelectedObject(false);
+        //selectedItem.enabled = false;
+        //EnableSelectedObject(false);
 
         ShowOptions();
         outline.eraseRenderer = false;

@@ -100,14 +100,32 @@ public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointer
         }
         else
         {
-            previousSelectedObj = currentSelectedObj;
-            currentSelectedObj = obj;
+            if(currentSelectedObj == obj)
+            {
+                bool select = currentSelectedObj.GetComponent<OptionMenu>().selected();
+                if (select)
+                {
+                    currentSelectedObj.GetComponent<OptionMenu>().Deselect();
+                }
+                else
+                {
+                    currentSelectedObj.GetComponent<OptionMenu>().Select();
+                }
+                previousSelectedObj = currentSelectedObj;
+                currentSelectedObj = obj;
+            }
+            else
+            {
+                previousSelectedObj = currentSelectedObj;
+                currentSelectedObj = obj;
 
-            //Deselect previousSO
-            previousSelectedObj.GetComponent<OptionMenu>().Deselect();
+                //Deselect previousSO
+                previousSelectedObj.GetComponent<OptionMenu>().Deselect();
 
-            //Select currentSO
-            currentSelectedObj.GetComponent<OptionMenu>().Select();
+                //Select currentSO
+                currentSelectedObj.GetComponent<OptionMenu>().Select();
+            }
+            
 
         }
 
