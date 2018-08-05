@@ -62,7 +62,7 @@ public class Notepad : MonoBehaviour
                 textToParse = textAsset.text;
                 parseText(textToParse);
                 break;
-            case "GetName":
+            case "GetNameActivity":
                 textAsset = Resources.Load(getNameFilename) as TextAsset;
                 textToParse = textAsset.text;
                 parseText(textToParse);

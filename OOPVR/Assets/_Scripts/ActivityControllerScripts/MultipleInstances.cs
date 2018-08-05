@@ -98,6 +98,8 @@ public class MultipleInstances : ActivityController
     {
 
         notepad.blinkObjective(objectives[0]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Blueprint"));
         StartCoroutine("checkInstanceCreated");
     }
 
@@ -112,6 +114,9 @@ public class MultipleInstances : ActivityController
         player.moveTo(i1constructorMovePoint);  //automatically move player to constructor of instance
        
         notepad.blinkObjective(objectives[1]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Peter"));
+		addObjectToBlink(GameObject.Find ("Instance 1/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
         StartCoroutine("checkPlayerOnInstance");
     }
 
@@ -132,6 +137,9 @@ public class MultipleInstances : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[2]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("15"));
+		addObjectToBlink(GameObject.Find ("Instance 1/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
         StartCoroutine("checkAgeParameterSet");
     }
 
@@ -146,6 +154,9 @@ public class MultipleInstances : ActivityController
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[3]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance 1/Heptagon Instance/Name_InstanceBox"));
+		addObjectToBlink(GameObject.Find ("Instance 1/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
         StartCoroutine("checkNameSet");
     }
 
@@ -156,6 +167,9 @@ public class MultipleInstances : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[4]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance 1/Heptagon Instance/Age_InstanceBox"));
+		addObjectToBlink(GameObject.Find ("Instance 1/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
         StartCoroutine("checkAgeSet");
     }
 
@@ -166,6 +180,8 @@ public class MultipleInstances : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[5]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance 1/Heptagon Instance/Constructor/Door/DoorExt/DoorPanel"));
         instance1.transform.Find("Constructor/Door/DoorExt").GetComponent<Door>().enableDoor();
         StartCoroutine("checkInstance1Return");
     }
@@ -182,6 +198,8 @@ public class MultipleInstances : ActivityController
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
         notepad.blinkObjective(objectives[6]);
+		resetObjectsToBlink();
+		addObjectToBlink (GameObject.Find ("InstanceContainer1"));
         //notepad.blinkDuplicateObjective(objectives[6], 2);
         StartCoroutine("checkPlayerInMain");
     }
@@ -210,6 +228,8 @@ public class MultipleInstances : ActivityController
         }
         blueprint.SetActive(true);
         notepad.blinkDuplicateObjective(objectives[7], 2);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Blueprint"));
         StartCoroutine("checkInstance2Created");
 
     }
@@ -234,6 +254,9 @@ public class MultipleInstances : ActivityController
         }
         showInstanceValues(Instance2Values, true);
         notepad.blinkDuplicateObjective(objectives[8], 2);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Peter2"));
+		addObjectToBlink(GameObject.Find ("Instance 2/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
         StartCoroutine("checkNameParameterSet2");
     }
 
@@ -244,6 +267,9 @@ public class MultipleInstances : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
 		notepad.blinkDuplicateObjective(objectives[9], 2);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("15_2"));
+		addObjectToBlink(GameObject.Find ("Instance 2/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
         StartCoroutine("checkAgeParameterSet2");
     }
 
@@ -256,6 +282,9 @@ public class MultipleInstances : ActivityController
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[10]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance 2/Heptagon Instance/Name_InstanceBox"));
+		addObjectToBlink(GameObject.Find ("Instance 2/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
         StartCoroutine("checkNameSet2");
     }
 
@@ -266,6 +295,9 @@ public class MultipleInstances : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[11]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance 2/Heptagon Instance/Age_InstanceBox"));
+		addObjectToBlink(GameObject.Find ("Instance 2/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
         StartCoroutine("checkAgeSet2");
     }
 
@@ -276,6 +308,9 @@ public class MultipleInstances : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[12]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance 2/Heptagon Instance/Constructor/Door/DoorExt/DoorPanel"));
+
         instance2.transform.Find("Constructor/Door/DoorExt").GetComponent<Door>().enableDoor();
         StartCoroutine("checkReturn");
     }
@@ -294,6 +329,8 @@ public class MultipleInstances : ActivityController
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
         notepad.blinkObjective(objectives[13]);
+		resetObjectsToBlink();
+		addObjectToBlink (GameObject.Find ("InstanceContainer2"));
         StartCoroutine("checkPlayerBackInMain");
 
     }

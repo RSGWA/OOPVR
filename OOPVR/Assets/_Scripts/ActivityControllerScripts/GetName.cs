@@ -53,6 +53,8 @@ public class GetName : ActivityController {
 	void Start () {
        
 		notepad.blinkObjective(objectives[0]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("InstanceContainer"));
         instance.EnableMovePositions(false);
         StartCoroutine ("CheckPlayerOnInstanceArea");
 	}
@@ -66,6 +68,8 @@ public class GetName : ActivityController {
         }
         instance.EnableMovePositions(true);
         notepad.blinkObjective(objectives[1]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/GetName/Door/DoorExt/DoorPanel"));
         StartCoroutine("checkMethodEntered");
     }
 
@@ -76,6 +80,8 @@ public class GetName : ActivityController {
 		notepad.setActiveText (1);
 		notepad.setTitle ("Get name");
 		notepad.blinkObjective (objectives [2]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
 		StartCoroutine ("checkNameInHand");
 	}
 
@@ -84,6 +90,8 @@ public class GetName : ActivityController {
 			yield return new WaitForSeconds (0.1f);
 		}
 		notepad.blinkObjective (objectives [3]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/GetName/Door/DoorExt/DoorPanel"));
         instance.transform.Find("GetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine ("checkReturned");
 	}
@@ -110,6 +118,8 @@ public class GetName : ActivityController {
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[5]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Name_Variable"));
         StartCoroutine("checkNameAssigned");
     }
 

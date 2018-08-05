@@ -55,6 +55,8 @@ public class IncrementAge : ActivityController
     void Start()
     {
         notepad.blinkDuplicateObjective(objectives[0], 2);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("InstanceContainer"));
         instance.EnableMovePositions(false);
         StartCoroutine("CheckPlayerOnInstanceArea");
     }
@@ -68,6 +70,8 @@ public class IncrementAge : ActivityController
         }
         instance.EnableMovePositions(true);
         notepad.blinkObjective(objectives[1]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/IncrementAge/Door/DoorExt/DoorPanel"));
         StartCoroutine("checkMethodEntered");
     }
 
@@ -80,6 +84,8 @@ public class IncrementAge : ActivityController
         notepad.setActiveText(1);
         notepad.setTitle("IncrementAge");
         notepad.blinkObjective(objectives[2]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
         StartCoroutine("checkAgeInstanceIncrement");
     }
 
@@ -92,6 +98,8 @@ public class IncrementAge : ActivityController
 
         notepad.reset();
         notepad.blinkObjective(objectives[3]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/IncrementAge/Door/DoorExt/DoorPanel"));
         instance.transform.Find("IncrementAge/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("checkFirstIncrementReturn");
     }
@@ -122,6 +130,8 @@ public class IncrementAge : ActivityController
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
         notepad.blinkDuplicateObjective(objectives[4], 3);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("InstanceContainer"));
 
         instance.EnableMovePositions(false);
         StartCoroutine("CheckPlayerOnInstance");
@@ -137,6 +147,8 @@ public class IncrementAge : ActivityController
 
         instance.EnableMovePositions(true);
         notepad.blinkDuplicateObjective(objectives[5], 2);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/IncrementAge/Door/DoorExt/DoorPanel"));
 
         StartCoroutine("methodEnteredTwice");
     }
@@ -151,6 +163,8 @@ public class IncrementAge : ActivityController
         notepad.setActiveText(1);
         notepad.setTitle("IncrementAge");
         notepad.blinkObjective(objectives[6]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
         StartCoroutine("checkSecondIncrement");
     }
 
@@ -162,6 +176,9 @@ public class IncrementAge : ActivityController
         }
         notepad.reset();
         notepad.blinkObjective(objectives[7]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/IncrementAge/Door/DoorExt/DoorPanel"));
+
         instance.transform.Find("IncrementAge/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("checkReturn");
     }
