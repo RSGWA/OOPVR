@@ -127,6 +127,8 @@ public class MultiInstancesMethodCalls : ActivityController
         Enable_GOINTO_Button(false);
 
         notepad.blinkObjective(objectives[0]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("InstanceContainer1"));
         StartCoroutine("checkInFrontSetName");
     }
 
@@ -140,6 +142,9 @@ public class MultiInstancesMethodCalls : ActivityController
         nameValue.localScale = valueScale;
         mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         notepad.blinkObjective(objectives[1]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Junior"));
+		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/SetName/ParameterPlatforms/NameParameter/NameParameterBox"));
         StartCoroutine("checkNameParameterSet");
     }
 
@@ -152,6 +157,9 @@ public class MultiInstancesMethodCalls : ActivityController
         notepad.setActiveText(1);
         notepad.setTitle("Set name");
         notepad.blinkObjective(objectives[2]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/Name_InstanceBox"));
+		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/SetName/ParameterPlatforms/NameParameter/NameParameterBox"));
         StartCoroutine("checkNameSet");
     }
 
@@ -162,6 +170,8 @@ public class MultiInstancesMethodCalls : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[3]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/SetName/Door/DoorExt/DoorPanel"));
         instance1.transform.Find("SetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("checkSetNameReturn");
     }
@@ -177,8 +187,9 @@ public class MultiInstancesMethodCalls : ActivityController
         mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         notepad.setActiveText(0);
         notepad.setTitle("Main");
-        //notepad.blinkObjective(objectives[4]);
         notepad.blinkDuplicateObjective(objectives[4], 2);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("InstanceContainer1"));
         StartCoroutine("checkPlayerInMain");
     }
 
@@ -201,6 +212,8 @@ public class MultiInstancesMethodCalls : ActivityController
         ic1.EnableMovePositions(true);
         mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         notepad.blinkObjective(objectives[5]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/GetName/Door/DoorExt/DoorPanel"));
         StartCoroutine("check_ins1_InsideGetName");
     }
 
@@ -214,6 +227,8 @@ public class MultiInstancesMethodCalls : ActivityController
         notepad.setActiveText(2);
         notepad.setTitle("Get name");
         notepad.blinkObjective(objectives[6]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/Name_InstanceBox"));
         StartCoroutine("check_ins1_NameInHand");
     }
 
@@ -224,6 +239,8 @@ public class MultiInstancesMethodCalls : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[7]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/GetName/Door/DoorExt/DoorPanel"));
         instance1.transform.Find("GetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("check_ins1_GetNameReturn");
     }
@@ -237,6 +254,8 @@ public class MultiInstancesMethodCalls : ActivityController
         notepad.setActiveText(0);
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[8]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Name_Variable1"));
         player.moveTo(mainMovePos); //move player to main
         mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         ic1.EnableMovePositions(false);
@@ -263,6 +282,8 @@ public class MultiInstancesMethodCalls : ActivityController
         //show instance container 2
         instanceContainer2.transform.localScale = insConScale;
         notepad.blinkObjective(objectives[9]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("InstanceContainer2"));
         StartCoroutine("checkPlayerOnInstance2");
     }
 
@@ -275,6 +296,8 @@ public class MultiInstancesMethodCalls : ActivityController
         ic2.EnableMovePositions(true);
         mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         notepad.blinkDuplicateObjective(objectives[10], 2);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Instance 2/Heptagon Instance/GetName/Door/DoorExt/DoorPanel"));
         StartCoroutine("check_ins2_InsideGetName");
     }
 
@@ -289,6 +312,8 @@ public class MultiInstancesMethodCalls : ActivityController
         notepad.setActiveText(2);
         notepad.setTitle("Get name");
         notepad.blinkObjective(objectives[11]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Instance 2/Heptagon Instance/Name_InstanceBox"));
         StartCoroutine("check_ins2_NameInHand");
     }
 
@@ -299,6 +324,8 @@ public class MultiInstancesMethodCalls : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[12]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Instance 2/Heptagon Instance/GetName/Door/DoorExt/DoorPanel"));
         instance2.transform.Find("GetName/Door/DoorExt").GetComponent<Door>().enableDoor(); //Enable door for return
         StartCoroutine("check_ins2_GetNameReturn");
     }
@@ -316,6 +343,8 @@ public class MultiInstancesMethodCalls : ActivityController
         notepad.setActiveText(0);
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[13]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find("Name_Variable2"));
 
         StartCoroutine("checkPlayerFinalMain");
     }
