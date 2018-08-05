@@ -63,6 +63,7 @@ public class Constructor2Parameters : ActivityController {
     {
         setUpScales();
         notepad.blinkObjective (objectives [0]);
+		addObjectToBlink (GameObject.Find ("Blueprint"));
         StartCoroutine("checkInstanceCreated");
     }
 
