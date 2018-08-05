@@ -186,7 +186,7 @@ public class Activity : MonoBehaviour
                 SceneManager.LoadScene("SetNameActivity", LoadSceneMode.Single);
                 break;
             case "GetName":
-                SceneManager.LoadScene("GetName", LoadSceneMode.Single);
+                SceneManager.LoadScene("GetNameActivity", LoadSceneMode.Single);
                 break;
             case "IncrementAge":
                 SceneManager.LoadScene("IncrementAgeActivity", LoadSceneMode.Single);

@@ -5,7 +5,7 @@ using System.Linq;
 
 public class NotepadPivot : MonoBehaviour {
 
-	public float distanceFromCamera = 0.6f;
+	public float distanceFromCamera = 0.8f;
 	float tiltSpeed = 5f;
 	float tiltAngle = -35f;
 
@@ -28,7 +28,7 @@ public class NotepadPivot : MonoBehaviour {
 	}
 
 	IEnumerator tiltNotepad() {
-		while (Camera.main.transform.rotation.eulerAngles.x > 8f & Camera.main.transform.eulerAngles.x < 90f) {
+		while (Camera.main.transform.rotation.eulerAngles.x > 0f & Camera.main.transform.eulerAngles.x < 90f) {
 			transform.rotation = Quaternion.Lerp (transform.rotation, 
 				Quaternion.Euler (new Vector3 (tiltAngle, Camera.main.transform.eulerAngles.y, 0)), 
 				tiltSpeed * Time.deltaTime);
