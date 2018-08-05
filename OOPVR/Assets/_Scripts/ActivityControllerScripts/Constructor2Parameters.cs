@@ -77,6 +77,8 @@ public class Constructor2Parameters : ActivityController {
         }
 
 		notepad.blinkObjective (objectives [1]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/Door/DoorExt/DoorPanel"));
 
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
         player.moveTo(constrMovePoint);
@@ -93,6 +95,10 @@ public class Constructor2Parameters : ActivityController {
 
         showMainAreaValues(true);
         notepad.blinkObjective(objectives[2]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("John"));
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
+
         StartCoroutine("checkNameParameterSet");
     }
 
@@ -103,6 +109,10 @@ public class Constructor2Parameters : ActivityController {
 			yield return new WaitForSeconds(0.1f);
 		}
 		notepad.blinkObjective (objectives [3]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("20"));
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
+
 		StartCoroutine("checkAgeParameterSet");
 	}
 
@@ -115,6 +125,10 @@ public class Constructor2Parameters : ActivityController {
 		notepad.setActiveText (1);
 		notepad.setTitle ("CONSTRUCTOR");
 		notepad.blinkObjective (objectives [4]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
+
 		StartCoroutine("checkNameSet");
 	}
 
@@ -125,6 +139,10 @@ public class Constructor2Parameters : ActivityController {
 			yield return new WaitForSeconds(0.1f);
 		}
 		notepad.blinkObjective (objectives [5]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
+
 		StartCoroutine("checkAgeSet");
 	}
 
@@ -135,6 +153,9 @@ public class Constructor2Parameters : ActivityController {
 			yield return new WaitForSeconds(0.1f);
 		}
 		notepad.blinkObjective (objectives [6]);
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/Door/DoorExt/DoorPanel"));
+
         //Enable Door selection for exit
         instance.transform.Find("Constructor/Door/DoorExt").GetComponent<Door>().enableDoor();
         StartCoroutine("checkReturn");
@@ -152,6 +173,9 @@ public class Constructor2Parameters : ActivityController {
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[7]);
 
+		resetObjectsToBlink ();
+		addObjectToBlink(GameObject.Find("InstanceContainer"));
+			
         address.ToHands();
 
         StartCoroutine("checkPlayerInMain");
