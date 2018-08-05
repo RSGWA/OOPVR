@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class MultiInstancesMethodCalls : MonoBehaviour
+public class MultiInstancesMethodCalls : ActivityController
 {
     public GameObject Ins1NameInstanceValue, Ins1AgeInstanceValue, Ins2NameInstanceValue, Ins2AgeInstanceValue;
 

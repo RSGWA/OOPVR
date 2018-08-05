@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultipleInstances : MonoBehaviour
+public class MultipleInstances : ActivityController
 {
     public Transform[] Instance1Values, Instance2Values;
 

@@ -11,7 +11,7 @@ public class ObjectBlink : MonoBehaviour {
 	private GameObject objBlinking;
 
 	private int originalOutlineColor;
-	private static float BLINK_DELAY = 4f;
+	private static float BLINK_DELAY = 0f;
 
 	IEnumerator coroutine;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefaultConstructor : MonoBehaviour
+public class DefaultConstructor : ActivityController
 {
 
     InstanceController instance;
@@ -20,7 +20,6 @@ public class DefaultConstructor : MonoBehaviour
     AddressBoxController address;
     PlanksController entrance;
 	BlueprintController bp;
-	ObjectBlink objBlink;
 	HandController hand;
 
     Transform methodRoom;
@@ -47,7 +46,6 @@ public class DefaultConstructor : MonoBehaviour
 
         entrance = GameObject.FindGameObjectWithTag("Instance").transform.Find("DefaultConstructor/Planks").GetComponent<PlanksController>();
 	
-		objBlink = GameObject.FindGameObjectWithTag("Player").GetComponent<ObjectBlink> ();
 		hand = GameObject.FindGameObjectWithTag ("Hand").GetComponent<HandController> ();
 
         objectives.Add("new Person();");
@@ -62,7 +60,8 @@ public class DefaultConstructor : MonoBehaviour
     void Start()
     {
         notepad.blinkObjective(objectives[0]);
-		objBlink.blinkObject (GameObject.Find ("Blueprint"));
+		addObjectToBlink (GameObject.Find ("Blueprint"));
+		//objBlink.blinkObject (GameObject.Find ("Blueprint"));
         StartCoroutine("checkInstanceCreated");
     }
 
@@ -75,13 +74,15 @@ public class DefaultConstructor : MonoBehaviour
             {
                 instanceCreated = true;
             }
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(1.5f);
         }
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[1]);
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
 
+		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
+		resetObjectsToBlink();
+		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
         player.moveTo(constrMovePoint);
@@ -97,8 +98,11 @@ public class DefaultConstructor : MonoBehaviour
         }
 
         notepad.blinkObjective(objectives[2]);
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
+		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
+		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
         StartCoroutine("checkAgeSet");
     }
 
@@ -109,8 +113,11 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[3]);
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
+		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
+		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
         StartCoroutine("checkNameSet");
     }
 
@@ -121,7 +128,9 @@ public class DefaultConstructor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         notepad.blinkObjective(objectives[4]);
-		objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
+		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
         //Enable Door selection for exit
         instance.transform.Find("DefaultConstructor/Door/DoorExt").GetComponent<Door>().enableDoor();
         StartCoroutine("checkReturn");
@@ -158,7 +167,9 @@ public class DefaultConstructor : MonoBehaviour
         }
         instanceContainer.transform.localScale = insConScale;
 
-		objBlink.blinkObject (GameObject.Find ("InstanceContainer"));
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("InstanceContainer"));
+		//objBlink.blinkObject (GameObject.Find ("InstanceContainer"));
         StartCoroutine("checkInstanceContainer");
     }
 

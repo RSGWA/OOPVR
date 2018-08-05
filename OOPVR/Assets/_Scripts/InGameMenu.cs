@@ -7,10 +7,12 @@ using UnityEngine;
 public class InGameMenu : MonoBehaviour {
 
 	GameObject Notepad;
+	ActivityController ac;
 
 	// Use this for initialization
 	void Start () {
 		Notepad = GameObject.FindGameObjectWithTag ("Notepad");
+		ac = GameObject.Find ("ActivityController").GetComponent<ActivityController> ();
 	}
 	
 	// Update is called once per frame
@@ -57,6 +59,6 @@ public class InGameMenu : MonoBehaviour {
 	}
 
 	public void hint() {
-
+		ac.blinkObjects ();
 	}
 }

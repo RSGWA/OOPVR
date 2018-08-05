@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Constructor2Parameters : MonoBehaviour {
+public class Constructor2Parameters : ActivityController {
 
 
     public Transform[] MainAreaValues;

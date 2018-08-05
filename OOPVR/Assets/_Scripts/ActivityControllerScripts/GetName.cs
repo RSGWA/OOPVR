@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GetName : MonoBehaviour {
+public class GetName : ActivityController {
 
 	public GameObject nameInstanceValue, ageInstanceValue, InstanceAddress;
 

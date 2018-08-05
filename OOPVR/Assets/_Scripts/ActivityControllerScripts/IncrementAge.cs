@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncrementAge : MonoBehaviour
+public class IncrementAge : ActivityController
 {
 
     public GameObject AgeInstanceValue, NameInstanceValue, InstanceAddress;
