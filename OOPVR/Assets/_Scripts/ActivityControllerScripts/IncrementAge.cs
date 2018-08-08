@@ -77,10 +77,13 @@ public class IncrementAge : ActivityController
 
     IEnumerator checkMethodEntered()
     {
-        while (!player.isInRoom())
+        Vector3 insideMethod = incrementAgeRoom.transform.Find("PlayerDest").position;
+
+        while (!player.checkPlayerPos(insideMethod))
         {
             yield return new WaitForSeconds(0.1f);
         }
+        instance.EnableMovePositions(false);
         notepad.setActiveText(1);
         notepad.setTitle("IncrementAge");
         notepad.blinkObjective(objectives[2]);
@@ -112,10 +115,10 @@ public class IncrementAge : ActivityController
         }
         resetIncrement(); //resets the isIncremented when player exits
         player.setInRoom(false); //resets isInRoom to false as player exits
-        methodEntered = player.isInRoom();
+        //methodEntered = player.isInRoom();
 
         player.moveTo(mainMovePos);
-        instance.EnableMovePositions(false);
+        //instance.EnableMovePositions(false);
 
         StartCoroutine("CheckPlayerInMain");
     }
@@ -165,6 +168,7 @@ public class IncrementAge : ActivityController
         notepad.blinkObjective(objectives[6]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
+        instance.EnableMovePositions(false);
         StartCoroutine("checkSecondIncrement");
     }
 
@@ -189,7 +193,7 @@ public class IncrementAge : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-
+        instance.EnableMovePositions(true);
         player.moveTo(mainMovePos);
         StartCoroutine("checkBackInMain");
     }
@@ -200,6 +204,7 @@ public class IncrementAge : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        instance.EnableMovePositions(false);
         // Activity Finished
         PlayerPrefs.SetInt("IncrementAgeComplete", 1);
         PlayerPrefs.Save();

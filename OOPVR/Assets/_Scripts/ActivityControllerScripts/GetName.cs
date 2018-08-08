@@ -77,7 +77,8 @@ public class GetName : ActivityController {
 		while (!player.isInRoom ()) {
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.setActiveText (1);
+        instance.EnableMovePositions(false);
+        notepad.setActiveText (1);
 		notepad.setTitle ("Get name");
 		notepad.blinkObjective (objectives [2]);
 		resetObjectsToBlink ();
@@ -101,7 +102,8 @@ public class GetName : ActivityController {
 			returned = player.hasReturned ();
 			yield return new WaitForSeconds (0.1f);
 		}
-		notepad.setActiveText (0);
+        instance.EnableMovePositions(true);
+        notepad.setActiveText (0);
 		notepad.setTitle ("Main");
 		notepad.blinkObjective (objectives [4]);
 
@@ -117,6 +119,7 @@ public class GetName : ActivityController {
         {
             yield return new WaitForSeconds(0.1f);
         }
+        instance.EnableMovePositions(false);
         notepad.blinkObjective(objectives[5]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Name_Variable"));

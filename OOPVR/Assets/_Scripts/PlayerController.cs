@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
     private bool inRoom = false;
 	private bool returned = false;
     private bool inWorkingMethod = false;
-	private GameObject doorInt, doorExt;
+	private Transform doorInt, doorExt;
 
     private AnimationCurve[] curves;
 
@@ -59,31 +59,26 @@ public class PlayerController : MonoBehaviour {
     {
         Vector3 extMethodPos = currentRoom.transform.Find("MovePoint").transform.position;
 
-        Door doorControl = doorExt.GetComponent<Door>();
+        Door doorControl = currentRoom.transform.Find("Door/DoorExt").GetComponent<Door>();
         doorControl.openDoor();
-        yield return new WaitForSeconds(1.5f);
 
+        while (!doorControl.isDoorFullyOpen())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         currentTime = Time.time;
         curves = AnimationUtility.movePlayer(transform, extMethodPos);
         playerMoving = true;
 
-        StartCoroutine("closeDoor");
-        yield return new WaitForSeconds(1.8f);
-
+        while (!checkPlayerPos(extMethodPos))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        doorExt.GetComponent<Door>().closeDoor();
+        doorInt.GetComponent<Door>().closeDoor();
         returned = true;
-        currentRoom.GetComponentInParent<InstanceController>().EnableMovePositions(false);
         inRoom = false;
-    }
-
-
-    IEnumerator closeDoor()
-    {
-        yield return new WaitForSeconds(1f);
-
-        Transform doorParent = currentRoom.transform.GetChild(0);
-
-        doorParent.GetChild(0).GetComponent<Door>().closeDoor();
-        doorParent.GetChild(1).GetComponent<Door>().closeDoor();
+        
     }
 
 	public void moveTo(GameObject dest)
@@ -97,62 +92,55 @@ public class PlayerController : MonoBehaviour {
 	public void moveIntoRoom(GameObject room) {
 		currentRoom = room;
 
-        GameObject door = GameObject.FindGameObjectWithTag ("Door");
-		anim = door.GetComponent<Animator> ();
+        doorInt = room.transform.Find("Door/DoorInt");
+        doorExt = room.transform.Find("Door/DoorExt");
 
-		doorInt = room.transform.Find ("Door/DoorInt").gameObject;
+        if (!doorExt.GetComponent<Door>().isDoorOpen())
+        {
+            doorExt.GetComponent<Door>().openDoor();
+        }
+
+		//doorInt = room.transform.Find ("Door/DoorInt");
 		doorInt.transform.Find ("DoorPanel").GetComponent<BoxCollider> ().enabled = false;
 
-        doorExt = room.transform.Find("Door/DoorExt").gameObject;
+        //doorExt = room.transform.Find("Door/DoorExt");
         doorExt.transform.Find("DoorPanel").GetComponent<BoxCollider>().enabled = false;
 
 		StartCoroutine ("check");
-		StartCoroutine (movePlayer(room));
 	}
 
 	// Checks if door has fully opened before transporting player into room
 	IEnumerator check() {
-		doorOpen = false;
-
-		Transform doorParent = currentRoom.transform.GetChild (0);
-
-		while (!doorOpen) {
-			yield return null;
-
-			if (doorParent.GetComponentInChildren<Door>().isDoorFullyOpen()) {
-				doorOpen = true;
-			}		
-		}
-	}
-
-	IEnumerator movePlayer(GameObject room) {
-		while (!doorOpen) {
-			yield return new WaitForSeconds (0.1f);
-		}
-		// Animate player moving into room
-		currentTime = Time.time;
-		Transform dest = room.transform.Find("PlayerDest");
-
-		curves = AnimationUtility.movePlayer (transform, dest.position);
-		playerMoving = true;
-
-        room.transform.parent.GetComponent<InstanceController>().EnableMovePositions(true);
-		inRoom = true; //Change this, not good having movepoints controlled by whether player is in room
-
-
-        yield return new WaitForSeconds(1f);
-		// Open interior door once player has been moved completely into room
-		doorInt.GetComponent<Door> ().openDoor ();
-        doorExt.GetComponent<Door>().closeDoor();
-        doorExt.GetComponent<Door>().disableDoor();
+        while (!doorExt.GetComponent<Door>().isDoorFullyOpen())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        StartCoroutine(movePlayer(currentRoom));
     }
 
-    void enableMovePoints(bool trigger)
-    {
-        foreach (GameObject movePoint in movePoints)
+	IEnumerator movePlayer(GameObject room) {
+
+        Transform dest = room.transform.Find("PlayerDest");
+        this.moveTo(dest.gameObject);
+
+        while (!checkPlayerPos(dest.position))
         {
-            movePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(trigger);
+            yield return new WaitForSeconds(0.1f);
         }
+        doorInt.GetComponent<Door>().openDoor();
+        inRoom = true;
+        StartCoroutine(handleDoorControl());
+    }
+
+    IEnumerator handleDoorControl()
+    {
+        while (!doorInt.GetComponent<Door>().isDoorFullyOpen())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        
+        doorExt.GetComponent<Door>().closeDoor();
+        doorExt.GetComponent<Door>().disableDoor();
     }
 
     public bool checkPlayerPos(Vector3 againstPos)
@@ -171,11 +159,6 @@ public class PlayerController : MonoBehaviour {
     public void setCurrentWorkingMethod(GameObject method)
     {
         this.currentWorkingDest = method.transform.Find("PlayerDest");
-    }
-
-    public bool isInWorkingMethod()
-    {
-        return inWorkingMethod;
     }
 
 	public bool isInRoom() {

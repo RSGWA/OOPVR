@@ -185,10 +185,12 @@ public class VariableBoxController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
             valueToIncrement.transform.rotation = Quaternion.Slerp(valueToIncrement.transform.rotation, targetRotation, Time.deltaTime * 2.0f);
 
-            valueToIncrement.transform.Translate(Vector3.up * 0.6f * Time.deltaTime);
+            valueToIncrement.transform.Translate(Vector3.up * 0.7f * Time.deltaTime);
 
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
+                Vector3 newPosition = new Vector3(valueToIncrement.transform.position.x, valueToIncrement.transform.position.y + 0.6f * AnimationUtility.ANIM_LENGTH, valueToIncrement.transform.position.z);
+                valueToIncrement.transform.position = newPosition;
                 preIncrementSelection = false;
 
             }
@@ -207,9 +209,14 @@ public class VariableBoxController : MonoBehaviour
             }
 
         }
+
         if (postIncrementSelection)
         {
-            valueToIncrement.transform.Translate(Vector3.down * 0.6f * Time.deltaTime);
+            Vector3 targetPoint = new Vector3(MainCamera.transform.position.x, valueToIncrement.transform.position.y, MainCamera.transform.position.z) - valueToIncrement.transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
+            valueToIncrement.transform.rotation = Quaternion.Slerp(valueToIncrement.transform.rotation, targetRotation, Time.deltaTime * 2.0f);
+
+            valueToIncrement.transform.Translate(Vector3.down * 0.7f * Time.deltaTime);
 
             if (Time.time - currentTime > AnimationUtility.ANIM_LENGTH)
             {
@@ -600,8 +607,7 @@ public class VariableBoxController : MonoBehaviour
         if (!incremented)
         {
             options.Deselect();
-            currentTime = Time.time;
-
+            
             StartCoroutine("AnimateIncrement");
             incremented = true;
         }
@@ -615,14 +621,13 @@ public class VariableBoxController : MonoBehaviour
     {
         currentTime = Time.time;
         variableBoxValue.transform.localPosition = new Vector3(0, 0, 0);
-        yield return new WaitForSeconds(2.0f);
-
-        currentTime = Time.time;
         valueToIncrement = transform.GetChild(3).gameObject;
         preIncrementSelection = true;
 
-        yield return new WaitForSeconds(1.5f);
-
+        while (preIncrementSelection)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         currentTime = Time.time;
         Vector3 pos = transform.position + Vector3.up * 0.8f;
         plusOne = Instantiate((Resources.Load("1increment", typeof(GameObject)) as GameObject), pos, Hand.transform.rotation, transform.parent.parent);
@@ -631,13 +636,14 @@ public class VariableBoxController : MonoBehaviour
         int oldValue = int.Parse(value);
         int newValue = oldValue + 1;
         valueToIncrement.GetComponent<TextMesh>().text = newValue.ToString();
-
         incrementSelected = true;
 
-        yield return new WaitForSeconds(1.5f);
-
         currentTime = Time.time;
+        Vector3 newPos = transform.position + Vector3.up * 0.8f;
+        valueToIncrement.transform.position = newPos;
+       
         postIncrementSelection = true;
+
     }
 
     public void peekValue(bool key)

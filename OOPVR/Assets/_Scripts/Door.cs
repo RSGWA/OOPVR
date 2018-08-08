@@ -93,7 +93,7 @@ public class Door : MonoBehaviour
 
     public bool isDoorFullyOpen()
     {
-        return GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("DoorOpenIdle");
+        return transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("DoorOpenIdle");
     }
 
     public bool isDoorOpen()
