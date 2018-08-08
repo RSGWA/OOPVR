@@ -154,6 +154,7 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        ic1.EnableMovePositions(false);
         notepad.setActiveText(1);
         notepad.setTitle("Set name");
         notepad.blinkObjective(objectives[2]);
@@ -182,8 +183,9 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        ic1.EnableMovePositions(true);
         player.moveTo(mainMovePos);
-        ic1.EnableMovePositions(false);
+       
         mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         notepad.setActiveText(0);
         notepad.setTitle("Main");
@@ -199,6 +201,7 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        ic1.EnableMovePositions(false);
         Enable_GOINTO_Button(true);
         StartCoroutine("checkPlayerOnInstance1");
     }
@@ -223,7 +226,7 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-
+        ic1.EnableMovePositions(false);
         notepad.setActiveText(2);
         notepad.setTitle("Get name");
         notepad.blinkObjective(objectives[6]);
@@ -251,6 +254,7 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        ic1.EnableMovePositions(true);
         notepad.setActiveText(0);
         notepad.setTitle("Main");
         notepad.blinkObjective(objectives[8]);
@@ -258,7 +262,6 @@ public class MultiInstancesMethodCalls : ActivityController
 		addObjectToBlink (GameObject.Find("Name_Variable1"));
         player.moveTo(mainMovePos); //move player to main
         mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
-        ic1.EnableMovePositions(false);
         StartCoroutine("checkPlayerBackInMain");
     }
 
@@ -268,6 +271,7 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        ic1.EnableMovePositions(false);
         p1Name.transform.localScale = varConScale;
         StartCoroutine("check_p1_NameAssigned");
     }
@@ -278,7 +282,7 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-
+        
         //show instance container 2
         instanceContainer2.transform.localScale = insConScale;
         notepad.blinkObjective(objectives[9]);
@@ -308,7 +312,7 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-
+        ic2.EnableMovePositions(false);
         notepad.setActiveText(2);
         notepad.setTitle("Get name");
         notepad.blinkObjective(objectives[11]);
@@ -336,7 +340,7 @@ public class MultiInstancesMethodCalls : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-
+       
         player.moveTo(mainMovePos);
         mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         ic2.EnableMovePositions(false);
