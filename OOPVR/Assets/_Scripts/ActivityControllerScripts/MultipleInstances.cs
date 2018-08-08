@@ -149,7 +149,7 @@ public class MultipleInstances : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-        //enableMovePoints(false);
+        ic1.EnableMovePositions(false);
 
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
@@ -193,6 +193,7 @@ public class MultipleInstances : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
 
+        ic1.EnableMovePositions(true);
         address1.ToHands();
    
         notepad.setActiveText(0);
@@ -206,11 +207,11 @@ public class MultipleInstances : ActivityController
 
     IEnumerator checkPlayerInMain()
     {
-        yield return new WaitForSeconds(1.9f);
+        yield return new WaitForSeconds(AnimationUtility.ANIM_LENGTH);
         ic1.SetInstanceCompletion(true);
 
         player.moveTo(mainMovePos);
-
+        ic1.EnableMovePositions(false);
         while (!player.checkPlayerPos(mainMovePos.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
@@ -279,6 +280,7 @@ public class MultipleInstances : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        ic2.EnableMovePositions(false);
         notepad.setActiveText(1);
         notepad.setTitle("CONSTRUCTOR");
         notepad.blinkObjective(objectives[10]);
@@ -322,10 +324,9 @@ public class MultipleInstances : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         address2.ToHands();
-
+        ic2.EnableMovePositions(true);
         ic2.SetInstanceCompletion(true);
 
-        player.moveTo(mainMovePos);
         notepad.setActiveText(0);
         notepad.setTitle("MAIN");
         notepad.blinkObjective(objectives[13]);
@@ -336,10 +337,14 @@ public class MultipleInstances : ActivityController
     }
     IEnumerator checkPlayerBackInMain()
     {
+        yield return new WaitForSeconds(AnimationUtility.ANIM_LENGTH);
+        player.moveTo(mainMovePos);
+       
         while (!player.checkPlayerPos(mainMovePos.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
         }
+        ic2.EnableMovePositions(false);
         instanceBox2.transform.localScale = insConScale;
         StartCoroutine("checkInstance2Container");
     }

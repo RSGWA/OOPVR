@@ -93,6 +93,7 @@ public class SetName : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        instance.EnableMovePositions(false);
         notepad.setActiveText(1);
         notepad.setTitle("Set name");
         notepad.blinkObjective(objectives[3]);
@@ -123,6 +124,7 @@ public class SetName : ActivityController
             returned = player.hasReturned();
             yield return new WaitForSeconds(0.1f);
         }
+        instance.EnableMovePositions(true);
         GameObject mainMovePoint = GameObject.Find("MainMovePoint");
         player.moveTo(mainMovePoint);
         StartCoroutine("checkInMain");
@@ -135,6 +137,7 @@ public class SetName : ActivityController
         {
             yield return new WaitForSeconds(4f);
         }
+        instance.EnableMovePositions(false);
         // Activity Finished
         PlayerPrefs.SetInt("SetNameComplete", 1);
         PlayerPrefs.Save();

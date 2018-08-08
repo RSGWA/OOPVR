@@ -105,7 +105,7 @@ public class AddressBoxController : MonoBehaviour
             }
 
             // Disable current variable in hand
-            GetComponent<BoxCollider>().enabled = false;
+            transform.GetComponent<BoxCollider>().enabled = false;
 
             Hand.GetComponent<HandController>().setObjInHand(addressValue.gameObject);
             inHand = true;
