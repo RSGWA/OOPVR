@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 114458072236186088}
   m_Layer: 5
   m_Name: InfoCanvas
-  m_TagString: MessageCanvas
+  m_TagString: InfoCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1115,7 +1115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77280df039d87974b99ae62fdacd8913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceFromCamera: 0.8
+  distanceFromCamera: 0.4
 --- !u!114 &114133860858882302
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2474,7 +2474,7 @@ MonoBehaviour:
   blockingObjects: 0
   blockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &114796727048691982
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3191,17 +3191,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1558612259849860}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -1.3999996, z: 0.45}
+  m_LocalRotation: {x: -0.17364825, y: 0, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 1.1970005, z: 1.704}
   m_LocalScale: {x: 0.01031, y: 0.01019, z: 0.01}
   m_Children:
   - {fileID: 224722592976102388}
   m_Father: {fileID: 4307193517832404}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -20, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1.4}
+  m_AnchoredPosition: {x: 0, y: 1.197}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224400115980309832
