@@ -50,8 +50,8 @@ public class DefaultConstructor : ActivityController
 
         objectives.Add("new Person();");
         objectives.Add("Person::Person() {");
-        objectives.Add("this->age = -1;");
-        objectives.Add("this->name = \"\";");
+        objectives.Add("this->age = 0;");
+        objectives.Add("this->name = \" \";");
         objectives.Add("}");
         objectives.Add("Person *p1 = new Person();");
     }
@@ -99,7 +99,7 @@ public class DefaultConstructor : ActivityController
 
         notepad.blinkObjective(objectives[2]);
 		resetObjectsToBlink ();
-		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/0"));
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
 		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
 		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
@@ -114,7 +114,7 @@ public class DefaultConstructor : ActivityController
         }
         notepad.blinkObjective(objectives[3]);
 		resetObjectsToBlink ();
-		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\" \""));
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
 		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
 		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
