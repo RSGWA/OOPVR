@@ -149,6 +149,12 @@ public class VariableBoxController : MonoBehaviour
 				//options.Select ();
             }
         }
+        if (boxAssigned)
+        {
+            Renderer rend = transform.GetComponent<Renderer>();
+            rend.material = Resources.Load("VarAssigned") as Material;
+
+        }
         if (tipBox)
         {
             if (variableBoxValue.GetComponent<Rigidbody>() == null)
