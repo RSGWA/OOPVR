@@ -52,6 +52,7 @@ public class SetName : ActivityController
     // Use this for initialization
     void Start()
     {
+        instance.SetInstanceCompletion(true);
         instance.EnableMovePositions(false);
         notepad.blinkObjective(objectives[0]);
 		resetObjectsToBlink ();

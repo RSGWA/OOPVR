@@ -25,7 +25,9 @@ public class InfoController : MonoBehaviour {
     public void SetInformation(string msg)
     {
         infoStatus.text = msg;
-        StartCoroutine(UpdateMessage());
+        ShowInformation();
+
+        //StartCoroutine(UpdateMessage());
     }
 
     private IEnumerator UpdateMessage()
@@ -37,11 +39,21 @@ public class InfoController : MonoBehaviour {
 
     public void ShowInformation()
     {
+        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        Vector3 playerPos = player.transform.position;
+        Vector3 infoPos = new Vector3(0, 0.5f, 5);
+        transform.SetPositionAndRotation((playerPos + infoPos), player.transform.rotation);
+        canvas.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        canvas.GetComponent<CanvasGroup>().interactable = true;
         canvas.GetComponent<CanvasGroup>().alpha = 1;
     }
 
     public void HideInformation()
     {
+        canvas.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        canvas.GetComponent<CanvasGroup>().interactable = false;
         canvas.GetComponent<CanvasGroup>().alpha = 0;
     }
+
+    
 }

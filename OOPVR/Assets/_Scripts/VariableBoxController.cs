@@ -70,7 +70,7 @@ public class VariableBoxController : MonoBehaviour
         Hand = GameObject.FindGameObjectWithTag("Hand");
         variableBoxes = GameObject.FindGameObjectsWithTag("VariableBox");
         MessageCanvas = GameObject.Find("MessageCanvas").GetComponent<Status>();
-        info = GameObject.Find("InfoCanvas").GetComponent<InfoController>();
+        info = GameObject.FindGameObjectWithTag("InfoCanvas").GetComponent<InfoController>();
         options = transform.GetComponent<OptionMenu>();
         MainCamera = GameObject.Find("Main Camera");
 
