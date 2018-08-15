@@ -12,7 +12,7 @@ public class Constructor2Parameters : ActivityController {
     Notepad notepad;
     PlayerController player;
     AddressBoxController address;
-    GameObject instanceContainer;
+    GameObject instanceContainer, mainMovePoint;
 
     Vector3 insConScale;
 
@@ -41,6 +41,7 @@ public class Constructor2Parameters : ActivityController {
         instanceBox = GameObject.Find("InstanceContainer").GetComponent<VariableBoxController>();
 
         address = GameObject.FindGameObjectWithTag("AddressBox").GetComponent<AddressBoxController>();
+        mainMovePoint = GameObject.Find("MainMovePoint");
 
         instanceContainer = GameObject.Find("InstanceContainer");
         insConScale = instanceContainer.transform.localScale;
@@ -92,6 +93,7 @@ public class Constructor2Parameters : ActivityController {
         {
             yield return new WaitForSeconds(1f);
         }
+        mainMovePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
 
         showMainAreaValues(true);
         notepad.blinkObjective(objectives[2]);
@@ -128,6 +130,8 @@ public class Constructor2Parameters : ActivityController {
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
 		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
+
+        instance.EnableMovePositions(false);
 
 		StartCoroutine("checkNameSet");
 	}
@@ -186,7 +190,7 @@ public class Constructor2Parameters : ActivityController {
         yield return new WaitForSeconds(1.9f);
         instance.SetInstanceCompletion(true);
 
-        GameObject mainMovePoint = GameObject.Find("MainMovePoint");
+        mainMovePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         player.moveTo(mainMovePoint);
 
         while (!player.checkPlayerPos(mainMovePoint.transform.position))
