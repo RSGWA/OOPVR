@@ -22,6 +22,8 @@ public class DefaultConstructor : ActivityController
 	BlueprintController bp;
 	HandController hand;
 
+	public GameObject ageValue, nameValue;
+
     Transform methodRoom;
     Vector3 inRoomPos, insConScale;
 
@@ -52,8 +54,10 @@ public class DefaultConstructor : ActivityController
 
         objectives.Add("new Person();");
         objectives.Add("Person::Person() {");
-        objectives.Add("this->age = 0;");
-        objectives.Add("this->name = \" \";");
+		objectives.Add("0");
+        objectives.Add("this->age =");
+        objectives.Add("\" \"");
+		objectives.Add("this->name =");
         objectives.Add("}");
         objectives.Add("Person *p1 = new Person();");
     }
@@ -104,11 +108,19 @@ public class DefaultConstructor : ActivityController
         notepad.blinkObjective(objectives[2]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/0"));
-		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
-		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/-1"));
-		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
-        StartCoroutine("checkAgeSet");
+		StartCoroutine("checkAgeValueInHand");
     }
+
+	IEnumerator checkAgeValueInHand() {
+
+		while (!ageValueInHand ()) {
+			yield return new WaitForSeconds(0.1f);
+		}
+		notepad.blinkObjective(objectives[3]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
+		StartCoroutine("checkAgeSet");
+	}
 
     IEnumerator checkAgeSet()
     {
@@ -116,14 +128,22 @@ public class DefaultConstructor : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[3]);
+        notepad.blinkObjective(objectives[4]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\" \""));
-		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
-		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\"\""));
-		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
-        StartCoroutine("checkNameSet");
+        StartCoroutine("checkNameValueInHand");
     }
+
+	IEnumerator checkNameValueInHand() {
+
+		while (!nameValueInHand ()) {
+			yield return new WaitForSeconds(0.1f);
+		}
+		notepad.blinkObjective(objectives[5]);
+		resetObjectsToBlink ();
+		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
+		StartCoroutine("checkNameSet");
+	}
 
     IEnumerator checkNameSet()
     {
@@ -131,10 +151,10 @@ public class DefaultConstructor : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[4]);
+        notepad.blinkObjective(objectives[6]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
-		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));
+
         //Enable Door selection for exit
         instance.transform.Find("DefaultConstructor/Door/DoorExt").GetComponent<Door>().enableDoor();
         StartCoroutine("checkReturn");
@@ -149,7 +169,7 @@ public class DefaultConstructor : ActivityController
         }
         notepad.setActiveText(0);
         notepad.setTitle("Main");
-        notepad.blinkObjective(objectives[5]);
+        notepad.blinkObjective(objectives[7]);
 
         retrieveAddress();
         
@@ -174,7 +194,7 @@ public class DefaultConstructor : ActivityController
 
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
-		//objBlink.blinkObject (GameObject.Find ("InstanceContainer"));
+
         StartCoroutine("checkInstanceContainer");
     }
 
@@ -209,4 +229,23 @@ public class DefaultConstructor : ActivityController
     {
         return instanceBox.isVarInBox();
     }
+
+	bool ageValueInHand()
+	{
+		if (hand.getObjInHand () == ageValue) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	bool nameValueInHand()
+	{
+		if (hand.getObjInHand () == nameValue) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
