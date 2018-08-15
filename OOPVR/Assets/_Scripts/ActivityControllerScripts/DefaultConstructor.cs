@@ -44,6 +44,8 @@ public class DefaultConstructor : ActivityController
         insConScale = instanceContainer.transform.localScale;
         instanceContainer.transform.localScale = new Vector3(0, 0, 0);
 
+        mainMovePoint = GameObject.Find("MainMovePoint");
+
         entrance = GameObject.FindGameObjectWithTag("Instance").transform.Find("DefaultConstructor/Planks").GetComponent<PlanksController>();
 	
 		hand = GameObject.FindGameObjectWithTag ("Hand").GetComponent<HandController> ();
@@ -86,6 +88,7 @@ public class DefaultConstructor : ActivityController
         //Move player in front of constructor
         GameObject constrMovePoint = instance.transform.Find("DefaultConstructor/MovePoint").gameObject;
         player.moveTo(constrMovePoint);
+        mainMovePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         StartCoroutine("checkConstructorEntered");
     }
 
@@ -96,6 +99,7 @@ public class DefaultConstructor : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        instance.EnableMovePositions(false);
 
         notepad.blinkObjective(objectives[2]);
 		resetObjectsToBlink ();
@@ -158,8 +162,9 @@ public class DefaultConstructor : ActivityController
         yield return new WaitForSeconds(1.9f);
         instance.SetInstanceCompletion(true);       
 
-        mainMovePoint = GameObject.Find("MainMovePoint");
+        //mainMovePoint = GameObject.Find("MainMovePoint");
         player.moveTo(mainMovePoint);
+        instance.EnableMovePositions(false);
 
         while (!player.checkPlayerPos(mainMovePoint.transform.position))
         {
