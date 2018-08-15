@@ -57,7 +57,11 @@ public class IncrementAge : ActivityController
         notepad.blinkDuplicateObjective(objectives[0], 2);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
+
+        instance.SetInstanceCompletion(true);
+        instance.CreateInstanceByDefault();
         instance.EnableMovePositions(false);
+
         StartCoroutine("CheckPlayerOnInstanceArea");
     }
 
@@ -68,6 +72,8 @@ public class IncrementAge : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
+
         instance.EnableMovePositions(true);
         notepad.blinkObjective(objectives[1]);
 		resetObjectsToBlink ();
@@ -115,18 +121,16 @@ public class IncrementAge : ActivityController
         }
         resetIncrement(); //resets the isIncremented when player exits
         player.setInRoom(false); //resets isInRoom to false as player exits
-        //methodEntered = player.isInRoom();
 
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         player.moveTo(mainMovePos);
-        //instance.EnableMovePositions(false);
 
         StartCoroutine("CheckPlayerInMain");
     }
 
     IEnumerator CheckPlayerInMain()
     {
-        Vector3 mainPos = GameObject.Find("MainMovePoint").transform.position;
-        while (!player.checkPlayerPos(mainPos))
+        while (!player.checkPlayerPos(mainMovePos.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -136,12 +140,12 @@ public class IncrementAge : ActivityController
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
 
-        instance.EnableMovePositions(false);
         StartCoroutine("CheckPlayerOnInstance");
     }
 
     IEnumerator CheckPlayerOnInstance()
     {
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         Vector3 onLand = GameObject.FindGameObjectWithTag("GetName").transform.Find("MovePoint").position;
         while (!player.checkPlayerPos(onLand))
         {
@@ -193,7 +197,8 @@ public class IncrementAge : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-        instance.EnableMovePositions(true);
+
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         player.moveTo(mainMovePos);
         StartCoroutine("checkBackInMain");
     }
