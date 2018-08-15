@@ -16,8 +16,9 @@ public class SetName : ActivityController
     bool nameAssigned = false;
     bool returned = false;
 
-    GameObject setNameRoom;
+    GameObject setNameRoom, mainMovePoint;
     VariableBoxController nameParameterBox, nameInstanceBox, ageInstanceBox, instanceContainer;
+    Vector3 onLand, frontOfSetName;
 
     List<string> objectives = new List<string>();
 
@@ -42,6 +43,10 @@ public class SetName : ActivityController
         instanceContainer.setBoxAssigned(true);
         instanceContainer.setVariableBoxValue(InstanceAddress);
 
+        mainMovePoint = GameObject.Find("MainMovePoint");
+        onLand = GameObject.FindGameObjectWithTag("ConstructorWithParameters").transform.Find("MovePoint").position;
+        frontOfSetName = setNameRoom.transform.Find("MovePoint").position;
+
         objectives.Add("p1->");
         objectives.Add("setName");
         objectives.Add("\"Gilbert\"");
@@ -62,7 +67,7 @@ public class SetName : ActivityController
 
     IEnumerator CheckPlayerOnInstanceArea()
     {
-        Vector3 onLand = GameObject.FindGameObjectWithTag("ConstructorWithParameters").transform.Find("MovePoint").position;
+        
         while (!player.checkPlayerPos(onLand))
         {
             yield return new WaitForSeconds(0.1f);
@@ -76,7 +81,7 @@ public class SetName : ActivityController
 
     IEnumerator checkPlayerInFrontOfMethod()
     {
-        Vector3 frontOfSetName = setNameRoom.transform.Find("MovePoint").position;
+       
         while (!player.checkPlayerPos(frontOfSetName))
         {
             yield return new WaitForSeconds(0.1f);
@@ -125,15 +130,14 @@ public class SetName : ActivityController
             returned = player.hasReturned();
             yield return new WaitForSeconds(0.1f);
         }
-        GameObject mainMovePoint = GameObject.Find("MainMovePoint");
+       
         player.moveTo(mainMovePoint);
         StartCoroutine("checkInMain");
     }
 
     IEnumerator checkInMain()
     {
-        Vector3 mainMovePoint = GameObject.Find("MainMovePoint").transform.position;
-        while (!player.checkPlayerPos(mainMovePoint))
+        while (!player.checkPlayerPos(mainMovePoint.transform.position))
         {
             yield return new WaitForSeconds(4f);
         }

@@ -112,6 +112,7 @@ public class MultipleInstances : ActivityController
         }
         blueprint.SetActive(false); //hide blueprint to force player to work on first instance
         player.moveTo(i1constructorMovePoint);  //automatically move player to constructor of instance
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
        
         notepad.blinkObjective(objectives[1]);
 		resetObjectsToBlink();
@@ -210,6 +211,7 @@ public class MultipleInstances : ActivityController
         yield return new WaitForSeconds(AnimationUtility.ANIM_LENGTH);
         ic1.SetInstanceCompletion(true);
 
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         player.moveTo(mainMovePos);
         ic1.EnableMovePositions(false);
         while (!player.checkPlayerPos(mainMovePos.transform.position))
@@ -244,6 +246,7 @@ public class MultipleInstances : ActivityController
         }
         //automatically move player to constructor of instance
         player.moveTo(i2constructorMovePoint);
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
         StartCoroutine("checkPlayerOnInstance2");
     }
 
@@ -338,6 +341,7 @@ public class MultipleInstances : ActivityController
     IEnumerator checkPlayerBackInMain()
     {
         yield return new WaitForSeconds(AnimationUtility.ANIM_LENGTH);
+        mainMovePos.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         player.moveTo(mainMovePos);
        
         while (!player.checkPlayerPos(mainMovePos.transform.position))
