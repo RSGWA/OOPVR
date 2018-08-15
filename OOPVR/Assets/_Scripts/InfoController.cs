@@ -7,6 +7,11 @@ public class InfoController : MonoBehaviour {
 
     private TextMeshProUGUI infoStatus;
     private GameObject canvas;
+    private Transform camera;
+    private Vector3 playerPos, infoPos;
+    private Quaternion playerRotation;
+    private PlayerController player;
+
 
     // Use this for initialization
     void Start()
@@ -14,12 +19,19 @@ public class InfoController : MonoBehaviour {
         infoStatus = GameObject.Find("InfoText").GetComponent<TextMeshProUGUI>();
         canvas = GameObject.Find("InfoCanvas");
         canvas.GetComponent<CanvasGroup>().alpha = 0;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        camera = GameObject.Find("Main Camera").transform;
+
+        playerPos = player.transform.position;
+        //playerRotation = player.transform.rotation;
+        infoPos = new Vector3(0, 0.5f, 4);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        playerPos = player.transform.position;
+        //playerRotation = player.transform.rotation;
     }
 
     public void SetInformation(string msg)
@@ -39,10 +51,20 @@ public class InfoController : MonoBehaviour {
 
     public void ShowInformation()
     {
-        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        Vector3 playerPos = player.transform.position;
-        Vector3 infoPos = new Vector3(0, 0.5f, 5);
-        transform.SetPositionAndRotation((playerPos + infoPos), player.transform.rotation);
+        float yRotation = camera.eulerAngles.y;
+
+        if(yRotation < -90 || yRotation > 90)
+        {
+            transform.SetPositionAndRotation((playerPos + camera.forward * 4), camera.rotation);
+        }
+        else
+        {
+            //transform.SetPositionAndRotation((playerPos + player.transform.forward * 4), playerRotation);
+            transform.SetPositionAndRotation((playerPos + camera.forward * 4), camera.rotation);
+        }
+       
+       
+
         canvas.GetComponent<CanvasGroup>().blocksRaycasts = true;
         canvas.GetComponent<CanvasGroup>().interactable = true;
         canvas.GetComponent<CanvasGroup>().alpha = 1;
