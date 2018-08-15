@@ -579,6 +579,7 @@ public class VariableBoxController : MonoBehaviour
 
     public void InfoButton()
     {
+        options.Deselect();
         string varBoxType = transform.GetChild(0).tag;
         string varName = transform.Find("Labels").GetChild(0).GetComponent<TextMesh>().text;
 

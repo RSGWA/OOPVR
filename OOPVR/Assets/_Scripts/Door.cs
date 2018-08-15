@@ -103,6 +103,7 @@ public class Door : MonoBehaviour
 
     string getDoorInfoDescription(string methodName)
     {
+        
         string description = "";
         switch (methodName)
         {
@@ -185,6 +186,7 @@ public class Door : MonoBehaviour
     }
     public void infoButton()
     {
+        options.Deselect();
         string nameMethod = getMethodName(methodName);
         string desc = getDoorInfoDescription(methodName);
         info.SetInformation(nameMethod + "\nThis is a DOOR. " + desc);

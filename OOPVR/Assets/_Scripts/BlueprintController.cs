@@ -112,6 +112,7 @@ public class BlueprintController : MonoBehaviour
 
     public void InfoButton()
     {
+        optionsMenu.Deselect();
         string valueType = transform.GetChild(0).tag;
         string varName = transform.name;
         info.SetInformation("This is a BLUEPRINT, a representation of a CLASS in the programming context!! \nThis Blueprint allow you to INSTANTIATE an INSTANCE of the class it represents.\n ");

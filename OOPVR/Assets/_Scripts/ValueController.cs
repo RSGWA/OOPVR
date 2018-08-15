@@ -88,6 +88,7 @@ public class ValueController : MonoBehaviour
 
     public void InfoButton()
     {
+        options.Deselect();
         string valueType = transform.GetChild(0).tag;
         string varName = transform.GetComponent<TextMesh>().text;
         info.SetInformation(varName + "\nThis is a Value of Type " + valueType + ".\nYou may assign it to a variable or parameter container of type "+ valueType);
