@@ -8,6 +8,7 @@ public class InGameMenu : MonoBehaviour {
 
 	float distanceFromCamera = 1.6f;
 	ActivityController ac;
+	public Material dimSky;
 
 	// Use this for initialization
 	void Start () {
@@ -54,5 +55,7 @@ public class InGameMenu : MonoBehaviour {
 
 	public void hint() {
 		ac.blinkObjects ();
+		RenderSettings.skybox = dimSky;
+		RenderSettings.ambientIntensity = 0.3f;
 	}
 }

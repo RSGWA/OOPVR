@@ -13,6 +13,8 @@ public class ObjectBlink : MonoBehaviour {
 	private int originalOutlineColor;
 	private static float BLINK_DELAY = 0f;
 
+	public Material skybox;
+
 	IEnumerator coroutine;
 
 	// Use this for initialization
@@ -43,6 +45,8 @@ public class ObjectBlink : MonoBehaviour {
 		outline.eraseRenderer = false;
 		outline.enabled = true;
 
+		obj.GetComponent<Renderer> ().material.EnableKeyword ("_EMISSION");
+		obj.GetComponent<Renderer> ().material.SetColor ("_EmissionColor", Color.gray);
 		StopCoroutine (coroutine);
 		StartCoroutine (coroutine);
 	}
@@ -63,8 +67,11 @@ public class ObjectBlink : MonoBehaviour {
 			objBlinking.GetComponent<Outline> ().color = originalOutlineColor;
 			outlineEffect.fillAmount = 0f;
 
+			RenderSettings.skybox = skybox;
+			RenderSettings.ambientIntensity = 1f;
+			objBlinking.GetComponent<Renderer> ().material.DisableKeyword ("_EMISSION");
+
 			StopCoroutine (coroutine);
-			Debug.Log ("OBJECT BLINKING STOPPED");
 		}
 	}
 
