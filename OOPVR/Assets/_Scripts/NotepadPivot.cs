@@ -28,7 +28,7 @@ public class NotepadPivot : MonoBehaviour {
 	}
 
 	IEnumerator tiltNotepad() {
-		while (Camera.main.transform.rotation.eulerAngles.x > 0f & Camera.main.transform.eulerAngles.x < 90f) {
+		while (Camera.main.transform.rotation.eulerAngles.x > 7f & Camera.main.transform.eulerAngles.x < 90f) {
 			transform.rotation = Quaternion.Lerp (transform.rotation, 
 				Quaternion.Euler (new Vector3 (tiltAngle, Camera.main.transform.eulerAngles.y, 0)), 
 				tiltSpeed * Time.deltaTime);
