@@ -120,7 +120,7 @@ public class Activities : MonoBehaviour
                 SceneManager.LoadScene("2ParameterConstructor", LoadSceneMode.Single);
                 break;
             case "Get name":
-                SceneManager.LoadScene("GetName", LoadSceneMode.Single);
+                SceneManager.LoadScene("GetNameActivity", LoadSceneMode.Single);
                 break;
             case "Set name":
                 SceneManager.LoadScene("SetNameActivity", LoadSceneMode.Single);
