@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class GetName : ActivityController {
@@ -10,8 +11,9 @@ public class GetName : ActivityController {
 	Notepad notepad;
 	PlayerController player;
 	HandController hand;
+    Button goToAddr;
 
-	GameObject getNameRoom;
+	GameObject getNameRoom , mainMovePoint;
 	VariableBoxController instanceNameBox, instanceAgeBox, mainNameBox, instanceContainer;
 
 	bool instanceCreated = false;
@@ -38,8 +40,12 @@ public class GetName : ActivityController {
         instanceContainer = GameObject.Find("InstanceContainer").GetComponent<VariableBoxController>();
         instanceContainer.setBoxAssigned(true);
         instanceContainer.setVariableBoxValue(InstanceAddress);
+        goToAddr = instanceContainer.transform.Find("OptionMenu/Panel/GoToAddress").GetComponent<Button>();
+
 
         mainNameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
+
+        mainMovePoint = GameObject.Find("MainMovePoint");
 
         objectives.Add("p1->");
 		objectives.Add ("getName()");
@@ -55,7 +61,11 @@ public class GetName : ActivityController {
 		notepad.blinkObjective(objectives[0]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
+
+        instance.SetInstanceCompletion(true);
+        instance.CreateInstanceByDefault();
         instance.EnableMovePositions(false);
+
         StartCoroutine ("CheckPlayerOnInstanceArea");
 	}
 
@@ -66,7 +76,13 @@ public class GetName : ActivityController {
         {
             yield return new WaitForSeconds(0.1f);
         }
+
         instance.EnableMovePositions(true);
+        mainMovePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
+
+        goToAddr.interactable = false;
+        goToAddr.transform.GetComponent<ButtonGaze>().enabled = false;
+
         notepad.blinkObjective(objectives[1]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/GetName/Door/DoorExt/DoorPanel"));
@@ -78,6 +94,7 @@ public class GetName : ActivityController {
 			yield return new WaitForSeconds (0.1f);
 		}
         instance.EnableMovePositions(false);
+
         notepad.setActiveText (1);
 		notepad.setTitle ("Get name");
 		notepad.blinkObjective (objectives [2]);
@@ -102,24 +119,23 @@ public class GetName : ActivityController {
 			returned = player.hasReturned ();
 			yield return new WaitForSeconds (0.1f);
 		}
-        instance.EnableMovePositions(true);
+       
         notepad.setActiveText (0);
 		notepad.setTitle ("Main");
 		notepad.blinkObjective (objectives [4]);
 
-        GameObject mainMovePoint = GameObject.Find("MainMovePoint");
+        mainMovePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         player.moveTo(mainMovePoint);
         StartCoroutine ("checkInMain");
 	}
 
     IEnumerator checkInMain()
     {
-        Vector3 mainMovePoint = GameObject.Find("MainMovePoint").transform.position;
-        while (!player.checkPlayerPos(mainMovePoint))
+        while (!player.checkPlayerPos(mainMovePoint.transform.position))
         {
             yield return new WaitForSeconds(0.1f);
         }
-        instance.EnableMovePositions(false);
+       
         notepad.blinkObjective(objectives[5]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Name_Variable"));
