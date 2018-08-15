@@ -14,6 +14,7 @@ public class IncrementAge : ActivityController
     bool methodEntered = false;
     bool returned = false;
 
+    Transform getNameRoom;
     GameObject mainMovePos;
     GameObject incrementAgeRoom;
     VariableBoxController instanceAgeBox, instanceNameBox, instanceContainer;
@@ -27,6 +28,7 @@ public class IncrementAge : ActivityController
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         mainMovePos = GameObject.Find("MainMovePoint");
+        getNameRoom = instance.transform.Find("GetName");
 
         incrementAgeRoom = GameObject.FindGameObjectWithTag("IncrementAge");
         instanceAgeBox = GameObject.Find("Age_InstanceBox").GetComponent<VariableBoxController>();
@@ -59,7 +61,6 @@ public class IncrementAge : ActivityController
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
 
         instance.SetInstanceCompletion(true);
-        instance.CreateInstanceByDefault();
         instance.EnableMovePositions(false);
 
         StartCoroutine("CheckPlayerOnInstanceArea");
@@ -67,8 +68,8 @@ public class IncrementAge : ActivityController
 
     IEnumerator CheckPlayerOnInstanceArea()
     {
-        Vector3 onLand = GameObject.FindGameObjectWithTag("GetName").transform.Find("MovePoint").position;
-        while (!player.checkPlayerPos(onLand))
+        
+        while (!playerInFrontMethod(getNameRoom))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -222,6 +223,11 @@ public class IncrementAge : ActivityController
 
         return (player.checkPlayerPos(roomMovePoint.position));
 
+    }
+    bool playerInFrontMethod(Transform trans)
+    {
+        Transform roomMovePoint = trans.Find("MovePoint");
+        return (player.checkPlayerPos(roomMovePoint.position));
     }
     bool isAgeInstanceIncremented()
     {

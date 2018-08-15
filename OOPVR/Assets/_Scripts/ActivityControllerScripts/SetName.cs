@@ -19,6 +19,7 @@ public class SetName : ActivityController
     GameObject setNameRoom, mainMovePoint;
     VariableBoxController nameParameterBox, nameInstanceBox, ageInstanceBox, instanceContainer;
     Vector3 onLand, frontOfSetName;
+    Transform setNameRm, constructorRoom;
 
     List<string> objectives = new List<string>();
 
@@ -47,6 +48,9 @@ public class SetName : ActivityController
         onLand = GameObject.FindGameObjectWithTag("ConstructorWithParameters").transform.Find("MovePoint").position;
         frontOfSetName = setNameRoom.transform.Find("MovePoint").position;
 
+        setNameRm = instance.transform.Find("SetName");
+        constructorRoom = instance.transform.Find("Constructor");
+
         objectives.Add("p1->");
         objectives.Add("setName");
         objectives.Add("\"Gilbert\"");
@@ -59,6 +63,7 @@ public class SetName : ActivityController
     {
         instance.SetInstanceCompletion(true);
         instance.EnableMovePositions(false);
+
         notepad.blinkObjective(objectives[0]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
@@ -68,11 +73,13 @@ public class SetName : ActivityController
     IEnumerator CheckPlayerOnInstanceArea()
     {
         
-        while (!player.checkPlayerPos(onLand))
+        while (!playerInFrontMethod(constructorRoom))
         {
             yield return new WaitForSeconds(0.1f);
         }
         instance.EnableMovePositions(true);
+        mainMovePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(false);
+
         notepad.blinkObjective(objectives[1]);
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/SetName/Door/DoorExt/DoorPanel"));
@@ -81,8 +88,7 @@ public class SetName : ActivityController
 
     IEnumerator checkPlayerInFrontOfMethod()
     {
-       
-        while (!player.checkPlayerPos(frontOfSetName))
+        while (!playerInFrontMethod(setNameRm))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -130,7 +136,7 @@ public class SetName : ActivityController
             returned = player.hasReturned();
             yield return new WaitForSeconds(0.1f);
         }
-       
+        mainMovePoint.GetComponent<TeleportMovePoint>().ShowMovePoint(true);
         player.moveTo(mainMovePoint);
         StartCoroutine("checkInMain");
     }
@@ -145,6 +151,12 @@ public class SetName : ActivityController
         PlayerPrefs.SetInt("SetNameComplete", 1);
         PlayerPrefs.Save();
         notepad.endOfActivity();
+    }
+
+    bool playerInFrontMethod(Transform trans)
+    {
+        Transform roomMovePoint = trans.Find("MovePoint");
+        return (player.checkPlayerPos(roomMovePoint.position));
     }
 
     bool nameParameterSet()

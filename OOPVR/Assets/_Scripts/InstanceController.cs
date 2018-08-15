@@ -23,6 +23,7 @@ public class InstanceController : MonoBehaviour
     {
         movePoints = new List<Transform>();
         SetMovePoints();
+        
     }
     // Use this for initialization
     void Start()
@@ -42,6 +43,7 @@ public class InstanceController : MonoBehaviour
         {
             enableMethods(CONSTRUCTOR_METHODS, false);
             enableMethods(INSTANCE_METHODS, true);
+            CreateInstanceByDefault();
         }
     }
 
@@ -166,8 +168,9 @@ public class InstanceController : MonoBehaviour
         completedInstantiation = key;
     }
 
-    public void CreateInstanceByDefault()
+    void CreateInstanceByDefault()
     {
+       
         string activityName = SceneManager.GetActiveScene().name;
 
         if (activityName == "SetNameActivity" || activityName == "GetNameActivity" || activityName == "IncrementAgeActivity" || activityName == "MultiInstancesMethodCallsActivity")

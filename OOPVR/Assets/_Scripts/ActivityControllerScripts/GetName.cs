@@ -12,7 +12,8 @@ public class GetName : ActivityController {
 	PlayerController player;
 	HandController hand;
     Button goToAddr;
-
+   
+    Transform setNameRoom;
 	GameObject getNameRoom , mainMovePoint;
 	VariableBoxController instanceNameBox, instanceAgeBox, mainNameBox, instanceContainer;
 
@@ -41,11 +42,11 @@ public class GetName : ActivityController {
         instanceContainer.setBoxAssigned(true);
         instanceContainer.setVariableBoxValue(InstanceAddress);
         goToAddr = instanceContainer.transform.Find("OptionMenu/Panel/GoToAddress").GetComponent<Button>();
-
-
+        
         mainNameBox = GameObject.Find ("Name_Variable").GetComponent<VariableBoxController> ();
 
         mainMovePoint = GameObject.Find("MainMovePoint");
+        setNameRoom = instance.transform.Find("SetName");
 
         objectives.Add("p1->");
 		objectives.Add ("getName()");
@@ -63,7 +64,6 @@ public class GetName : ActivityController {
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
 
         instance.SetInstanceCompletion(true);
-        instance.CreateInstanceByDefault();
         instance.EnableMovePositions(false);
 
         StartCoroutine ("CheckPlayerOnInstanceArea");
@@ -71,8 +71,8 @@ public class GetName : ActivityController {
 
     IEnumerator CheckPlayerOnInstanceArea()
     {
-        Vector3 onLand = GameObject.FindGameObjectWithTag("SetName").transform.Find("MovePoint").position;
-        while (!player.checkPlayerPos(onLand))
+               
+        while (!playerInFrontMethod(setNameRoom))
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -157,13 +157,13 @@ public class GetName : ActivityController {
 		return mainNameBox.isVarInBox ();
 	}
 
-	bool playerInFrontOfMethod() {
-		Transform roomMovePoint = getNameRoom.transform.Find ("MovePoint");
+    bool playerInFrontMethod(Transform trans)
+    {
+        Transform roomMovePoint = trans.Find("MovePoint");
+        return (player.checkPlayerPos(roomMovePoint.position));
+    }
 
-		return (player.transform.position.x == roomMovePoint.position.x) && (player.transform.position.z == roomMovePoint.position.z);
-	}
-
-	bool nameInHand() {
+    bool nameInHand() {
 		if (hand.getObjInHand () != null) {
 			return hand.getObjInHand ().name == "Name_InstanceBox(Clone)";
 		}
