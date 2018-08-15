@@ -58,9 +58,9 @@ public class GetName : ActivityController {
 
 	// Use this for initialization
 	void Start () {
-       
-		notepad.blinkObjective(objectives[0]);
-		resetObjectsToBlink ();
+
+        notepad.blinkDuplicateObjective(objectives[0], 2);
+        resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
 
         instance.SetInstanceCompletion(true);
