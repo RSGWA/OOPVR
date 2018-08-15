@@ -170,7 +170,7 @@ public class DoorMenuController : MonoBehaviour
             case "SetNameActivity":
                 ActivityName = "SetName";
                 break;
-            case "GetName":
+            case "GetNameActivity":
                 ActivityName = "GetName";
                 break;
             case "IncrementAgeActivity":

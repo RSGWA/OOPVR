@@ -43,12 +43,6 @@ public class InstanceController : MonoBehaviour
             enableMethods(CONSTRUCTOR_METHODS, false);
             enableMethods(INSTANCE_METHODS, true);
         }
-
-        if(instanceCreatedByDefault())
-        {
-            enableMethods(CONSTRUCTOR_METHODS, false);
-            enableMethods(INSTANCE_METHODS, true);
-        }
     }
 
     public void createInstance()
@@ -145,8 +139,6 @@ public class InstanceController : MonoBehaviour
         }
 
     }
-
-
     //Enable/Disable method given room transform
     public void enableMethodEntrance(Transform room, bool key)
     {
@@ -174,22 +166,20 @@ public class InstanceController : MonoBehaviour
         completedInstantiation = key;
     }
 
-    bool instanceCreatedByDefault()
+    public void CreateInstanceByDefault()
     {
         string activityName = SceneManager.GetActiveScene().name;
 
-        if (activityName == "SetNameActivity" || activityName == "GetName" || activityName == "IncrementAgeActivity" || activityName == "MultiInstancesMethodCallsActivity")
+        if (activityName == "SetNameActivity" || activityName == "GetNameActivity" || activityName == "IncrementAgeActivity" || activityName == "MultiInstancesMethodCallsActivity")
         {
-            if(activityName != "SetNameActivity" && activityName != "MultiInstancesMethodCallsActivity")
+            if (activityName != "SetNameActivity" && activityName != "MultiInstancesMethodCallsActivity")
             {
                 transform.Find("SetName/ParametersPlatform/NameParameter/NameParameterBox").GetComponent<InteractiveItemGaze>().enabled = false;
             }
-            return true;
+           
         }
-        return false;
+       
     }
-
-
 
 
 
