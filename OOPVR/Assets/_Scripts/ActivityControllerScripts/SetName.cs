@@ -22,12 +22,14 @@ public class SetName : ActivityController
     Transform setNameRm, constructorRoom;
 
     List<string> objectives = new List<string>();
+    HandController hand;
 
     void Awake()
     {
         instance = GameObject.FindGameObjectWithTag("Instance").GetComponent<InstanceController>();
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        hand = GameObject.FindGameObjectWithTag("Hand").GetComponent<HandController>();
 
         setNameRoom = GameObject.FindGameObjectWithTag("SetName");
         Transform parameterPlatform = setNameRoom.transform.Find("ParametersPlatform");
@@ -54,7 +56,8 @@ public class SetName : ActivityController
         objectives.Add("p1->");
         objectives.Add("setName");
         objectives.Add("\"Gilbert\"");
-        objectives.Add("this->name = name;");
+        objectives.Add("name;");
+        objectives.Add("this->name =");
         objectives.Add("}");
     }
 
@@ -95,7 +98,18 @@ public class SetName : ActivityController
         notepad.blinkObjective(objectives[2]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Gilbert"));
-		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/SetName/ParametersPlatform/NameParameter/NameParameterBox"));
+        StartCoroutine("checkNameInHand");
+    }
+
+    IEnumerator checkNameInHand()
+    {
+        while (!nameValueInHand(GameObject.Find("Gilbert")))
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        resetObjectsToBlink();
+        addObjectToBlink(GameObject.Find("Instance/Heptagon Instance/SetName/ParametersPlatform/NameParameter/NameParameterBox"));
+
         StartCoroutine("checkNameParameterSet");
     }
 
@@ -108,10 +122,25 @@ public class SetName : ActivityController
         instance.EnableMovePositions(false);
         notepad.setActiveText(1);
         notepad.setTitle("Set name");
-        notepad.blinkObjective(objectives[3]);
+        notepad.blinkDuplicateObjective(objectives[3], 2);
 		resetObjectsToBlink ();
-		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/SetName/ParametersPlatform/NameParameter/NameParameterBox"));
+        StartCoroutine("checkNameInHand2");
+    }
+
+    IEnumerator checkNameInHand2()
+    {
+        while (hand.getObjInHand() == null)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        DeactivateParamBox(nameParameterBox.transform);
+        ActivateInstanceBox(nameInstanceBox.transform);
+
+        notepad.blinkObjective(objectives[4]);
+        resetObjectsToBlink();
+        addObjectToBlink(GameObject.Find("Instance/Heptagon Instance/Name_InstanceBox"));
+
         StartCoroutine("checkNameSet");
     }
 
@@ -121,7 +150,8 @@ public class SetName : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
-        notepad.blinkObjective(objectives[4]);
+        DeactivateInstanceBox(nameInstanceBox.transform);
+        notepad.blinkObjective(objectives[5]);
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/SetName/Door/DoorExt/DoorPanel"));
 
@@ -178,5 +208,59 @@ public class SetName : ActivityController
             }  
         }
         return false;
+    }
+
+    bool nameValueInHand(GameObject value)
+    {
+        if (hand.getObjInHand() == value)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void DeactivateParamBox(Transform box)
+    {
+        box.parent.GetComponent<ParameterBoxMenuController>().enabled = false;
+
+        Transform panel = box.Find("OptionMenu/Panel");
+
+        GameObject copy = panel.Find("CopyButton").gameObject;
+        GameObject assign = panel.Find("AssignButton").gameObject;
+        GameObject info = panel.Find("InfoButton").gameObject;
+
+        copy.SetActive(false);
+        assign.SetActive(false);
+        info.SetActive(true);
+
+    }
+    void ActivateParamBox(Transform box)
+    {
+        box.parent.GetComponent<ParameterBoxMenuController>().enabled = true;
+    }
+
+    void DeactivateInstanceBox(Transform box)
+    {
+        box.GetComponent<InstanceVariablesMenuController>().enabled = false;
+
+        Transform panel = box.Find("OptionMenu/Panel");
+
+        GameObject copy = panel.Find("CopyButton").gameObject;
+        GameObject assign = panel.Find("AssignButton").gameObject;
+        GameObject increment = panel.Find("IncrementButton").gameObject;
+        GameObject info = panel.Find("InfoButton").gameObject;
+
+        copy.SetActive(false);
+        assign.SetActive(false);
+        increment.SetActive(false);
+        info.SetActive(true);
+
+    }
+    void ActivateInstanceBox(Transform box)
+    {
+        box.GetComponent<InstanceVariablesMenuController>().enabled = true;
     }
 }
