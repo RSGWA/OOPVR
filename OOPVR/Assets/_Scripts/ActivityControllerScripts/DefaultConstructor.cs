@@ -16,7 +16,7 @@ public class DefaultConstructor : ActivityController
     List<string> objectives = new List<string>();
 
     VariableBoxController ageBox, nameBox, instanceBox;
-    GameObject instanceContainer, mainMovePoint;
+    GameObject instanceContainer, mainMovePoint, emptyStringPickUp;
     AddressBoxController address;
     PlanksController entrance;
 	BlueprintController bp;
@@ -46,6 +46,8 @@ public class DefaultConstructor : ActivityController
         insConScale = instanceContainer.transform.localScale;
         instanceContainer.transform.localScale = new Vector3(0, 0, 0);
 
+        emptyStringPickUp = instance.transform.Find("DefaultConstructor/\" \"/OptionMenu/Panel/PickUpButton").gameObject;
+
         mainMovePoint = GameObject.Find("MainMovePoint");
 
         entrance = GameObject.FindGameObjectWithTag("Instance").transform.Find("DefaultConstructor/Planks").GetComponent<PlanksController>();
@@ -59,7 +61,7 @@ public class DefaultConstructor : ActivityController
         objectives.Add("\" \"");
 		objectives.Add("this->name =");
         objectives.Add("}");
-        objectives.Add("Person *p1 = new Person();");
+        objectives.Add("Person *p1 =");
     }
 
     // Use this for initialization
@@ -67,6 +69,7 @@ public class DefaultConstructor : ActivityController
     {
         notepad.blinkObjective(objectives[0]);
 		addObjectToBlink (GameObject.Find ("Blueprint"));
+        emptyStringPickUp.SetActive(false);
 		//objBlink.blinkObject (GameObject.Find ("Blueprint"));
         StartCoroutine("checkInstanceCreated");
     }
@@ -128,6 +131,7 @@ public class DefaultConstructor : ActivityController
         {
             yield return new WaitForSeconds(0.1f);
         }
+        emptyStringPickUp.SetActive(true);
         notepad.blinkObjective(objectives[4]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/\" \""));
