@@ -12,7 +12,7 @@ public class Constructor2Parameters : ActivityController {
     Notepad notepad;
     PlayerController player;
     AddressBoxController address;
-    GameObject instanceContainer, mainMovePoint;
+    GameObject instanceContainer, mainMovePoint, nameParamCopy, ageParamCopy;
 
     Vector3 insConScale;
 
@@ -25,18 +25,21 @@ public class Constructor2Parameters : ActivityController {
 
     List<string> objectives = new List<string>();
 
+    HandController hand;
+
     void Awake()
     {
         instance = GameObject.FindGameObjectWithTag("Instance").GetComponent<InstanceController>();
         notepad = GameObject.FindGameObjectWithTag("Notepad").GetComponent<Notepad>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        hand = GameObject.FindGameObjectWithTag("Hand").GetComponent<HandController>();
 
-		Transform parameterPlatform = GameObject.FindGameObjectWithTag ("ConstructorWithParameters").transform.Find ("ParametersPlatform");
+        Transform parameterPlatform = GameObject.FindGameObjectWithTag ("ConstructorWithParameters").transform.Find ("ParametersPlatform");
 
 		nameParameterBox = parameterPlatform.Find ("NameParameter/NameParameterBox").GetComponent<VariableBoxController>();
 		ageParameterBox = parameterPlatform.Find ("AgeParameter/AgeParameterBox").GetComponent<VariableBoxController>();
 
-		ageBox = GameObject.Find ("Age_InstanceBox").GetComponent<VariableBoxController> ();
+        ageBox = GameObject.Find ("Age_InstanceBox").GetComponent<VariableBoxController> ();
 		nameBox = GameObject.Find ("Name_InstanceBox").GetComponent<VariableBoxController> ();
         instanceBox = GameObject.Find("InstanceContainer").GetComponent<VariableBoxController>();
 
@@ -51,10 +54,12 @@ public class Constructor2Parameters : ActivityController {
         objectives.Add("Person(\"John\",20)");
         objectives.Add("\"John\"");
         objectives.Add("20");
-		objectives.Add("this->name = name;");
-		objectives.Add("this->age = age;");
+        objectives.Add("name;");
+        objectives.Add("this->name =");
+        objectives.Add("age;");
+        objectives.Add("this->age =");
 		objectives.Add ("}");
-        objectives.Add("Person *p1 = new Person(\"John\",20);");
+        objectives.Add("Person *p1 =");
 
 
     }
@@ -99,7 +104,18 @@ public class Constructor2Parameters : ActivityController {
         notepad.blinkObjective(objectives[2]);
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("John"));
-		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
+
+        StartCoroutine("checkNameInHand");
+    }
+
+    IEnumerator checkNameInHand()
+    {
+        while (!nameValueInHand(GameObject.Find("John")))
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        resetObjectsToBlink();
+        addObjectToBlink(GameObject.Find("Instance/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
 
         StartCoroutine("checkNameParameterSet");
     }
@@ -113,12 +129,24 @@ public class Constructor2Parameters : ActivityController {
 		notepad.blinkObjective (objectives [3]);
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("20"));
-		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
 
-		StartCoroutine("checkAgeParameterSet");
+
+		StartCoroutine("checkAgeInHand");
 	}
 
-	IEnumerator checkAgeParameterSet()
+    IEnumerator checkAgeInHand()
+    {
+        while (!nameValueInHand(GameObject.Find("20")))
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        resetObjectsToBlink();
+        addObjectToBlink(GameObject.Find("Instance/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
+
+        StartCoroutine("checkAgeParameterSet");
+    }
+
+    IEnumerator checkAgeParameterSet()
 	{
 		while (!ageParameterSet())
 		{
@@ -126,39 +154,77 @@ public class Constructor2Parameters : ActivityController {
 		}
 		notepad.setActiveText (1);
 		notepad.setTitle ("CONSTRUCTOR");
-		notepad.blinkObjective (objectives [4]);
+		notepad.blinkDuplicateObjective (objectives [4], 2);
 		resetObjectsToBlink();
-		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
 		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));
 
         instance.EnableMovePositions(false);
+        DeactivateParamBox(ageParameterBox.transform);
+        DeactivateInstanceBox(ageBox.transform);
+        DeactivateInstanceBox(nameBox.transform);
 
-		StartCoroutine("checkNameSet");
+		StartCoroutine("checkNameInHand2");
 	}
 
-	IEnumerator checkNameSet()
+    IEnumerator checkNameInHand2()
+    {
+        while (hand.getObjInHand() == null)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        notepad.blinkObjective(objectives[5]);
+        resetObjectsToBlink();
+        addObjectToBlink(GameObject.Find("Instance/Heptagon Instance/Name_InstanceBox"));
+
+        instance.EnableMovePositions(false);
+        DeactivateParamBox(nameParameterBox.transform);
+        ActivateInstanceBox(nameBox.transform);
+
+        StartCoroutine("checkNameSet");
+    }
+
+    IEnumerator checkNameSet()
 	{
 		while (!nameSet())
 		{
 			yield return new WaitForSeconds(0.1f);
 		}
-		notepad.blinkObjective (objectives [5]);
+		notepad.blinkDuplicateObjective (objectives [6], 2);
 		resetObjectsToBlink();
-		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
 		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/AgeParameter/AgeParameterBox"));
 
-		StartCoroutine("checkAgeSet");
+        ActivateParamBox(ageParameterBox.transform);
+        DeactivateInstanceBox(nameBox.transform);
+
+		StartCoroutine("checkAgeInHand2");
 	}
 
-	IEnumerator checkAgeSet()
+    IEnumerator checkAgeInHand2()
+    {
+        while (hand.getObjInHand() == null)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        notepad.blinkObjective(objectives[7]);
+        resetObjectsToBlink();
+        addObjectToBlink(GameObject.Find("Instance/Heptagon Instance/Age_InstanceBox"));
+
+        DeactivateParamBox(ageParameterBox.transform);
+        ActivateInstanceBox(ageBox.transform);
+        StartCoroutine("checkAgeSet");
+    }
+
+    IEnumerator checkAgeSet()
 	{
 		while (!ageSet())
 		{
 			yield return new WaitForSeconds(0.1f);
 		}
-		notepad.blinkObjective (objectives [6]);
+		notepad.blinkObjective (objectives [8]);
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/Door/DoorExt/DoorPanel"));
+
+        DeactivateInstanceBox(ageBox.transform);
 
         //Enable Door selection for exit
         instance.transform.Find("Constructor/Door/DoorExt").GetComponent<Door>().enableDoor();
@@ -175,7 +241,7 @@ public class Constructor2Parameters : ActivityController {
  
         notepad.setActiveText(0);
         notepad.setTitle("Main");
-        notepad.blinkObjective(objectives[7]);
+        notepad.blinkObjective(objectives[9]);
 
 		resetObjectsToBlink ();
 		addObjectToBlink(GameObject.Find("InstanceContainer"));
@@ -255,6 +321,62 @@ public class Constructor2Parameters : ActivityController {
                 MainAreaValues[i].localScale = new Vector3(0, 0, 0);
             }
         }
+    }
 
+    bool nameValueInHand(GameObject value)
+    {
+        if (hand.getObjInHand() == value)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void DeactivateParamBox(Transform box)
+    {
+        box.parent.GetComponent<ParameterBoxMenuController>().enabled = false;
+
+        Transform panel = box.Find("OptionMenu/Panel");
+
+        GameObject copy = panel.Find("CopyButton").gameObject;
+        GameObject assign = panel.Find("AssignButton").gameObject;
+        GameObject info = panel.Find("InfoButton").gameObject;
+
+        copy.SetActive(false);
+        assign.SetActive(false);
+        info.SetActive(true);
+        
+    }
+
+    void DeactivateInstanceBox(Transform box)
+    {
+        box.GetComponent<InstanceVariablesMenuController>().enabled = false;
+
+        Transform panel = box.Find("OptionMenu/Panel");
+
+        GameObject copy = panel.Find("CopyButton").gameObject;
+        GameObject assign = panel.Find("AssignButton").gameObject;
+        GameObject increment = panel.Find("IncrementButton").gameObject;
+        GameObject info = panel.Find("InfoButton").gameObject;
+
+        copy.SetActive(false);
+        assign.SetActive(false);
+        increment.SetActive(false);
+        info.SetActive(true);
+
+    }
+
+    void ActivateInstanceBox(Transform box)
+    {
+        box.GetComponent<InstanceVariablesMenuController>().enabled = true;
+    }
+
+
+    void ActivateParamBox(Transform box)
+    {
+        box.parent.GetComponent<ParameterBoxMenuController>().enabled = true;
     }
 }

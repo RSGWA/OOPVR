@@ -23,5 +23,4 @@ public class HandController : MonoBehaviour {
 	public void setObjInHand(GameObject obj) {
 		objInHand = obj;
 	}
-
 }
