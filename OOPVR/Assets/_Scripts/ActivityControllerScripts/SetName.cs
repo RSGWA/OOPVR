@@ -121,7 +121,7 @@ public class SetName : ActivityController
         }
         instance.EnableMovePositions(false);
         notepad.setActiveText(1);
-        notepad.setTitle("Set name");
+        notepad.setTitle("Person");
         notepad.blinkDuplicateObjective(objectives[3], 2);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/SetName/ParametersPlatform/NameParameter/NameParameterBox"));

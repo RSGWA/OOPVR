@@ -86,7 +86,7 @@ public class DefaultConstructor : ActivityController
             yield return new WaitForSeconds(1.5f);
         }
         notepad.setActiveText(1);
-        notepad.setTitle("CONSTRUCTOR");
+        notepad.setTitle("Person");
         notepad.blinkObjective(objectives[1]);
 
 		//objBlink.blinkObject (GameObject.Find ("Instance/Heptagon Instance/DefaultConstructor/Door/DoorExt/DoorPanel"));

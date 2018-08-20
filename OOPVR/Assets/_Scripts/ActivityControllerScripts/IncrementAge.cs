@@ -92,7 +92,7 @@ public class IncrementAge : ActivityController
         }
         instance.EnableMovePositions(false);
         notepad.setActiveText(1);
-        notepad.setTitle("IncrementAge");
+        notepad.setTitle("Person");
         notepad.blinkObjective(objectives[2]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));
@@ -136,7 +136,7 @@ public class IncrementAge : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.setActiveText(0);
-        notepad.setTitle("MAIN");
+        notepad.setTitle("Main");
         notepad.blinkDuplicateObjective(objectives[4], 3);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("InstanceContainer"));
@@ -169,7 +169,7 @@ public class IncrementAge : ActivityController
             yield return new WaitForSeconds(0.1f);
         }
         notepad.setActiveText(1);
-        notepad.setTitle("IncrementAge");
+        notepad.setTitle("Person");
         notepad.blinkObjective(objectives[6]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Age_InstanceBox"));

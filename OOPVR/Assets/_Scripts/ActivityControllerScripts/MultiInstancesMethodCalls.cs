@@ -156,7 +156,7 @@ public class MultiInstancesMethodCalls : ActivityController
         }
         ic1.EnableMovePositions(false);
         notepad.setActiveText(1);
-        notepad.setTitle("Set name");
+        notepad.setTitle("Person");
         notepad.blinkObjective(objectives[2]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/Name_InstanceBox"));
@@ -228,7 +228,7 @@ public class MultiInstancesMethodCalls : ActivityController
         }
         ic1.EnableMovePositions(false);
         notepad.setActiveText(2);
-        notepad.setTitle("Get name");
+        notepad.setTitle("Person");
         notepad.blinkObjective(objectives[6]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find("Instance 1/Heptagon Instance/Name_InstanceBox"));
@@ -314,7 +314,7 @@ public class MultiInstancesMethodCalls : ActivityController
         }
         ic2.EnableMovePositions(false);
         notepad.setActiveText(2);
-        notepad.setTitle("Get name");
+        notepad.setTitle("Person");
         notepad.blinkObjective(objectives[11]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find("Instance 2/Heptagon Instance/Name_InstanceBox"));

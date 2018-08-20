@@ -153,7 +153,7 @@ public class Constructor2Parameters : ActivityController {
 			yield return new WaitForSeconds(0.1f);
 		}
 		notepad.setActiveText (1);
-		notepad.setTitle ("CONSTRUCTOR");
+		notepad.setTitle ("Person");
 		notepad.blinkDuplicateObjective (objectives [4], 2);
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("Instance/Heptagon Instance/Constructor/ParametersPlatform/NameParameter/NameParameterBox"));

@@ -153,7 +153,7 @@ public class MultipleInstances : ActivityController
         ic1.EnableMovePositions(false);
 
         notepad.setActiveText(1);
-        notepad.setTitle("CONSTRUCTOR");
+        notepad.setTitle("Person");
         notepad.blinkObjective(objectives[3]);
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("Instance 1/Heptagon Instance/Name_InstanceBox"));
@@ -198,7 +198,7 @@ public class MultipleInstances : ActivityController
         address1.ToHands();
    
         notepad.setActiveText(0);
-        notepad.setTitle("MAIN");
+        notepad.setTitle("Main");
         notepad.blinkObjective(objectives[6]);
 		resetObjectsToBlink();
 		addObjectToBlink (GameObject.Find ("InstanceContainer1"));
@@ -285,7 +285,7 @@ public class MultipleInstances : ActivityController
         }
         ic2.EnableMovePositions(false);
         notepad.setActiveText(1);
-        notepad.setTitle("CONSTRUCTOR");
+        notepad.setTitle("Person");
         notepad.blinkObjective(objectives[10]);
 		resetObjectsToBlink();
 		addObjectToBlink(GameObject.Find ("Instance 2/Heptagon Instance/Name_InstanceBox"));
@@ -331,7 +331,7 @@ public class MultipleInstances : ActivityController
         ic2.SetInstanceCompletion(true);
 
         notepad.setActiveText(0);
-        notepad.setTitle("MAIN");
+        notepad.setTitle("Main");
         notepad.blinkObjective(objectives[13]);
 		resetObjectsToBlink();
 		addObjectToBlink (GameObject.Find ("InstanceContainer2"));

@@ -96,7 +96,7 @@ public class GetName : ActivityController {
         instance.EnableMovePositions(false);
 
         notepad.setActiveText (1);
-		notepad.setTitle ("Get name");
+		notepad.setTitle ("Person");
 		notepad.blinkObjective (objectives [2]);
 		resetObjectsToBlink ();
 		addObjectToBlink (GameObject.Find ("Instance/Heptagon Instance/Name_InstanceBox"));
