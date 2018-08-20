@@ -11,7 +11,7 @@ public class NotepadPivot : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StartCoroutine (tiltNotepad ());
+		//StartCoroutine (tiltNotepad ());
 	}
 
 	// Update is called once per frame
@@ -24,16 +24,17 @@ public class NotepadPivot : MonoBehaviour {
 			Camera.main.transform.eulerAngles.y, 
 			0);
 
-		StartCoroutine (tiltNotepad ());
-	}
+        transform.rotation = Quaternion.Euler(new Vector3(tiltAngle, Camera.main.transform.eulerAngles.y, 0));
+        //StartCoroutine (tiltNotepad ());
+    }
 
 	IEnumerator tiltNotepad() {
-		while (Camera.main.transform.rotation.eulerAngles.x > 7f & Camera.main.transform.eulerAngles.x < 90f) {
-			transform.rotation = Quaternion.Lerp (transform.rotation, 
-				Quaternion.Euler (new Vector3 (tiltAngle, Camera.main.transform.eulerAngles.y, 0)), 
-				tiltSpeed * Time.deltaTime);
-			yield return null;
-		}
+		//while (Camera.main.transform.rotation.eulerAngles.x > 7f & Camera.main.transform.eulerAngles.x < 90f) {
+		//	transform.rotation = Quaternion.Lerp (transform.rotation, 
+		//		Quaternion.Euler (new Vector3 (tiltAngle, Camera.main.transform.eulerAngles.y, 0)), 
+		//		tiltSpeed * Time.deltaTime);
+		//	yield return null;
+		//}
 			
 		transform.rotation = Quaternion.Euler (new Vector3 (0, Camera.main.transform.eulerAngles.y, 0));
 		yield return null;
