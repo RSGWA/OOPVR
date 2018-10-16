@@ -1,5 +1,6 @@
 # OOPVR
 This project uses virtual reality to visualise OOP concepts using an analogy of buildings. Care is taken to align the analogy to the technical accuracies, while trying to keep it as simple as possible.
+
 OOPVR was developed in Unity (version 2017.2.0f3).
  
 # Setup
