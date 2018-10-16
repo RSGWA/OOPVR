@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This is main script to manipulate the actions (steps) needed to be carried out 
+ * to complete the SetName activity
+ * 
+ * */
 public class SetName : ActivityController
 {
 

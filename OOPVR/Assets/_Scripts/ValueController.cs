@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * This is main script used to control actions for the values. It includes animations for the various actions
+ * concerning a value.
+ * 
+ * */
 public class ValueController : MonoBehaviour
 {
 

@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This script is used to control player animations (mainly movement) during game play.
+ * 
+ * 
+ * */
 public class PlayerController : MonoBehaviour {
 
 	private Vector3 origin;

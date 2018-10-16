@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
+
+/*
+ * This is main script to manipulate the actions (steps) needed to be carried out 
+ * to complete the "Multiple Instances with Multiple Method Calls" activity
+ * 
+ * */
 public class MultiInstancesMethodCalls : ActivityController
 {
     public GameObject Ins1NameInstanceValue, Ins1AgeInstanceValue, Ins2NameInstanceValue, Ins2AgeInstanceValue;

@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+
+/*
+ * This class allows UI buttons to be selected by gaze. (Mainly in Main Menu). This should be attached to an intended interactive UI button.
+ * 
+ * */
 public class ButtonGaze : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler  {
 
     private float activationTime = 1f;

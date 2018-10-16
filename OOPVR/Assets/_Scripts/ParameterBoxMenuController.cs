@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This class controls what options are shown for parameters. This should be attached to the 
+ * parameters. This is to limit the number of options shown in each optionMenu.
+ * 
+ * */
+
 public class ParameterBoxMenuController : MonoBehaviour {
 
     GameObject OptionMenuPanel;

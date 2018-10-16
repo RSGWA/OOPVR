@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
 
-
+/*
+ * This is main script used to control actions for the OptionMenus of the different interactive components. It shows the menu accordingly
+ * to what object is being selected and shows the options available to select from.
+ * 
+ * */
 public class OptionMenu : MonoBehaviour
 {
     private CanvasGroup canvasGroup;

@@ -20,17 +20,17 @@ using Gvr.Internal;
 
 /// Provides mouse-controlled head tracking emulation in the Unity editor.
 public class GvrEditorEmulator : MonoBehaviour {
-  // GvrEditorEmulator should only be compiled in the Editor.
-  //
-  // Otherwise, it will override the camera pose every frame on device which causes the
-  // following behaviour:
-  //
-  // The rendered camera pose will still be correct because the VR.InputTracking pose
-  // gets applied after LateUpdate has occured. However, any functionality that
-  // queries the camera pose during Update or LateUpdate after GvrEditorEmulator has been
-  // updated will get the wrong value applied by GvrEditorEmulator intsead.
+    // GvrEditorEmulator should only be compiled in the Editor.
+    //
+    // Otherwise, it will override the camera pose every frame on device which causes the
+    // following behaviour:
+    //
+    // The rendered camera pose will still be correct because the VR.InputTracking pose
+    // gets applied after LateUpdate has occured. However, any functionality that
+    // queries the camera pose during Update or LateUpdate after GvrEditorEmulator has been
+    // updated will get the wrong value applied by GvrEditorEmulator intsead.
 #if UNITY_EDITOR
-  public static GvrEditorEmulator Instance { get; private set; }
+    public static GvrEditorEmulator Instance { get; private set; }
 
   private const string AXIS_MOUSE_X = "Mouse X";
   private const string AXIS_MOUSE_Y = "Mouse Y";

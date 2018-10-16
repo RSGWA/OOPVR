@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/*
+ * Attached to information canvas to show/hide information in regards to a selected object accordingly.
+ * Moves the info canvas in front of player when called. 
+ * 
+ * */
+
 public class InfoController : MonoBehaviour {
 
     private TextMeshProUGUI infoStatus;

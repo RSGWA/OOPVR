@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*
+ * This class defines the animations and set up when an instance is instatiated
+ * 
+ **/
+
 public class InstanceController : MonoBehaviour
 {
 

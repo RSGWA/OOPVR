@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 
+/*
+ * This class define actions to the in game menu functions 
+ * 
+ * */
+
 public class InGameMenu : MonoBehaviour {
 
 	float distanceFromCamera = 1.6f;

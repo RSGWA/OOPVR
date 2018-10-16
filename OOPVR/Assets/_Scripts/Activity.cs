@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using OOPVR;
 
+/*
+ * This class controls unlocking activities when completed by user. It loads activities accordingly to chosen activity in Main Menu.
+ * 
+ * */
 public class Activity : MonoBehaviour
 {
 

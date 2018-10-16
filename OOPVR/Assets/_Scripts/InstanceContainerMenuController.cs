@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*
+ * A class that controls the option menu for the instance container accordingly to selected 
+ * activity
+ * 
+ * */
+
 public class InstanceContainerMenuController : MonoBehaviour {
 
     GameObject OptionMenuPanel;

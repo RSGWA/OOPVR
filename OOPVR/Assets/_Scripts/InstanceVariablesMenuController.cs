@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This class controls what options are shown for instance variables (fields). This should be attached to the 
+ * instance fields container component (age_instance_box). This is to limit the number of options shown 
+ * in each optionMenu.
+ * 
+ * */
+
 public class InstanceVariablesMenuController : MonoBehaviour
 {
 

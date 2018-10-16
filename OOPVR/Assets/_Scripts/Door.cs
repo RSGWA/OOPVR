@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * This class plays the animations (open or close) for the doors and displays 
+ * door information accordingly to selected door.
+ * 
+ * */
 public class Door : MonoBehaviour
 {
 

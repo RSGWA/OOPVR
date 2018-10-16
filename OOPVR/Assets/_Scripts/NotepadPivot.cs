@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/*
+ * This script corrects the rotation and position of the notepad as the player roatates 
+ * in the game
+ * 
+ * */
 public class NotepadPivot : MonoBehaviour {
 
 	public float distanceFromCamera = 0.8f;

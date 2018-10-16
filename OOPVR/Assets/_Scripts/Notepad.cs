@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 using OOPVR;
 using TMPro;
 
+/*
+ * This class provide actions to  the notepad features such showing activity scripts,
+ * blinking and helper methods to manipulate the notepad component
+ * 
+ * */
 public class Notepad : MonoBehaviour
 {
 

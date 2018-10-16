@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This is a utility class used for movement animations (Player).
+ * 
+ * */
 public static class AnimationUtility {
 
 	public static float ANIM_LENGTH = 1.2f;

@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This script should be attached to the parameter platform. This class controls
+ * the parameters whether they have been correctly assigned and will transport user into
+ * a method if so.
+ * 
+ * */
+
 public class ParameterController : MonoBehaviour
 {
     public Material activeColor;

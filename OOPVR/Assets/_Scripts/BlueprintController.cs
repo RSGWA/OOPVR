@@ -4,6 +4,12 @@ using System.Timers;
 using System.ComponentModel;
 using UnityEngine;
 
+
+/*
+ * This is main script used to control actions for the blueprint. It includes animations for the various actions
+ * concerning a blueprint.
+ * 
+ * */
 public class BlueprintController : MonoBehaviour
 {
 

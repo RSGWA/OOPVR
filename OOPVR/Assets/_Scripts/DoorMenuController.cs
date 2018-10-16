@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+/*
+ * This class controls which doors should be accessible or not accordingly to which selected activity. 
+ * 
+ * */
+
 public class DoorMenuController : MonoBehaviour
 {
 

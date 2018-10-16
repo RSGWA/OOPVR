@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Attached to each pair of planks and enable them accordingly.
+ * 
+ * */
+
 public class PlanksController : MonoBehaviour
 {
 

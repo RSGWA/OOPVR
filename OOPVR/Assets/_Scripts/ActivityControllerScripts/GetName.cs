@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
+/*
+ * This is main script to manipulate the actions (steps) needed to be carried out 
+ * to complete the GetName activity
+ * 
+ * */
 public class GetName : ActivityController {
 
 	public GameObject nameInstanceValue, ageInstanceValue, InstanceAddress;

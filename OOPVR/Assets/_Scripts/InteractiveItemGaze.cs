@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
+/*
+ * This script should be attached to any interactive object. It invokes actions on an object accordingly to what the object's tag is. 
+ * It also sets when an object is selected and deselected.
+ * 
+ * */
 public class InteractiveItemGaze : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 

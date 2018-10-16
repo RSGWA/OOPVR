@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This is main script for the actions (steps) needed to be carried out 
+ * to complete the 2ParameterConstructor activity
+ * 
+ * */
+
 public class Constructor2Parameters : ActivityController {
 
 

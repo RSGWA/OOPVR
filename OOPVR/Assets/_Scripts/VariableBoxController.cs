@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
 
+/*
+ * This is main script used to control actions for the variable box (container). It includes animations for the various actions
+ * concerning a variable box.
+ * 
+ * */
 public class VariableBoxController : MonoBehaviour
 {
 

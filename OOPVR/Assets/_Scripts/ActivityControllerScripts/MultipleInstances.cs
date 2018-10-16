@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This is main script to manipulate the actions (steps) needed to be carried out 
+ * to complete the MultipleInstances activity
+ * 
+ * */
+
 public class MultipleInstances : ActivityController
 {
     public Transform[] Instance1Values, Instance2Values;
